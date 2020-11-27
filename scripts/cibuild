@@ -9,7 +9,7 @@ fi
 function usage() {
     echo -n "Usage: $(basename "$0")
 
-Build application for staging or a release.
+Build application for staging or a release in a CI system.
 "
 }
 
@@ -23,15 +23,10 @@ if [ "${BASH_SOURCE[0]}" = "${0}" ]; then
     if [ "${1:-}" = "--help" ]; then
         usage
     else
-        ./scripts/lint
-        ./scripts/test
-
-        # Build static asset bundle
-        docker-compose \
-            run --rm --no-deps \
-            -e NODE_ENV="${NODE_ENV:-production}" \
-            -e INSTALL_ENV="${INSTALL_ENV:-internal}" \
-            -e REACT_APP_GIT_COMMIT="${GIT_COMMIT}" app \
-            yarn build
+        # docker-compose is not available in CI, so build, 
+        # lint and test via the npm commands directly
+        yarn lint
+        yarn test --watchAll=false
+        yarn build
     fi
 fi

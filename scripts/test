@@ -17,9 +17,11 @@ if [[ "${BASH_SOURCE[0]}" = "${0}" ]]; then
     if [[ "${1:-}" = "--help" ]]; then
         usage
     else
-        # Execute React test suite
-        docker-compose \
-            run --rm --no-deps -e CI app \
-            yarn test --watchAll=false
+        if command -v docker-compose &> /dev/null; then
+            # Execute React test suite
+            docker-compose \
+                run --rm --no-deps -e CI app \
+                yarn test --watchAll=false
+        fi
     fi
 fi
