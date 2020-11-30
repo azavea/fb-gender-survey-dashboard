@@ -17,14 +17,16 @@ if [ "${BASH_SOURCE[0]}" = "${0}" ]; then
     if [ "${1:-}" = "--help" ]; then
         usage
     else
-        # Lint Bash scripts
-        docker-compose \
-            run --rm --no-deps shellcheck \
-            scripts/*
+        if command -v docker-compose &> /dev/null; then
+            # Lint Bash scripts
+            docker-compose \
+                run --rm --no-deps shellcheck \
+                scripts/*
 
-        # Lint JavaScript
-        docker-compose \
-            run --rm --entrypoint ./node_modules/.bin/eslint \
-            app src/ --ext .js --ext .jsx
+            # Lint JavaScript
+            docker-compose \
+                run --rm --no-deps -e CI app \
+                yarn lint
+        fi
     fi
 fi

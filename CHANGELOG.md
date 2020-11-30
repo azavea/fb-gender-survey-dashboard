@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- Create initial development environment [#4](https://github.com/azavea/fb-gender-survey-dashboard/pull/4)
+- Add Netlify CI build and deployment [#5](https://github.com/azavea/fb-gender-survey-dashboard/pull/5)
+
 ### Added
 
 ### Changed
