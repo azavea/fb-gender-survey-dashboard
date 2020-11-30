@@ -1,0 +1,57 @@
+{
+  "name": "fb-gender-survey",
+  "version": "0.1.0",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/azavea/fb-gender-survey.git"
+  },
+  "author": "Azavea",
+  "bugs": {
+    "url": "https://github.com/azavea/fb-gender-survey/issues"
+  },
+  "dependencies": {
+    "@testing-library/jest-dom": "^5.11.6",
+    "@testing-library/react": "^11.2.1",
+    "@testing-library/user-event": "^12.2.2",
+    "axios": "^0.21.0",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "react-router": "^5.2.0",
+    "react-router-dom": "^5.2.0",
+    "react-scripts": "4.0.0",
+    "react-use": "^15.3.4",
+    "redux": "^4.0.5",
+    "redux-act": "^1.8.0",
+    "redux-logger": "^3.0.6",
+    "redux-thunk": "^2.3.0"
+  },
+  "scripts": {
+    "start": "craco start",
+    "build": "craco build",
+    "test": "craco test"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 2 chrome version",
+      "last 2 firefox version",
+      "last 2 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@craco/craco": "^5.8.0",
+    "@hot-loader/react-dom": "^17.0.0",
+    "craco-plugin-react-hot-reload": "^0.1.0",
+    "prettier": "^2.2.0",
+    "prettier-loader": "^3.3.0",
+    "react-hot-loader": "^4.13.0"
+  }
+}
