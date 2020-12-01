@@ -32,6 +32,32 @@ vagrant ssh
 ./scripts/server
 ```
 
+### Data
+
+The data used by this application is generated from a source set provided by
+Facebook's data team:
+
+<https://data.humdata.org/dataset/survey-on-gender-equality-at-home>
+
+To convert the source dataset into a format used by the application, run the
+`dataproc` script on your VM:
+
+```sh
+vagrant up
+vagrant ssh
+./scripts/update
+./scripts/dataproc
+```
+
+This will download the source data, process it, and convert it to JSON. The
+resulting files can be found in `src/dataproc/output`. To update the
+application, move these files into the `src/app/public/data/` directory. The next
+release and deployment will include the updated data. The `dataproc` script
+does not automatically move new data files to the `public/data` directory to
+decrease the risk that a malformed data file will be deployed. Please
+thoroughly test any newly generated data in the application before releasing
+it.
+
 ## Ports
 
 | Service            | Port                            |
@@ -46,16 +72,17 @@ vagrant ssh
 
 ## Scripts
 
-| Name      | Description                                           |
-| --------- | ----------------------------------------------------- |
-| `cibuild` | Build project for CI                                  |
-| `clean`   | Free disk space by cleaning up dangling Docker images |
-| `console` | Run interactive shell inside application container    |
-| `lint`    | Lint source code                                      |
-| `server`  | Run Docker Compose services                           |
-| `setup`   | Provision Vagrant VM and run `update`                 |
-| `test`    | Run unit tests                                        |
-| `update`  | Build Docker images                                   |
+| Name       | Description                                           |
+| ---------- | ----------------------------------------------------- |
+| `cibuild`  | Build project for CI                                  |
+| `clean`    | Free disk space by cleaning up dangling Docker images |
+| `console`  | Run interactive shell inside application container    |
+| `dataproc` | Generate new application data from source data        |
+| `lint`     | Lint source code                                      |
+| `server`   | Run Docker Compose services                           |
+| `setup`    | Provision Vagrant VM and run `update`                 |
+| `test`     | Run unit tests                                        |
+| `update`   | Build Docker images                                   |
 
 ## Adding NPM Packages
 
