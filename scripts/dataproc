@@ -1,0 +1,26 @@
+#!/bin/bash
+
+set -e
+
+if [[ -n "${FB_GENDER_SURVEY_DEBUG}" ]]; then
+    set -x
+fi
+
+function usage() {
+    echo -n "Usage: $(basename "$0")
+
+Run the data generation script to create a new application data payload
+from source data. To update the actual application, copy the generate JSON
+file to <src/app/public>.
+"
+}
+
+if [ "${BASH_SOURCE[0]}" = "${0}" ]; then
+    if [ "${1:-}" = "--help" ]; then
+        usage
+    else
+        # Execute data processing script
+        docker-compose \
+            run --rm --no-deps dataproc 
+    fi
+fi

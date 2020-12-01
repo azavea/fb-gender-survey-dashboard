@@ -21,3 +21,12 @@ services:
     volumes:
       - ./:/usr/local/src
     working_dir: /usr/local/src
+
+  dataproc:
+    image: python:3.9-slim
+    build:
+      context: src/dataproc
+      dockerfile: Dockerfile
+    volumes:
+      - .:/opt/src
+    working_dir: /opt/src
