@@ -6,7 +6,7 @@ import { Switch, Route, BrowserRouter as Router } from 'react-router-dom';
 import './App.css';
 import GeographySelector from './components/GeographySelector';
 import QuestionSelector from './components/QuestionSelector';
-import Charts from './components/Charts';
+import Visualizations from './components/Visualizations';
 
 import { setData } from './redux/app.actions';
 
@@ -36,8 +36,8 @@ function App() {
                         <Route path='/questions'>
                             <QuestionSelector />
                         </Route>
-                        <Route path='/charts'>
-                            <Charts />
+                        <Route path='/visualization'>
+                            <Visualizations />
                         </Route>
                     </Switch>
                 </div>

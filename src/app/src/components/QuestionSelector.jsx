@@ -35,7 +35,7 @@ const QuestionSelector = () => {
         dispatch(setQuestionKeys(selected));
     };
     const handleNext = () => {
-        history.push('/charts');
+        history.push('/visualization');
     };
 
     // Known categories (TODO: I is a placeholder for bad data)
