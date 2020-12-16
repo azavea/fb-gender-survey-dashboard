@@ -43,8 +43,55 @@ const QuestionSelector = () => {
 
     Object.entries(config.survey).forEach(([key, question]) => {
         const categoryCode = question.qcode[0].toUpperCase();
-        questionsByCategory[categoryCode].push(key);
+
+        // Stack questions need to be grouped (agree/neutral/disagree) and
+        // only have the  *question code* added once.
+        if (
+            question.type === 'stack' &&
+            !questionsByCategory[categoryCode].includes(question.qcode)
+        ) {
+            questionsByCategory[categoryCode].push(question.qcode);
+
+            // Other types are directly about the respose, so we use the question/resoponse key
+            // and not the question code. We'll need to be aware of this mixed content when
+            // parsing questionsByCategory later.
+        } else if (question.type !== 'stack') {
+            questionsByCategory[categoryCode].push(key);
+        }
     });
+
+    const getQuestionCheckboxLabel = key => {
+        // Generate a checkbox for a question. The checkbox text will differ
+        // depending on the type of question this is. Questions that are of type
+        // "stack" will not include response text in the text, nor will the
+        // "ten" type. Other types repeat the question but are distinguished by
+        // also including the response text.
+
+        // Handle non likert scale questions
+        if (!key.includes('.')) {
+            const item = config.survey[key];
+            if (item.cat) {
+                return (
+                    <Box>
+                        <Text fontWeight='bold'>{item.cat}</Text>
+                        <Text>{`(Answer to: ${item.question})`}</Text>
+                    </Box>
+                );
+            }
+
+            return (
+                <Box>
+                    <Text>{item.question}</Text>
+                </Box>
+            );
+        }
+
+        // Likert scale questions ignore the category rendering, and we can grab
+        // the question from any of the respones/question paris that share the
+        // qcode.
+        const item = Object.values(config.survey).find(q => q.qcode === key);
+        return item.question;
+    };
 
     const categories = Object.keys(config.categories).map(cat => {
         const catCode = config.categories[cat];
@@ -56,7 +103,7 @@ const QuestionSelector = () => {
                     value={q}
                     defaultIsChecked={q in currentQuestions}
                 >
-                    {config.survey[q].question}
+                    {getQuestionCheckboxLabel(q)}
                 </Checkbox>
             );
         });
@@ -70,7 +117,7 @@ const QuestionSelector = () => {
                     <AccordionIcon />
                 </AccordionButton>
                 <AccordionPanel>
-                    <VStack>{questions}</VStack>
+                    <VStack alignItems='start'>{questions}</VStack>
                 </AccordionPanel>
             </AccordionItem>
         );
