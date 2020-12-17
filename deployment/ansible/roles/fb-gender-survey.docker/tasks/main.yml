@@ -3,6 +3,7 @@
   pip: name=docker-compose version="{{ docker_compose_version }}"
 
 - name: Add Ansible user to Docker group
-  user: name="{{ ansible_user }}"
-        groups=docker
-        append=yes
+  user: name="{{ item }}"
+    groups=docker
+    append=yes
+  with_items: "{{ docker_users }}"
