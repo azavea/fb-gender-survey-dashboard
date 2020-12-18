@@ -19,13 +19,18 @@ import {
 import { IoIosArrowRoundForward } from 'react-icons/io';
 import { IconContext } from 'react-icons';
 
-import config from '../data/config.json';
 import { setQuestionKeys } from '../redux/app.actions';
+import { CONFIG } from '../utils/constants';
 
 const QuestionSelector = () => {
     const history = useHistory();
     const dispatch = useDispatch();
-    const { currentGeo, currentQuestions } = useSelector(state => state.app);
+    const { currentGeo, currentQuestions, geoMode } = useSelector(
+        state => state.app
+    );
+
+    // Select the appropriate config file based on the current geoMode
+    const config = CONFIG[geoMode];
 
     // If a page reloads directly to this page, restart at home
     if (!currentGeo.length) {

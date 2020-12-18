@@ -11,16 +11,23 @@ import Visualizations from './components/Visualizations';
 import theme from './theme';
 
 import { setData } from './redux/app.actions';
+import { GEO_COUNTRY, GEO_REGION } from './utils/constants';
 
 function App() {
     const dispatch = useDispatch();
 
     useEffect(() => {
         // Fetch data at application start
-        fetch(`${process.env.PUBLIC_URL}/data/data.json`)
+        fetch(`${process.env.PUBLIC_URL}/data/country_data.json`)
             .then(r => r.json())
             .then(data => {
-                dispatch(setData(data));
+                dispatch(setData({ [GEO_COUNTRY]: data }));
+            });
+
+        fetch(`${process.env.PUBLIC_URL}/data/region_data.json`)
+            .then(r => r.json())
+            .then(data => {
+                dispatch(setData({ [GEO_REGION]: data }));
             });
     }, [dispatch]);
 
