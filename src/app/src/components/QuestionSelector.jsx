@@ -13,8 +13,11 @@ import {
     CheckboxGroup,
     HStack,
     Text,
+    Heading,
     VStack,
 } from '@chakra-ui/react';
+import { IoIosArrowRoundForward } from 'react-icons/io';
+import { IconContext } from 'react-icons';
 
 import config from '../data/config.json';
 import { setQuestionKeys } from '../redux/app.actions';
@@ -102,6 +105,8 @@ const QuestionSelector = () => {
                     key={q}
                     value={q}
                     defaultIsChecked={q in currentQuestions}
+                    size='lg'
+                    colorScheme='red'
                 >
                     {getQuestionCheckboxLabel(q)}
                 </Checkbox>
@@ -111,13 +116,21 @@ const QuestionSelector = () => {
             <AccordionItem key={`qgroup-${catCode}`}>
                 <AccordionButton>
                     <Checkbox p={3} value={catCode} />
-                    <Box flex='1' textAlign='left'>
+                    <Heading
+                        flex='1'
+                        textAlign='left'
+                        fontSize='2xl'
+                        fontWeight='regular'
+                        as='h3'
+                    >
                         {cat}
-                    </Box>
+                    </Heading>
                     <AccordionIcon />
                 </AccordionButton>
                 <AccordionPanel>
-                    <VStack alignItems='start'>{questions}</VStack>
+                    <VStack alignItems='start' spacing={6}>
+                        {questions}
+                    </VStack>
                 </AccordionPanel>
             </AccordionItem>
         );
@@ -126,8 +139,17 @@ const QuestionSelector = () => {
     return (
         <Box>
             <HStack>
-                <Text>Select Questions</Text>
+                <Heading as='h2' fontWeight='light'>
+                    Select questions
+                </Heading>
                 <Button
+                    colorScheme='red'
+                    variant='solid'
+                    rightIcon={
+                        <IconContext.Provider value={{ className: 'btn-icon' }}>
+                            <IoIosArrowRoundForward />
+                        </IconContext.Provider>
+                    }
                     disabled={!currentQuestions.length}
                     onClick={handleNext}
                 >
@@ -135,7 +157,11 @@ const QuestionSelector = () => {
                 </Button>
             </HStack>
             <Box>
-                <CheckboxGroup onChange={handleQuestionSelect}>
+                <CheckboxGroup
+                    size='xl'
+                    colorScheme='red'
+                    onChange={handleQuestionSelect}
+                >
                     <Accordion allowMultiple>{categories}</Accordion>
                 </CheckboxGroup>
             </Box>

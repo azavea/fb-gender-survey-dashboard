@@ -3,13 +3,17 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import {
     Box,
+    Flex,
     Button,
     Checkbox,
     CheckboxGroup,
     HStack,
     Text,
+    Heading,
     VStack,
 } from '@chakra-ui/react';
+import { IoIosArrowRoundForward } from 'react-icons/io';
+import { IconContext } from 'react-icons';
 
 import config from '../data/config.json';
 import { setGeoSelection, setGeoSelectionMode } from '../redux/app.actions';
@@ -38,30 +42,56 @@ const GeographySelector = () => {
     const section = (
         <Box>
             <HStack>
-                <Text>Choose one or more areas to analyze</Text>
-                <Button disabled={!currentGeo.length} onClick={handleNext}>
+                <Heading as='h2' fontWeight='light'>
+                    Choose one or more areas to analyze
+                </Heading>
+                <Button
+                    colorScheme='red'
+                    rightIcon={
+                        <IconContext.Provider value={{ className: 'btn-icon' }}>
+                            <IoIosArrowRoundForward />
+                        </IconContext.Provider>
+                    }
+                    disabled={!currentGeo.length}
+                    onClick={handleNext}
+                >
                     Next
                 </Button>
             </HStack>
-            <Box>
+            <Flex alignItems='baseline'>
                 <Button
-                    variant={geoMode === GEO_REGION ? 'link' : 'ghost'}
+                    variant='link'
+                    size='lg'
                     onClick={() => handleGeoSet(GEO_REGION)}
                 >
                     REGIONS
-                </Button>{' '}
-                or{' '}
+                </Button>
+                <Text
+                    fontSize='sm'
+                    textTransform='uppercase'
+                    mx='2'
+                    color='gray.600'
+                    fontWeight='medium'
+                >
+                    or
+                </Text>
                 <Button
-                    variant={geoMode === GEO_COUNTRY ? 'link' : 'ghost'}
+                    variant='link'
+                    size='lg'
                     onClick={() => handleGeoSet(GEO_COUNTRY)}
                 >
                     COUNTRIES
                 </Button>
-            </Box>
+            </Flex>
             <VStack>
                 <CheckboxGroup onChange={handleSelection}>
                     {geoList.map(r => (
-                        <Checkbox key={`geo-${r}`} value={r}>
+                        <Checkbox
+                            key={`geo-${r}`}
+                            value={r}
+                            size='lg'
+                            colorScheme='red'
+                        >
                             {r}
                         </Checkbox>
                     ))}

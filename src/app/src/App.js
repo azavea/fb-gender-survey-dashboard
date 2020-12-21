@@ -1,12 +1,14 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { ChakraProvider } from '@chakra-ui/react';
+import { ChakraProvider, Heading, Flex } from '@chakra-ui/react';
 import { Switch, Route, BrowserRouter as Router } from 'react-router-dom';
+import 'focus-visible/dist/focus-visible';
 
 import './App.css';
 import GeographySelector from './components/GeographySelector';
 import QuestionSelector from './components/QuestionSelector';
 import Visualizations from './components/Visualizations';
+import theme from './theme';
 
 import { setData } from './redux/app.actions';
 
@@ -24,11 +26,19 @@ function App() {
 
     return (
         <Router>
-            <ChakraProvider resetCss>
+            <ChakraProvider resetCss theme={theme}>
                 <div className='App'>
-                    <header className='App-header'>
-                        <h3>Gender Equality at Home</h3>
-                    </header>
+                    <Flex
+                        as='header'
+                        className='App-header'
+                        bg='black'
+                        py='2'
+                        justify='center'
+                    >
+                        <Heading as='h1' fontWeight='light' color='white'>
+                            Gender Equality at Home Dashboard
+                        </Heading>
+                    </Flex>
                     <Switch>
                         <Route exact path='/'>
                             <GeographySelector />
