@@ -19,15 +19,20 @@ import {
 import { IoIosArrowRoundForward } from 'react-icons/io';
 import { IconContext } from 'react-icons';
 
-import config from '../data/config.json';
 import { setQuestionKeys } from '../redux/app.actions';
+import { CONFIG } from '../utils/constants';
 
 const QuestionSelector = () => {
     const history = useHistory();
     const dispatch = useDispatch();
-    const { currentGeo, currentQuestions } = useSelector(state => state.app);
+    const { currentGeo, currentQuestions, geoMode } = useSelector(
+        state => state.app
+    );
 
-    // If a page reload when directly to this page, restart at home
+    // Select the appropriate config file based on the current geoMode
+    const config = CONFIG[geoMode];
+
+    // If a page reloads directly to this page, restart at home
     if (!currentGeo.length) {
         history.push('/');
         return null;
@@ -41,14 +46,14 @@ const QuestionSelector = () => {
         history.push('/visualization');
     };
 
-    // Known categories (TODO: I is a placeholder for bad data)
-    const questionsByCategory = { A: [], B: [], C: [], D: [], I: [] };
+    // Known categories
+    const questionsByCategory = { A: [], B: [], C: [], D: [] };
 
     Object.entries(config.survey).forEach(([key, question]) => {
         const categoryCode = question.qcode[0].toUpperCase();
 
         // Stack questions need to be grouped (agree/neutral/disagree) and
-        // only have the  *question code* added once.
+        // only have the *question code* added once.
         if (
             question.type === 'stack' &&
             !questionsByCategory[categoryCode].includes(question.qcode)

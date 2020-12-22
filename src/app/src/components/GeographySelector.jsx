@@ -15,9 +15,8 @@ import {
 import { IoIosArrowRoundForward } from 'react-icons/io';
 import { IconContext } from 'react-icons';
 
-import config from '../data/config.json';
 import { setGeoSelection, setGeoSelectionMode } from '../redux/app.actions';
-import { GEO_COUNTRY, GEO_REGION } from '../utils/constants';
+import { CONFIG, GEO_COUNTRY, GEO_REGION } from '../utils/constants';
 
 const GeographySelector = () => {
     const history = useHistory();
@@ -37,7 +36,7 @@ const GeographySelector = () => {
     };
 
     // This list of either regions or countries to show
-    const geoList = config[geoMode];
+    const geoList = CONFIG[geoMode].geographies;
 
     const section = (
         <Box>
