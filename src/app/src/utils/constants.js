@@ -9,3 +9,9 @@ export const CONFIG = {
     [GEO_REGION]: regionConfig,
     [GEO_COUNTRY]: countryConfig,
 };
+
+export const ROUTES = {
+    HOME: '/',
+    QUESTIONS: '/questions',
+    VISUALIZATIONS: '/visualization',
+};

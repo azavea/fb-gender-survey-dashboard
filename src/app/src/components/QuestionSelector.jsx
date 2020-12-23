@@ -21,6 +21,7 @@ import { IconContext } from 'react-icons';
 
 import { setQuestionKeys } from '../redux/app.actions';
 import { CONFIG } from '../utils/constants';
+import Breadcrumbs from './Breadcrumbs';
 
 const QuestionSelector = () => {
     const history = useHistory();
@@ -143,6 +144,7 @@ const QuestionSelector = () => {
 
     return (
         <Box>
+            <Breadcrumbs />
             <HStack>
                 <Heading as='h2' fontWeight='light'>
                     Select questions
