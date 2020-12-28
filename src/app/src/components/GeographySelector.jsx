@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import {
@@ -22,9 +22,22 @@ const GeographySelector = () => {
     const history = useHistory();
     const dispatch = useDispatch();
     const { geoMode, currentGeo } = useSelector(state => state.app);
+    const [prevGeoSelection, setPrevGeoSelection] = useState([]);
 
-    const handleGeoSet = geo => {
-        dispatch(setGeoSelectionMode(geo));
+    const handleGeoSet = newGeoMode => {
+        // Prevent making changes if the user clicked the current geo mode button
+        if (newGeoMode === geoMode) return;
+
+        // Clear out any selected geographies if the user switched modes.
+        // Regions and countries are not able to be selected at the same time.
+        // However, retain the previous mode's selection, so they can be
+        // restored if the mode is switched on again (i.e., the user doesn't
+        // have to reselect them).
+        dispatch(setGeoSelection(prevGeoSelection));
+        setPrevGeoSelection(currentGeo);
+
+        // Set the new geo selection mode
+        dispatch(setGeoSelectionMode(newGeoMode));
     };
 
     const handleSelection = selections => {
@@ -35,9 +48,8 @@ const GeographySelector = () => {
         history.push('/questions');
     };
 
-    // This list of either regions or countries to show
+    // The list of either regions or countries to show
     const geoList = CONFIG[geoMode].geographies;
-
     const section = (
         <Box>
             <HStack>
@@ -83,15 +95,19 @@ const GeographySelector = () => {
                 </Button>
             </Flex>
             <VStack>
-                <CheckboxGroup onChange={handleSelection}>
-                    {geoList.map(r => (
+                <CheckboxGroup
+                    key={`geogroup-${geoMode}`}
+                    onChange={handleSelection}
+                    defaultValue={currentGeo}
+                >
+                    {geoList.map(geo => (
                         <Checkbox
-                            key={`geo-${r}`}
-                            value={r}
+                            key={`geo-${geo}`}
+                            value={geo}
                             size='lg'
                             colorScheme='red'
                         >
-                            {r}
+                            {geo}
                         </Checkbox>
                     ))}
                 </CheckboxGroup>
