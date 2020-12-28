@@ -11,7 +11,7 @@ import Visualizations from './components/Visualizations';
 import theme from './theme';
 
 import { setData } from './redux/app.actions';
-import { GEO_COUNTRY, GEO_REGION } from './utils/constants';
+import { GEO_COUNTRY, GEO_REGION, ROUTES } from './utils/constants';
 
 function App() {
     const dispatch = useDispatch();
@@ -47,13 +47,13 @@ function App() {
                         </Heading>
                     </Flex>
                     <Switch>
-                        <Route exact path='/'>
+                        <Route exact path={ROUTES.HOME}>
                             <GeographySelector />
                         </Route>
-                        <Route path='/questions'>
+                        <Route path={ROUTES.QUESTIONS}>
                             <QuestionSelector />
                         </Route>
-                        <Route path='/visualization'>
+                        <Route path={ROUTES.VISUALIZATIONS}>
                             <Visualizations />
                         </Route>
                     </Switch>

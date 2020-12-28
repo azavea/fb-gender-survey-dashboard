@@ -12,6 +12,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Add Breadcrumbs [#25](https://github.com/azavea/fb-gender-survey-dashboard/pull/25)
+
 ### Changed
 
 ### Fixed

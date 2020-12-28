@@ -4,6 +4,8 @@ import { Box, Button, HStack, Text } from '@chakra-ui/react';
 import { useHistory } from 'react-router-dom';
 
 import { DataIndexer } from '../utils';
+import Breadcrumbs from './Breadcrumbs';
+
 const Visualizations = () => {
     const history = useHistory();
     const {
@@ -40,6 +42,7 @@ const Visualizations = () => {
     console.log(categories);
     return (
         <Box>
+            <Breadcrumbs />
             <HStack>
                 <Text>Select Questions</Text>
                 <Button>Save</Button>
