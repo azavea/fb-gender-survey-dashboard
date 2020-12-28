@@ -1,10 +1,20 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { Box, Button, HStack, Text } from '@chakra-ui/react';
+import {
+    Box,
+    Button,
+    HStack,
+    Text,
+    Divider,
+    Flex,
+    Spacer,
+} from '@chakra-ui/react';
 import { useHistory } from 'react-router-dom';
 
+import { CONFIG } from '../utils/constants';
 import { DataIndexer } from '../utils';
 import Breadcrumbs from './Breadcrumbs';
+import Chart from './Chart';
 
 const Visualizations = () => {
     const history = useHistory();
@@ -30,6 +40,7 @@ const Visualizations = () => {
             const key = qs[0].question.qcode[0].toUpperCase();
             questionsByCategory[key].push(qs);
         });
+
         // Filter out empty cats
         // Swap out names for cat codes
         return questionsByCategory;
@@ -39,16 +50,42 @@ const Visualizations = () => {
     const viz = currentQuestions.map(q => dataIndexer.getResponse(q));
     const categories = categorize(viz);
 
-    console.log(categories);
+    const config = CONFIG[geoMode];
+
     return (
         <Box>
             <Breadcrumbs />
-            <HStack>
-                <Text>Select Questions</Text>
+            <Flex bg='white' p={4} border='1px solid rgb(222, 227, 233)'>
+                <Text fontSize='2xl'>Selected Charts</Text>
+                <Spacer />
                 <Button>Save</Button>
-            </HStack>
+            </Flex>
+            <Text p={4}>
+                Showing charts for: {currentGeo.join(', ')} •{' '}
+                {currentQuestions.length} questions
+            </Text>
             <Box>
-                <Text>{JSON.stringify(categories, null, 2)}</Text>
+                {Object.keys(config.categories).map(cat => (
+                    <Box key={cat}>
+                        <HStack
+                            align='center'
+                            justify='center'
+                            spacing={2}
+                            p={4}
+                        >
+                            <Text casing='uppercase' whiteSpace='nowrap'>
+                                {cat}
+                            </Text>
+                            <Divider />
+                        </HStack>
+                        {categories[config.categories[cat]].map(items => (
+                            <Chart
+                                items={items}
+                                key={items[0].question.qcode}
+                            />
+                        ))}
+                    </Box>
+                ))}
             </Box>
         </Box>
     );
