@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add Breadcrumbs [#25](https://github.com/azavea/fb-gender-survey-dashboard/pull/25)
 - Add Stack Chart [#26](https://github.com/azavea/fb-gender-survey-dashboard/pull/26)
 - Add Grouped Bar Chart [#29](https://github.com/azavea/fb-gender-survey-dashboard/pull/29)
+- Add Waffle Chart [#37](https://github.com/azavea/fb-gender-survey-dashboard/pull/37)
 
 ### Changed
 
