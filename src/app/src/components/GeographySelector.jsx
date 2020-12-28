@@ -15,7 +15,11 @@ import {
 import { IoIosArrowRoundForward } from 'react-icons/io';
 import { IconContext } from 'react-icons';
 
-import { setGeoSelection, setGeoSelectionMode } from '../redux/app.actions';
+import {
+    setGeoSelection,
+    setGeoSelectionMode,
+    setQuestionKeys,
+} from '../redux/app.actions';
 import { CONFIG, GEO_COUNTRY, GEO_REGION } from '../utils/constants';
 
 const GeographySelector = () => {
@@ -45,6 +49,10 @@ const GeographySelector = () => {
     };
 
     const handleNext = () => {
+        // Remove any previously selected question keys from state, otherwise
+        // they will be re-rendered when the app navigates to the next section,
+        // and the user will have to uncheck any/all that they don't want.
+        dispatch(setQuestionKeys([]));
         history.push('/questions');
     };
 
