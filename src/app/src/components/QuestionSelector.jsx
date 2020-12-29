@@ -102,18 +102,22 @@ const QuestionSelector = () => {
         return item.question;
     };
 
+    // Detremine the indexes of any categories that currently have questions
+    // selected. These will be expanded by default.
+    const categoryLetterCodes = Object.values(config.categories);
+    const currentlySelectedCategories = new Set(
+        currentQuestions.map(q => q[0].toUpperCase())
+    );
+    const currentlySelectedCategoryIndexes = Array.from(
+        currentlySelectedCategories
+    ).map(catCode => categoryLetterCodes.indexOf(catCode));
+
     const categories = Object.keys(config.categories).map(cat => {
         const catCode = config.categories[cat];
         const questionCodes = questionsByCategory[catCode];
         const questions = questionCodes.map(q => {
             return (
-                <Checkbox
-                    key={q}
-                    value={q}
-                    defaultIsChecked={q in currentQuestions}
-                    size='lg'
-                    colorScheme='red'
-                >
+                <Checkbox key={q} value={q} size='lg' colorScheme='red'>
                     {getQuestionCheckboxLabel(q)}
                 </Checkbox>
             );
@@ -167,9 +171,15 @@ const QuestionSelector = () => {
                 <CheckboxGroup
                     size='xl'
                     colorScheme='red'
+                    defaultValue={currentQuestions}
                     onChange={handleQuestionSelect}
                 >
-                    <Accordion allowMultiple>{categories}</Accordion>
+                    <Accordion
+                        allowMultiple
+                        defaultIndex={currentlySelectedCategoryIndexes}
+                    >
+                        {categories}
+                    </Accordion>
                 </CheckboxGroup>
             </Box>
         </Box>
