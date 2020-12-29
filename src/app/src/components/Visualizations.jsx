@@ -1,5 +1,5 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import {
     Box,
     Button,
@@ -10,14 +10,18 @@ import {
     Spacer,
 } from '@chakra-ui/react';
 import { useHistory } from 'react-router-dom';
+import { IoIosCheckmark } from 'react-icons/io';
 
 import { CONFIG } from '../utils/constants';
 import { DataIndexer } from '../utils';
+import { saveVisualization } from '../redux/visualizations.actions';
 import Breadcrumbs from './Breadcrumbs';
 import Chart from './Chart';
 
 const Visualizations = () => {
     const history = useHistory();
+    const dispatch = useDispatch();
+    const [isSaved, setSaved] = useState(false);
     const {
         currentQuestions,
         currentGeo,
@@ -52,13 +56,33 @@ const Visualizations = () => {
 
     const config = CONFIG[geoMode];
 
+    const onSaveVisualization = () => {
+        const title = `${currentGeo.join(', ')}`;
+        dispatch(
+            saveVisualization({
+                title,
+                currentQuestions,
+                currentGeo,
+                currentYear,
+                geoMode,
+            })
+        );
+        setSaved(true);
+    };
+
     return (
         <Box>
             <Breadcrumbs />
             <Flex bg='white' p={4} border='1px solid rgb(222, 227, 233)'>
                 <Text fontSize='2xl'>Selected Charts</Text>
                 <Spacer />
-                <Button>Save</Button>
+                {isSaved ? (
+                    <Button leftIcon={<IoIosCheckmark />} isDisabled>
+                        Saved
+                    </Button>
+                ) : (
+                    <Button onClick={onSaveVisualization}>Save</Button>
+                )}
             </Flex>
             <Text p={4}>
                 Showing charts for: {currentGeo.join(', ')} •{' '}
