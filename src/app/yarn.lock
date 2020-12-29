@@ -2205,7 +2205,7 @@
     d3-time-format "^2.1.3"
     react-spring "9.0.0-rc.3"
 
-"@nivo/bar@^0.31.0":
+"@nivo/bar@^0.67.0":
   version "0.67.0"
   resolved "https://registry.yarnpkg.com/@nivo/bar/-/bar-0.67.0.tgz#b60b5f246014f09c32688e78adc0ffb33f841381"
   integrity sha512-Y8sIN3iW6r1nS/bWXkSOuWR1mekkVI0yF0uo0IHIXRA+cvhwSChYuH8nIKFbaSd4f4DM3SCogFoGj5ILooRneg==
@@ -2233,7 +2233,7 @@
     lodash "^4.17.11"
     react-motion "^0.5.2"
 
-"@nivo/core@^0.31.0":
+"@nivo/core@^0.67.0":
   version "0.67.0"
   resolved "https://registry.yarnpkg.com/@nivo/core/-/core-0.67.0.tgz#29f07b8bed2bcefb9402d14a9abe2895c5b2bfa2"
   integrity sha512-F8amsf/MnIuZLoN6ikla8bKlUkUI3HVhy6R2qMF2jDS5xnYch3Sno9OPTTuR8RnYGCr57yClnvFuJzw251GE6g==
@@ -2275,7 +2275,7 @@
   dependencies:
     react-spring "9.0.0-rc.3"
 
-"@nivo/waffle@^0.31.0":
+"@nivo/waffle@^0.67.0":
   version "0.67.0"
   resolved "https://registry.yarnpkg.com/@nivo/waffle/-/waffle-0.67.0.tgz#bc3afc44c9c0f0f8b4339ebe6fef6ff72c841265"
   integrity sha512-tXkNBhQhoAvCtLe9DsuGPn5jva6PjiA90oNkIlJueTMYqB6OwPdYnMX3f3/Tp8heFWXrkT2ZjJZ6J6Ja2zYJXQ==
@@ -11065,6 +11065,11 @@ redux-logger@^3.0.6:
   integrity sha1-91VZZvMJjzyIYExEnPC69XeCdL8=
   dependencies:
     deep-diff "^0.3.5"
+
+redux-persist@^6.0.0:
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/redux-persist/-/redux-persist-6.0.0.tgz#b4d2972f9859597c130d40d4b146fecdab51b3a8"
+  integrity sha512-71LLMbUq2r02ng2We9S215LtPu3fY0KgaGE0k8WRgl6RkqxtGfl7HUozz1Dftwsb0D/5mZ8dwAaPbtnzfvbEwQ==
 
 redux-thunk@^2.3.0:
   version "2.3.0"
