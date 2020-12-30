@@ -8,11 +8,18 @@ region_xls_uri = "https://data.humdata.org/dataset/504fce69-12c2-4c56-ada2-3173c
 
 output_dir = "/opt/src/src/dataproc/output"
 
+# Currently, these path are local to the dataproc contatiner but are intended
+# to be replaced by the appropriate URI, as defined above.
 region_xls_uri = "/opt/src/src/dataproc/sog_agg_region.xlsx"
 country_xls_uri = "/opt/src/src/dataproc/sog_agg_country.xlsx"
 
 
 class NpEncoder(json.JSONEncoder):
+    """Numpy type encoder.
+
+    Converts numpy types to equivalent Python types to support JSON serialization.
+    """
+
     def default(self, obj):
         if isinstance(obj, np.integer):
             return int(obj)
@@ -25,7 +32,7 @@ class NpEncoder(json.JSONEncoder):
 
 
 def generate():
-    # Read in the region Excel file's codebook sheet
+    # Read in the region and country Excel file's codebook and sheets
     region_config = pd.read_excel(region_xls_uri, sheet_name="Codebook")
     region_data = pd.read_excel(region_xls_uri, sheet_name="Data")
 
@@ -140,14 +147,19 @@ def generate_config(config_df, data_df, mode: str):
     region_attrs_drop = ["Year", "Region", "Gender"]
     country_attrs_drop = region_attrs_drop + ["Internet_Penetration", "Country"]
     attrs_drop = region_attrs_drop if mode == "region" else country_attrs_drop
+
     # Set the variable name value as the row index, which will be the key
     # as we convert to json using the {var: { cat: a, question: b, type: c}} shape.
     # Drop the records for Year, Region, and Gender since those will become keys
-    # on our data object. Add an "idx" column which indicates the index at which
-    # this variable can be retrieved from the data object.
+    # on our data object.
     config_df = config_df[["var", "cat", "question", "qcode", "type"]]
     config_df = config_df.set_index("var")
     config_df = config_df.drop(index=attrs_drop)
+
+    # Add an "idx" column which indicates the index at which this variable can
+    # be retrieved from the corresponding data object. Note that this assumes the
+    # variables in the data sheet (columns) are in the same order as the variables
+    # listed in the codebook sheet (rows). This is true as of the 2020 data.
     config_df["idx"] = range(len(config_df))
 
     data_config = config_df.to_dict(orient="index")
