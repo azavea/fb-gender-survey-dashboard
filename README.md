@@ -2,11 +2,12 @@
 
 Interactive exploration of global results from the Facebook "Survey on Gender Equality At Home".
 
-Original data set:
-<https://data.humdata.org/dataset/survey-on-gender-equality-at-home>
+Important links:
 
-Survey results report
-<https://dataforgood.fb.com/docs/gendersurveyreport/>
+- Staging site: <https://develop--gender-survey-dashboard.netlify.app/>
+- Production site: <https://gender-survey-dashboard.netlify.app/>
+- Original data set: <https://data.humdata.org/dataset/survey-on-gender-equality-at-home>
+- Survey results report <https://dataforgood.fb.com/docs/gendersurveyreport/>
 
 ## Requirements
 
