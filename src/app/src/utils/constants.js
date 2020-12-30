@@ -14,4 +14,5 @@ export const ROUTES = {
     HOME: '/',
     QUESTIONS: '/questions',
     VISUALIZATIONS: '/visualization',
+    SAVED: '/saved',
 };

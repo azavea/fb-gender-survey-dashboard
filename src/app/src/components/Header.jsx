@@ -1,5 +1,5 @@
 import React from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 import {
     Button,
     HStack,
@@ -35,7 +35,12 @@ const Header = () => {
     const linkBar = (
         <Flex justify='flex-end' width='100%'>
             <HStack spacing='35px' p='2'>
-                <Button color='white' variant='link'>
+                <Button
+                    color='white'
+                    variant='link'
+                    as={Link}
+                    to={ROUTES.SAVED}
+                >
                     Saved Charts
                 </Button>
                 <Button color='white' variant='link' onClick={faqOnOpen}>
