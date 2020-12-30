@@ -1,0 +1,32 @@
+version: "2.4"
+services:
+  app:
+    image: node:12-slim
+    stdin_open: true
+    working_dir: /usr/local/src
+    environment:
+      - REACT_APP_GIT_COMMIT=${REACT_APP_GIT_COMMIT:-latest}
+      - CHOKIDAR_USEPOLLING=true
+      - CHOKIDAR_INTERVAL=100
+      - PORT=3333
+    volumes:
+      - ./src/app:/usr/local/src
+      - ./dist:/usr/local/src/build
+      # Ensure node_modules cache doesn't clash with other jobs on CI.
+      - /var/cache/fb-gender-survey-node-modules:/usr/local/src/node_modules
+    command: yarn start
+
+  shellcheck:
+    image: koalaman/shellcheck:stable
+    volumes:
+      - ./:/usr/local/src
+    working_dir: /usr/local/src
+
+  dataproc:
+    image: python:3.9-slim
+    build:
+      context: src/dataproc
+      dockerfile: Dockerfile
+    volumes:
+      - .:/opt/src
+    working_dir: /opt/src

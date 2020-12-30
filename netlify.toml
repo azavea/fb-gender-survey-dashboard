@@ -1,0 +1,7 @@
+[Settings]
+  ID = "gender-survey-dashboard"
+
+[build]
+  base    = "src/app"
+  publish = "build"
+  command = "../../scripts/cibuild"

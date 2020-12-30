@@ -1,0 +1,10 @@
+.btn-icon {
+  vertical-align: middle;
+  height: 1.75rem;
+  width: 1.75rem;
+}
+
+.js-focus-visible :focus:not([data-focus-visible-added]) {
+  outline: none;
+  box-shadow: none;
+}
