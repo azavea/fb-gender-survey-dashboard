@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
     Box,
@@ -30,6 +30,11 @@ const Visualizations = () => {
         data,
     } = useSelector(state => state.app);
 
+    // Scroll to top on initial page load
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
+
     // If a page reloads directly to this page, restart at home
     if (!currentQuestions.length || !currentGeo.length) {
         history.push('/');
@@ -39,6 +44,7 @@ const Visualizations = () => {
     const categorize = questionSet => {
         const questionsByCategory = { A: [], B: [], C: [], D: [] };
         questionSet.forEach(qs => {
+            if (!qs[0].question) return;
             // All responses in a questionset are in the same category. Take the
             // first, and map it to a category key
             const key = qs[0].question.qcode[0].toUpperCase();

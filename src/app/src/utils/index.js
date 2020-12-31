@@ -56,6 +56,9 @@ export class DataIndexer {
 
     formatForViz(key, geo) {
         const resp = this.survey[key];
+        if (!resp) {
+            return { key, geo };
+        }
         const idx = resp.idx;
         const d = this.data.geographies[geo];
         const c = d['Combined'][idx];
