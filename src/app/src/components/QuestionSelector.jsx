@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import {
@@ -15,17 +15,22 @@ import {
     Text,
     Heading,
     VStack,
+    Flex,
+    Spacer,
 } from '@chakra-ui/react';
 import { IoIosArrowRoundForward } from 'react-icons/io';
 import { IconContext } from 'react-icons';
 
 import { setQuestionKeys } from '../redux/app.actions';
 import { CONFIG } from '../utils/constants';
+import { formatQuery } from '../utils';
 import Breadcrumbs from './Breadcrumbs';
+import SearchInput from './SearchInput';
 
 const QuestionSelector = () => {
     const history = useHistory();
     const dispatch = useDispatch();
+    const [query, setQuery] = useState('');
     const { currentGeo, currentQuestions, geoMode } = useSelector(
         state => state.app
     );
@@ -115,13 +120,45 @@ const QuestionSelector = () => {
     const categories = Object.keys(config.categories).map(cat => {
         const catCode = config.categories[cat];
         const questionCodes = questionsByCategory[catCode];
-        const questions = questionCodes.map(q => {
+
+        const filteredQuestionCodes = query.trim().length
+            ? questionCodes.filter(q => {
+                  const item = config.survey[q];
+                  return (
+                      currentQuestions.includes(q) ||
+                      (item &&
+                          formatQuery(`${item.question} ${item.cat}`).includes(
+                              formatQuery(query)
+                          ))
+                  );
+              })
+            : questionCodes;
+
+        const questions = filteredQuestionCodes.map(q => {
             return (
                 <Checkbox key={q} value={q} size='lg' colorScheme='red'>
                     {getQuestionCheckboxLabel(q)}
                 </Checkbox>
             );
         });
+
+        if (!questions.length) {
+            return (
+                <Heading
+                    flex='1'
+                    textAlign='left'
+                    fontSize='2xl'
+                    fontWeight='regular'
+                    as='h3'
+                    bg='white'
+                    p={4}
+                    mt={4}
+                >
+                    {cat} contains no matching questions.
+                </Heading>
+            );
+        }
+
         return (
             <AccordionItem key={`qgroup-${catCode}`}>
                 <AccordionButton>
@@ -167,6 +204,15 @@ const QuestionSelector = () => {
                     Next
                 </Button>
             </HStack>
+            <Flex m={4}>
+                <Text size='2xl'>{currentGeo.join(', ')}</Text>
+                <Spacer />
+                <SearchInput
+                    query={query}
+                    setQuery={setQuery}
+                    placeholder='Filter questions'
+                />
+            </Flex>
             <Box>
                 <CheckboxGroup
                     size='xl'
