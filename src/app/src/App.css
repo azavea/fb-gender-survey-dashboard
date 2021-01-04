@@ -8,3 +8,11 @@
   outline: none;
   box-shadow: none;
 }
+
+div.download-menu {
+  visibility: hidden;
+}
+
+div.chart-container:hover  div.download-menu {
+  visibility: visible;
+}

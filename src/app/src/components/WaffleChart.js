@@ -2,8 +2,13 @@ import React from 'react';
 import { HStack, Box, Text, Flex } from '@chakra-ui/react';
 import { ResponsiveWaffleCanvas } from '@nivo/waffle';
 
+import DownloadMenu from './DownloadMenu';
+import useRefs from '../hooks/useRefs';
+
 const WaffleChart = ({ items }) => {
-    return items.map(({ question, response }) => {
+    const containerRefs = useRefs(items.length);
+
+    return items.map(({ question, response }, i) => {
         const responses = [
             [
                 {
@@ -34,12 +39,17 @@ const WaffleChart = ({ items }) => {
                 pb={4}
                 borderWidth='1px'
                 borderRadius='lg'
+                className='chart-container'
                 key={`${question.qcode}${response.geo}`}
+                ref={containerRefs.current[i]}
             >
+                <DownloadMenu
+                    chartContainerRef={containerRefs.current[i]}
+                    question={{ ...question, geo: response.geo }}
+                />
                 <HStack h={200}>
                     {responses.map(data => (
                         <ResponsiveWaffleCanvas
-                            key={`${question.qcode}-${data[0].id}`}
                             data={data}
                             pixelRatio={2}
                             total={10}

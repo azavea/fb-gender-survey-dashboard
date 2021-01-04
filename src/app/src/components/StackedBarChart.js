@@ -1,9 +1,13 @@
 import React from 'react';
 import { Box } from '@chakra-ui/react';
 import { ResponsiveBarCanvas } from '@nivo/bar';
+import DownloadMenu from './DownloadMenu';
+import useRefs from '../hooks/useRefs';
 
 const StackedBarChart = ({ items }) => {
-    return items.map(({ question, responses }) => {
+    const containerRefs = useRefs(items.length);
+
+    return items.map(({ question, responses }, i) => {
         const data = responses.reduce(
             (acc, curr) => {
                 acc[0][curr.cat] = Math.round(curr.combined, 2);
@@ -16,7 +20,17 @@ const StackedBarChart = ({ items }) => {
         const keys = responses.map(r => r.cat);
 
         return (
-            <Box h={250} key={`${question.question.qcode}-${responses[0].geo}`}>
+            <Box
+                h={270}
+                className='chart-container'
+                key={`${question.question.qcode}-${responses[0].geo}`}
+                ref={containerRefs.current[i]}
+                pb={10}
+            >
+                <DownloadMenu
+                    chartContainerRef={containerRefs.current[i]}
+                    question={{ ...question, geo: responses[0].geo }}
+                />
                 <ResponsiveBarCanvas
                     data={data}
                     keys={keys}

@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { Box } from '@chakra-ui/react';
 import { ResponsiveBarCanvas } from '@nivo/bar';
 
-const GroupedBarChart = ({ items, item }) => {
+import DownloadMenu from './DownloadMenu';
+
+const GroupedBarChart = ({ items }) => {
     const data = items.map(({ response }) => ({
         ...response,
         Men: response.male,
@@ -14,8 +16,14 @@ const GroupedBarChart = ({ items, item }) => {
     const { cat, qcode } = items[0].question;
     const legend = cat ? `Answered "${cat}" to ${qcode}` : `Answered ${qcode}`;
 
+    const containerRef = useRef();
+
     return (
-        <Box h={250}>
+        <Box className='chart-container' h={250} ref={containerRef}>
+            <DownloadMenu
+                chartContainerRef={containerRef}
+                question={items[0].question}
+            />
             <ResponsiveBarCanvas
                 data={data}
                 keys={keys}
