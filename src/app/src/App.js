@@ -10,6 +10,7 @@ import GeographySelector from './components/GeographySelector';
 import QuestionSelector from './components/QuestionSelector';
 import Visualizations from './components/Visualizations';
 import SavedVisualizations from './components/SavedVisualizations';
+import NotFound from './components/NotFound';
 import theme from './theme';
 
 import { setData } from './redux/app.actions';
@@ -50,6 +51,9 @@ function App() {
                         </Route>
                         <Route path={ROUTES.SAVED}>
                             <SavedVisualizations />
+                        </Route>
+                        <Route>
+                            <NotFound />
                         </Route>
                     </Switch>
                 </div>
