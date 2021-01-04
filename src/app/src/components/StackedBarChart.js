@@ -23,7 +23,7 @@ const StackedBarChart = ({ items }) => {
             <Box
                 h={270}
                 className='chart-container'
-                key={`${question.question.qcode}-${responses[0].geo}`}
+                key={`stacked-${question.question.qcode}-${responses[0].geo}`}
                 ref={containerRefs.current[i]}
                 pb={10}
             >

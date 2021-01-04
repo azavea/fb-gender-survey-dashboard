@@ -40,7 +40,7 @@ const WaffleChart = ({ items }) => {
                 borderWidth='1px'
                 borderRadius='lg'
                 className='chart-container'
-                key={`${question.qcode}${response.geo}`}
+                key={`waffle-${question.qcode}${response.geo}`}
                 ref={containerRefs.current[i]}
             >
                 <DownloadMenu
@@ -51,6 +51,7 @@ const WaffleChart = ({ items }) => {
                     {responses.map(data => (
                         <ResponsiveWaffleCanvas
                             data={data}
+                            key={`waffle-${question.qcode}${response.geo}${data[0].label}`}
                             pixelRatio={2}
                             total={10}
                             rows={2}
