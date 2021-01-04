@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Added a 404 page [#51](https://github.com/azavea/fb-gender-survey-dashboard/pull/51)
+- Add search for countries and questions [#50](https://github.com/azavea/fb-gender-survey-dashboard/pull/50)
 
 ### Changed
 

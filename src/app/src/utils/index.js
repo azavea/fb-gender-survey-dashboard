@@ -90,3 +90,5 @@ export class DataIndexer {
         return rest;
     }
 }
+
+export const formatQuery = str => str?.trim().toLowerCase() || '';
