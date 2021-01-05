@@ -5,12 +5,14 @@ import { ResponsiveBarCanvas } from '@nivo/bar';
 import DownloadMenu from './DownloadMenu';
 
 const GroupedBarChart = ({ items }) => {
-    const data = items.map(({ response }) => ({
-        ...response,
-        Men: response.male,
-        Women: response.female,
-        Total: response.combined,
-    }));
+    const data = items
+        .map(({ response }) => ({
+            ...response,
+            Men: response.male,
+            Women: response.female,
+            Total: response.combined,
+        }))
+        .reverse();
     const keys = ['Total', 'Men', 'Women'];
 
     const { cat, qcode } = items[0].question;
