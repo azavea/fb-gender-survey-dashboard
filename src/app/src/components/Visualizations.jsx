@@ -95,27 +95,31 @@ const Visualizations = () => {
                 {currentQuestions.length} questions
             </Text>
             <Box>
-                {Object.keys(config.categories).map(cat => (
-                    <Box key={cat}>
-                        <HStack
-                            align='center'
-                            justify='center'
-                            spacing={2}
-                            p={4}
-                        >
-                            <Text casing='uppercase' whiteSpace='nowrap'>
-                                {cat}
-                            </Text>
-                            <Divider />
-                        </HStack>
-                        {categories[config.categories[cat]].map(items => (
-                            <Chart
-                                items={items}
-                                key={items[0].question.qcode}
-                            />
-                        ))}
-                    </Box>
-                ))}
+                {Object.keys(config.categories).map(cat => {
+                    const questions = categories[config.categories[cat]];
+                    if (!questions.length) return null;
+                    return (
+                        <Box key={cat}>
+                            <HStack
+                                align='center'
+                                justify='center'
+                                spacing={2}
+                                p={4}
+                            >
+                                <Text casing='uppercase' whiteSpace='nowrap'>
+                                    {cat}
+                                </Text>
+                                <Divider />
+                            </HStack>
+                            {questions.map(items => (
+                                <Chart
+                                    items={items}
+                                    key={items[0].question.qcode}
+                                />
+                            ))}
+                        </Box>
+                    );
+                })}
             </Box>
         </Box>
     );
