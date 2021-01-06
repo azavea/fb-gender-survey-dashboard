@@ -15,7 +15,11 @@ const GroupedBarChart = ({ items }) => {
         .reverse();
     const keys = ['Total', 'Men', 'Women'];
 
-    const { cat, qcode } = items[0].question;
+    const { cat, qcode, type } = items[0].question;
+    const isPercent = type === 'pct';
+    const formatValue = v =>
+        isPercent ? `${v}%` : parseFloat(v).toLocaleString();
+
     const legend = cat ? `Answered "${cat}" to ${qcode}` : `Answered ${qcode}`;
 
     const containerRef = useRef();
@@ -35,7 +39,7 @@ const GroupedBarChart = ({ items }) => {
                 padding={0.15}
                 innerPadding={0}
                 minValue='auto'
-                maxValue='auto'
+                maxValue={isPercent ? 100 : 'auto'}
                 groupMode='grouped'
                 layout='horizontal'
                 colors={{ scheme: 'set1' }}
@@ -52,7 +56,9 @@ const GroupedBarChart = ({ items }) => {
                     tickSize: 5,
                     tickPadding: 5,
                     tickRotation: 0,
+                    format: formatValue,
                 }}
+                tooltipFormat={formatValue}
                 theme={{
                     fontSize: 14,
                     axis: {

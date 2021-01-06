@@ -76,6 +76,11 @@ const Visualizations = () => {
         setSaved(true);
     };
 
+    const createKey = items =>
+        items[0].response
+            ? `${items[0].response.key}-${items[0].response.geo}`
+            : `${items[0].responses[0].key}-${items[0].responses[0].geo}`;
+
     return (
         <Box>
             <Breadcrumbs />
@@ -112,10 +117,7 @@ const Visualizations = () => {
                                 <Divider />
                             </HStack>
                             {questions.map(items => (
-                                <Chart
-                                    items={items}
-                                    key={items[0].question.qcode}
-                                />
+                                <Chart items={items} key={createKey(items)} />
                             ))}
                         </Box>
                     );

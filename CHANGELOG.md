@@ -14,6 +14,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Handle Percentage Charts [#58](https://github.com/azavea/fb-gender-survey-dashboard/pull/58)
+
 ### Fixed
 
 - Clean up of visualizations page [#55](https://github.com/azavea/fb-gender-survey-dashboard/pull/55)
