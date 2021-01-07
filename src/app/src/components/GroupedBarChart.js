@@ -3,6 +3,7 @@ import { Box } from '@chakra-ui/react';
 import { ResponsiveBarCanvas } from '@nivo/bar';
 
 import DownloadMenu from './DownloadMenu';
+import { formatGroupedCSV } from '../utils/csv';
 
 const GroupedBarChart = ({ items }) => {
     const data = items
@@ -29,6 +30,7 @@ const GroupedBarChart = ({ items }) => {
             <DownloadMenu
                 chartContainerRef={containerRef}
                 question={items[0].question}
+                csvData={formatGroupedCSV(items)}
             />
             <ResponsiveBarCanvas
                 data={data}

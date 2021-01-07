@@ -1,8 +1,10 @@
 import React from 'react';
 import { Box } from '@chakra-ui/react';
 import { ResponsiveBarCanvas } from '@nivo/bar';
+
 import DownloadMenu from './DownloadMenu';
 import useRefs from '../hooks/useRefs';
+import { formatStackedCSV } from '../utils/csv';
 
 const StackedBarChart = ({ items }) => {
     const containerRefs = useRefs(items.length);
@@ -30,6 +32,7 @@ const StackedBarChart = ({ items }) => {
                 <DownloadMenu
                     chartContainerRef={containerRefs.current[i]}
                     question={{ ...question, geo: responses[0].geo }}
+                    csvData={formatStackedCSV({ question, responses })}
                 />
                 <ResponsiveBarCanvas
                     data={data}

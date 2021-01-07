@@ -4,6 +4,7 @@ import { ResponsiveWaffleCanvas } from '@nivo/waffle';
 
 import DownloadMenu from './DownloadMenu';
 import useRefs from '../hooks/useRefs';
+import { formatWaffleCSV } from '../utils/csv';
 
 const WaffleChart = ({ items }) => {
     const containerRefs = useRefs(items.length);
@@ -46,6 +47,7 @@ const WaffleChart = ({ items }) => {
                 <DownloadMenu
                     chartContainerRef={containerRefs.current[i]}
                     question={{ ...question, geo: response.geo }}
+                    csvData={formatWaffleCSV({ question, response })}
                 />
                 <HStack h={200}>
                     {responses.map(data => (
