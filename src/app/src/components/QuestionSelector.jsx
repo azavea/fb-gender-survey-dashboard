@@ -44,16 +44,64 @@ const QuestionSelector = () => {
         return null;
     }
 
+    // Known categories
+    const questionsByCategory = { A: [], B: [], C: [], D: [] };
+
     const handleQuestionSelect = selected => {
-        // TODO: check if it's a catCode and select all subelements
-        dispatch(setQuestionKeys(selected));
+        let newSelections = selected;
+
+        if (selected.length > currentQuestions.length) {
+            // We added a qcode - find added qcode
+            const newQcode = selected.find(
+                qcode => !currentQuestions.includes(qcode)
+            );
+
+            // If adding a category code, add all questions for category
+            if (Object.keys(questionsByCategory).includes(newQcode)) {
+                newSelections = [
+                    ...selected,
+                    ...questionsByCategory[newQcode].filter(
+                        qcode => !selected.includes(qcode)
+                    ),
+                ];
+            }
+        } else {
+            // We removed a qcode - find removed qcode
+            const removedQcode = currentQuestions.find(
+                qcode => !selected.includes(qcode)
+            );
+
+            // If removing a category code, remove all questions for category
+            if (Object.keys(questionsByCategory).includes(removedQcode)) {
+                newSelections = selected.filter(
+                    qcode => !questionsByCategory[removedQcode].includes(qcode)
+                );
+            }
+        }
+
+        // When using a checkbox group, the prop 'isChecked' is overridden
+        // by the value passed to the group. Therefore, we must manually
+        // add the category code to the current questions if all the questions
+        // in that category are selected, and deselect in the opposite case.
+        Object.keys(questionsByCategory).forEach(catCode => {
+            const allChildrenChecked = questionsByCategory[
+                catCode
+            ].every(qcode => newSelections.includes(qcode));
+            if (allChildrenChecked && !newSelections.includes(catCode)) {
+                newSelections.push(catCode);
+            } else if (!allChildrenChecked && newSelections.includes(catCode)) {
+                newSelections = newSelections.filter(
+                    qcode => qcode !== catCode
+                );
+            }
+        });
+
+        dispatch(setQuestionKeys(newSelections));
     };
+
     const handleNext = () => {
         history.push('/visualization');
     };
-
-    // Known categories
-    const questionsByCategory = { A: [], B: [], C: [], D: [] };
 
     Object.entries(config.survey).forEach(([key, question]) => {
         const categoryCode = question.qcode[0].toUpperCase();
@@ -159,10 +207,21 @@ const QuestionSelector = () => {
             );
         }
 
+        const allChecked = questionCodes.every(qcode =>
+            currentQuestions.includes(qcode)
+        );
+        const isIndeterminate =
+            questionCodes.some(qcode => currentQuestions.includes(qcode)) &&
+            !allChecked;
+
         return (
             <AccordionItem key={`qgroup-${catCode}`}>
                 <AccordionButton>
-                    <Checkbox p={3} value={catCode} />
+                    <Checkbox
+                        p={3}
+                        value={catCode}
+                        isIndeterminate={isIndeterminate}
+                    />
                     <Heading
                         flex='1'
                         textAlign='left'
@@ -218,6 +277,7 @@ const QuestionSelector = () => {
                     size='xl'
                     colorScheme='red'
                     defaultValue={currentQuestions}
+                    value={currentQuestions}
                     onChange={handleQuestionSelect}
                 >
                     <Accordion
