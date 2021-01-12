@@ -10,6 +10,7 @@ import {
 } from '@chakra-ui/react';
 import { FaDownload } from 'react-icons/fa';
 import { combineCanvases, setBackgroundColor } from '../utils/canvas';
+import { downloadCSV } from '../utils/csv';
 
 const download = (dataUrl, filename, filetype = 'png') => {
     var dl = document.createElement('a');
@@ -32,6 +33,7 @@ const DownloadMenu = ({
     question,
     chartContainerRef,
     combineDir = 'horizontal',
+    csvData,
 }) => {
     const saveImage = () => {
         // Use the ref for the chart container to find the canvas DOM element,
@@ -58,6 +60,8 @@ const DownloadMenu = ({
         download(dataUrl, filename);
     };
 
+    const saveCSV = () => downloadCSV(csvData);
+
     return (
         <Flex className='download-menu'>
             <Menu isLazy>
@@ -70,7 +74,7 @@ const DownloadMenu = ({
                 />
                 <MenuList>
                     <MenuItem onClick={saveImage}>PNG</MenuItem>
-                    <MenuItem>CSV</MenuItem>
+                    <MenuItem onClick={saveCSV}>CSV</MenuItem>
                 </MenuList>
             </Menu>
         </Flex>

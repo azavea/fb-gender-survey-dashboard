@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
     Box,
+    ButtonGroup,
     Button,
     HStack,
     Text,
@@ -10,10 +11,11 @@ import {
     Spacer,
 } from '@chakra-ui/react';
 import { useHistory } from 'react-router-dom';
-import { IoIosCheckmark } from 'react-icons/io';
+import { IoIosCheckmark, IoIosStar, IoMdDownload } from 'react-icons/io';
 
 import { CONFIG } from '../utils/constants';
 import { DataIndexer } from '../utils';
+import { downloadVisualizationsCSV } from '../utils/csv';
 import { saveVisualization } from '../redux/visualizations.actions';
 import Breadcrumbs from './Breadcrumbs';
 import Chart from './Chart';
@@ -62,6 +64,10 @@ const Visualizations = () => {
 
     const config = CONFIG[geoMode];
 
+    const onDownloadCSV = () => {
+        downloadVisualizationsCSV(categories);
+    };
+
     const onSaveVisualization = () => {
         const title = `${currentGeo.join(', ')}`;
         dispatch(
@@ -87,13 +93,32 @@ const Visualizations = () => {
             <Flex bg='white' p={4} border='1px solid rgb(222, 227, 233)'>
                 <Text fontSize='2xl'>Selected Charts</Text>
                 <Spacer />
-                {isSaved ? (
-                    <Button leftIcon={<IoIosCheckmark />} isDisabled>
-                        Saved
+                <ButtonGroup spacing='4' fontWeight='bold'>
+                    <Button
+                        leftIcon={<IoMdDownload />}
+                        onClick={onDownloadCSV}
+                        fontWeight='bold'
+                    >
+                        Download CSV
                     </Button>
-                ) : (
-                    <Button onClick={onSaveVisualization}>Save</Button>
-                )}
+                    {isSaved ? (
+                        <Button
+                            leftIcon={<IoIosCheckmark />}
+                            fontWeight='bold'
+                            isDisabled
+                        >
+                            Saved
+                        </Button>
+                    ) : (
+                        <Button
+                            leftIcon={<IoIosStar />}
+                            onClick={onSaveVisualization}
+                            fontWeight='bold'
+                        >
+                            Save
+                        </Button>
+                    )}
+                </ButtonGroup>
             </Flex>
             <Text p={4}>
                 Showing charts for: {currentGeo.join(', ')} •{' '}
