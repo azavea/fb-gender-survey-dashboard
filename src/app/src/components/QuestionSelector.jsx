@@ -16,13 +16,13 @@ import {
     Heading,
     VStack,
     Flex,
-    Spacer,
+    Link,
 } from '@chakra-ui/react';
 import { IoIosArrowRoundForward } from 'react-icons/io';
 import { IconContext } from 'react-icons';
 
 import { setQuestionKeys } from '../redux/app.actions';
-import { CONFIG } from '../utils/constants';
+import { CONFIG, ROUTES } from '../utils/constants';
 import { formatQuery } from '../utils';
 import Breadcrumbs from './Breadcrumbs';
 import SearchInput from './SearchInput';
@@ -100,7 +100,7 @@ const QuestionSelector = () => {
     };
 
     const handleNext = () => {
-        history.push('/visualization');
+        history.push(ROUTES.VISUALIZATIONS);
     };
 
     Object.entries(config.survey).forEach(([key, question]) => {
@@ -265,12 +265,29 @@ const QuestionSelector = () => {
             </HStack>
             <Flex m={4}>
                 <Text size='2xl'>{currentGeo.join(', ')}</Text>
-                <Spacer />
-                <SearchInput
-                    query={query}
-                    setQuery={setQuery}
-                    placeholder='Filter questions'
-                />
+            </Flex>
+            <Flex m={4} align='center'>
+                <Flex flex={1} mr={4}>
+                    <Text>
+                        The survey was structured into four sections to
+                        understand a snapshot of gender equality during
+                        Covid-19.{' '}
+                        <Link
+                            href='https://dataforgood.fb.com/wp-content/uploads/2020/09/Survey-on-Gender-Equality-at-Home-Report-1.pdf#page=60'
+                            textDecoration='underline'
+                            isExternal
+                        >
+                            View the full survey here.
+                        </Link>
+                    </Text>
+                </Flex>
+                <Flex flex={1}>
+                    <SearchInput
+                        query={query}
+                        setQuery={setQuery}
+                        placeholder='Filter questions'
+                    />
+                </Flex>
             </Flex>
             <Box>
                 <CheckboxGroup
