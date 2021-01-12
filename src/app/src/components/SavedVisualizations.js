@@ -71,8 +71,18 @@ const SavedVisualizations = () => {
     return (
         <Box>
             <Breadcrumbs />
-            <Flex bg='white' p={4} border='1px solid rgb(222, 227, 233)'>
+            <Flex
+                bg='white'
+                p={4}
+                border='1px solid rgb(222, 227, 233)'
+                align='baseline'
+            >
                 <Text fontSize='2xl'>Saved Charts</Text>
+                <Spacer />
+                <Text>
+                    Charts are saved locally in your browser. Clearing your
+                    browser data may impact this page.
+                </Text>
             </Flex>
             <Box p={4}>
                 {visualizations.length ? (
@@ -88,8 +98,8 @@ const SavedVisualizations = () => {
                     >
                         <Text fontSize='3xl'>
                             You have no saved charts yet. Click the 'Save'
-                            button on the visualization page in order to keep
-                            track of them here.
+                            button on the charts page in order to keep track of
+                            them here.
                         </Text>
                     </Flex>
                 )}

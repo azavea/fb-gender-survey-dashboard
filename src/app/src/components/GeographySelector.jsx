@@ -74,7 +74,7 @@ const GeographySelector = () => {
         <Box>
             <Flex m={4}>
                 <Heading as='h2' fontWeight='light'>
-                    Choose one or more areas to analyze
+                    Start by selecting Regions or Countries
                 </Heading>
                 <Spacer />
                 <Button
