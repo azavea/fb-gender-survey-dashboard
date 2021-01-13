@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add search for countries and questions [#50](https://github.com/azavea/fb-gender-survey-dashboard/pull/50)
 - Allow Question Category Select-All/None [#68](https://github.com/azavea/fb-gender-survey-dashboard/pull/68)
 - Download CSVs [#67](https://github.com/azavea/fb-gender-survey-dashboard/pull/67)
+- Add Modal Content [#71](https://github.com/azavea/fb-gender-survey-dashboard/pull/71)
 
 ### Changed
 
