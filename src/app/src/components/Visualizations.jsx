@@ -21,6 +21,7 @@ import { CONFIG } from '../utils/constants';
 import { DataIndexer } from '../utils';
 import { downloadVisualizationsCSV } from '../utils/csv';
 import { saveVisualization } from '../redux/visualizations.actions';
+import { setShowSurvey } from '../redux/survey.actions';
 import Breadcrumbs from './Breadcrumbs';
 import Chart from './Chart';
 
@@ -35,11 +36,20 @@ const Visualizations = () => {
         geoMode,
         data,
     } = useSelector(state => state.app);
+    const { surveyHasBeenDisplayed, showSurvey } = useSelector(
+        state => state.survey
+    );
 
     // Scroll to top on initial page load
     useEffect(() => {
         window.scrollTo(0, 0);
     }, []);
+
+    useEffect(() => {
+        if (!surveyHasBeenDisplayed && !showSurvey) {
+            setTimeout(() => dispatch(setShowSurvey(true)), 30000);
+        }
+    }, [showSurvey, surveyHasBeenDisplayed, dispatch]);
 
     // If a page reloads directly to this page, restart at home
     if (!currentQuestions.length || !currentGeo.length) {

@@ -10,6 +10,7 @@ import GeographySelector from './components/GeographySelector';
 import QuestionSelector from './components/QuestionSelector';
 import Visualizations from './components/Visualizations';
 import SavedVisualizations from './components/SavedVisualizations';
+import SurveyNotification from './components/SurveyNotification';
 import NotFound from './components/NotFound';
 import theme from './theme';
 
@@ -38,6 +39,7 @@ function App() {
         <Router>
             <ChakraProvider resetCss theme={theme}>
                 <div className='App'>
+                    <SurveyNotification />
                     <Header />
                     <Switch>
                         <Route exact path={ROUTES.HOME}>
