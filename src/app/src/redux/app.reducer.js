@@ -1,7 +1,7 @@
 import { createReducer } from 'redux-act';
 import produce from 'immer';
 import { merge, set } from '../utils';
-import { GEO_REGION } from '../utils/constants';
+import { GEO_COUNTRY } from '../utils/constants';
 
 import {
     setData,
@@ -13,7 +13,7 @@ import {
 
 export const initialState = Object.freeze({
     data: {},
-    geoMode: GEO_REGION,
+    geoMode: GEO_COUNTRY,
     currentYear: 2020,
     currentGeo: [],
     currentQuestions: [],
