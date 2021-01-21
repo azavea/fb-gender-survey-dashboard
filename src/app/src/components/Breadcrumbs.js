@@ -14,9 +14,15 @@ import { ROUTES } from '../utils/constants';
 const CustomBreadcrumb = ({ isCurrentPage, icon, title, to }) => {
     if (isCurrentPage) {
         return (
-            <BreadcrumbItem spacing={1} isCurrentPage>
+            <BreadcrumbItem isCurrentPage>
                 <BreadcrumbLink>
-                    <Box bg='rgb(72, 86, 92)' size='sm' p={4}>
+                    <Box
+                        textTransform='uppercase'
+                        size='sm'
+                        letterSpacing='1px'
+                        fontSize='0.875rem'
+                        p={4}
+                    >
                         {title}
                     </Box>
                 </BreadcrumbLink>
@@ -24,12 +30,11 @@ const CustomBreadcrumb = ({ isCurrentPage, icon, title, to }) => {
         );
     } else {
         return (
-            <BreadcrumbItem spacing={1}>
+            <BreadcrumbItem>
                 <BreadcrumbLink as={Link} to={to}>
                     <Button
-                        bg='rgb(39, 55, 63)'
                         size='sm'
-                        p={4}
+                        variant='breadcrumbButton'
                         leftIcon={icon}
                     >
                         {title}
@@ -47,7 +52,14 @@ const Breadcrumbs = () => {
     const isCharts = pathname === ROUTES.VISUALIZATIONS;
 
     return (
-        <Box bg='rgb(72, 86, 92)' w='100%' p={4} color='white'>
+        <Box
+            bg='gray.600'
+            w='100%'
+            py={1}
+            px={{ base: 1, md: 4, lg: 8 }}
+            color='white'
+            spacing={1}
+        >
             <Breadcrumb>
                 <CustomBreadcrumb
                     to={ROUTES.HOME}

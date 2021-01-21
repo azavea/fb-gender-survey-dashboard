@@ -184,7 +184,13 @@ const QuestionSelector = () => {
 
         const questions = filteredQuestionCodes.map(q => {
             return (
-                <Checkbox key={q} value={q} size='lg' colorScheme='red'>
+                <Checkbox
+                    key={q}
+                    value={q}
+                    size='lg'
+                    colorScheme='red'
+                    alignItems='flex-start'
+                >
                     {getQuestionCheckboxLabel(q)}
                 </Checkbox>
             );
@@ -245,8 +251,8 @@ const QuestionSelector = () => {
     return (
         <Box>
             <Breadcrumbs />
-            <HStack>
-                <Heading as='h2' fontWeight='light'>
+            <Flex layerStyle='selector'>
+                <Heading as='h2' textStyle='h2' mb='0'>
                     Select questions
                 </Heading>
                 <Button
@@ -262,16 +268,22 @@ const QuestionSelector = () => {
                 >
                     Next
                 </Button>
-            </HStack>
-            <Flex m={4}>
-                <Text size='2xl'>{currentGeo.join(', ')}</Text>
             </Flex>
-            <Flex m={4} align='center'>
-                <Flex flex={1} mr={4}>
-                    <Text>
-                        The survey was structured into four sections to
-                        understand a snapshot of gender equality during
-                        Covid-19.{' '}
+            <Flex my={2} mx={{ base: 4, md: 4, lg: 8 }}>
+                <Text size='2xl' fontWeight='bold'>
+                    {currentGeo.join(', ')}
+                </Text>
+            </Flex>
+            <Flex
+                direction='column'
+                maxW='960px'
+                mt={8}
+                mx={{ base: 4, md: 4, lg: 'auto' }}
+            >
+                <HStack mb={4}>
+                    <Text size='sm'>
+                        The survey was structured into four sections to provide
+                        a snapshot of gender dynamics during Covid-19.{' '}
                         <Link
                             href='https://dataforgood.fb.com/wp-content/uploads/2020/09/Survey-on-Gender-Equality-at-Home-Report-1.pdf#page=60'
                             textDecoration='underline'
@@ -280,31 +292,27 @@ const QuestionSelector = () => {
                             View the full survey here.
                         </Link>
                     </Text>
-                </Flex>
-                <Flex flex={1}>
-                    <SearchInput
-                        query={query}
-                        setQuery={setQuery}
-                        placeholder='Filter questions'
-                    />
-                </Flex>
-            </Flex>
-            <Box>
-                <CheckboxGroup
-                    size='xl'
-                    colorScheme='red'
-                    defaultValue={currentQuestions}
-                    value={currentQuestions}
-                    onChange={handleQuestionSelect}
-                >
-                    <Accordion
-                        allowMultiple
-                        defaultIndex={currentlySelectedCategoryIndexes}
+                    <Box width='350px'>
+                        <SearchInput query={query} setQuery={setQuery} />
+                    </Box>
+                </HStack>
+                <Box>
+                    <CheckboxGroup
+                        size='xl'
+                        colorScheme='red'
+                        defaultValue={currentQuestions}
+                        value={currentQuestions}
+                        onChange={handleQuestionSelect}
                     >
-                        {categories}
-                    </Accordion>
-                </CheckboxGroup>
-            </Box>
+                        <Accordion
+                            allowMultiple
+                            defaultIndex={currentlySelectedCategoryIndexes}
+                        >
+                            {categories}
+                        </Accordion>
+                    </CheckboxGroup>
+                </Box>
+            </Flex>
         </Box>
     );
 };

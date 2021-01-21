@@ -10,7 +10,7 @@ import { IoIosSearch } from 'react-icons/io';
 
 const SearchInput = ({ query, setQuery, placeholder }) => {
     return (
-        <Box m={4} flex={1}>
+        <Box flex={1}>
             <InputGroup bg='white'>
                 <InputLeftElement
                     pointerEvents='none'

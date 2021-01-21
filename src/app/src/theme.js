@@ -45,6 +45,14 @@ const Button = {
             color: 'gray.900',
             lineHeight: '1.5',
             fontWeight: 'medium',
+            textDecoration: 'none',
+            '&.current': {
+                backgroundImage:
+                    'linear-gradient(to bottom, transparent, #000)',
+                backgroundPosition: '0 1.45em',
+                backgroundRepeat: 'repeat-x',
+                backgroundSize: '1px 1px',
+            },
             _hover: {
                 textDecoration: 'none',
                 backgroundImage:
@@ -87,6 +95,48 @@ const Button = {
                 bg: '#f3a28c',
             },
         },
+        breadcrumbButton: {
+            bg: 'gray.700',
+            color: 'white',
+            borderRadius: 'sm',
+            p: 4,
+            textDecoration: 'none',
+            _focus: {
+                boxShadow: 'outline',
+            },
+            _disabled: {
+                bg: 'gray.700',
+                color: 'white',
+                opacity: 0.35,
+            },
+            _hover: {
+                bg: 'gray.800',
+                textDecoration: 'none',
+                _disabled: {
+                    bg: 'gray.700',
+                    color: 'white',
+                },
+            },
+            _active: {
+                bg: 'black',
+                color: 'white',
+            },
+        },
+    },
+};
+
+const Breadcrumb = {
+    parts: ['item', 'link'],
+    baseStyle: {
+        link: {
+            borderRadius: '4px',
+            _hover: {
+                textDecoration: 'none',
+            },
+            _focus: {
+                boxShadow: 'outline',
+            },
+        },
     },
 };
 
@@ -106,11 +156,69 @@ const Checkbox = {
     },
 };
 
+const Link = {
+    baseStyle: {
+        borderRadius: '4px',
+        _hover: {
+            textDecoration: 'none',
+        },
+        _focus: {
+            boxShadow: 'outline',
+        },
+    },
+};
+
 const theme = extendTheme({
     components: {
         Accordion,
         Button,
+        Breadcrumb,
         Checkbox,
+        Link,
+    },
+    textStyles: {
+        h1: {
+            fontSize: ['36px', '54px'],
+            fontWeight: 'light',
+            lineHeight: '1.1',
+        },
+        h2: {
+            fontSize: ['24px', '36px'],
+            fontWeight: 'light',
+            lineHeight: '1.2',
+        },
+        h3: {
+            fontSize: ['18px', '24px'],
+            fontWeight: 'light',
+            lineHeight: '1.2',
+        },
+        h4: {
+            fontSize: ['16px', '18px'],
+            fontWeight: 'medium',
+            lineHeight: '1.2',
+        },
+        h5: {
+            fontSize: ['14px', '16px'],
+            fontWeight: 'bold',
+            lineHeight: '1.2',
+        },
+        miniTitle: {
+            fontSize: '16px',
+            fontWeight: 'medium',
+            letterSpacing: '1px',
+            textTransform: 'uppercase',
+        },
+    },
+    layerStyles: {
+        selector: {
+            bg: 'white',
+            borderBottom: '1px solid',
+            borderColor: 'gray.200',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            py: 4,
+            px: { base: 4, md: 4, lg: 8 },
+        },
     },
     styles: {
         global: {
@@ -163,9 +271,17 @@ const theme = extendTheme({
                 bg: 'gray.50',
             },
             a: {
-                color: 'teal.500',
+                color: 'brand.lightPink',
+                textDecoration: 'underline',
+                borderRadius: '4px',
                 _hover: {
-                    textDecoration: 'underline',
+                    opacity: '0.85',
+                },
+                _active: {
+                    opacity: '0.7',
+                },
+                _focus: {
+                    boxShadow: 'outline',
                 },
             },
         },

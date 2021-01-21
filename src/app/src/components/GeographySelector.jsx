@@ -72,9 +72,9 @@ const GeographySelector = () => {
 
     const section = (
         <Box>
-            <Flex m={4}>
-                <Heading as='h2' fontWeight='light'>
-                    Start by selecting Regions or Countries
+            <Flex layerStyle='selector'>
+                <Heading as='h2' textStyle='h2' mb='0'>
+                    Start by selecting countries or regions
                 </Heading>
                 <Spacer />
                 <Button
@@ -90,62 +90,68 @@ const GeographySelector = () => {
                     Next
                 </Button>
             </Flex>
-            <Flex ml={4}>
+            <Flex m={{ base: 4, md: 4, lg: 8 }}>
                 <Flex flex={1} direction='column'>
-                    <Flex alignItems='baseline' m={4}>
-                        <Button
-                            variant='link'
-                            size='lg'
-                            onClick={() => handleGeoSet(GEO_REGION)}
-                        >
-                            REGIONS
-                        </Button>
-                        <Text
-                            fontSize='sm'
-                            textTransform='uppercase'
-                            mx='2'
-                            color='gray.600'
-                            fontWeight='medium'
-                        >
-                            or
-                        </Text>
-                        <Button
-                            variant='link'
-                            size='lg'
-                            onClick={() => handleGeoSet(GEO_COUNTRY)}
-                        >
-                            COUNTRIES
-                        </Button>
-                    </Flex>
-                    {geoMode === GEO_COUNTRY && (
-                        <SearchInput
-                            query={query}
-                            setQuery={setQuery}
-                            placeholder='Filter countries'
-                        />
-                    )}
-                    <VStack align='start' m={4}>
+                    <Box mb={4}>
+                        <Flex alignItems='baseline' mb={4}>
+                            <Button
+                                className={geoMode === GEO_COUNTRY && 'current'}
+                                variant='link'
+                                size='lg'
+                                onClick={() => handleGeoSet(GEO_COUNTRY)}
+                            >
+                                Countries
+                            </Button>
+                            <Text
+                                fontSize='sm'
+                                textTransform='uppercase'
+                                mx='2'
+                                color='gray.600'
+                                fontWeight='medium'
+                            >
+                                or
+                            </Text>
+                            <Button
+                                className={geoMode === GEO_REGION && 'current'}
+                                variant='link'
+                                size='lg'
+                                onClick={() => handleGeoSet(GEO_REGION)}
+                            >
+                                Regions
+                            </Button>
+                        </Flex>
+                        {geoMode === GEO_COUNTRY && (
+                            <SearchInput query={query} setQuery={setQuery} />
+                        )}
+                    </Box>
+                    <Box>
                         <CheckboxGroup
                             key={`geogroup-${geoMode}`}
                             onChange={handleSelection}
                             defaultValue={currentGeo}
                         >
-                            {geoList.length ? (
-                                geoList.map(geo => (
-                                    <Checkbox
-                                        key={`geo-${geo}`}
-                                        value={geo}
-                                        size='lg'
-                                        colorScheme='red'
-                                    >
-                                        {geo}
-                                    </Checkbox>
-                                ))
-                            ) : (
-                                <Text>No areas found.</Text>
-                            )}
+                            <VStack
+                                spacing={5}
+                                direction='column'
+                                align='start'
+                            >
+                                {geoList.length ? (
+                                    geoList.map(geo => (
+                                        <Checkbox
+                                            key={`geo-${geo}`}
+                                            value={geo}
+                                            size='lg'
+                                            colorScheme='red'
+                                        >
+                                            {geo}
+                                        </Checkbox>
+                                    ))
+                                ) : (
+                                    <Text>No areas found.</Text>
+                                )}
+                            </VStack>
                         </CheckboxGroup>
-                    </VStack>
+                    </Box>
                 </Flex>
                 <Flex flex={2} />
             </Flex>
