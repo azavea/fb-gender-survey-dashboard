@@ -25,7 +25,7 @@ import {
 import { CONFIG, GEO_COUNTRY, GEO_REGION } from '../utils/constants';
 import { formatQuery } from '../utils';
 import SearchInput from './SearchInput';
-import surveyMapImage from '../images/gender-survey-countries.jpg';
+import surveyMapImage from '../images/gender-survey-countries.png';
 
 const GeographySelector = () => {
     const history = useHistory();
