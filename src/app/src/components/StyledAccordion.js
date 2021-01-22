@@ -3,20 +3,38 @@ import {
     AccordionButton,
     AccordionPanel,
     AccordionIcon,
-    Box,
+    Heading,
     Text,
     Link,
 } from '@chakra-ui/react';
 
 export const StyledAccordionItem = ({ title, children }) => (
-    <AccordionItem>
-        <AccordionButton>
-            <Box flex='1' textAlign='left' fontWeight={500}>
+    <AccordionItem mb={6}>
+        <AccordionButton
+            p={0}
+            sx={{
+                _hover: {
+                    boxShadow: 'none',
+                    h2: {
+                        textDecoration: 'underline',
+                        textUnderlineOffset: '2px',
+                        textDecorationThickness: '1px',
+                    },
+                },
+            }}
+        >
+            <Heading
+                as='h2'
+                size='md'
+                flex='1'
+                textAlign='left'
+                fontWeight={400}
+            >
                 {title}
-            </Box>
+            </Heading>
             <AccordionIcon />
         </AccordionButton>
-        <AccordionPanel p={4}>{children}</AccordionPanel>
+        <AccordionPanel p='0'>{children}</AccordionPanel>
     </AccordionItem>
 );
 

@@ -10,10 +10,10 @@ const Chart = ({ items }) => {
 
     const title = question.cat ? (
         <>
+            <Text fontSize='2xl'>{question.question}</Text>
             <Text as='strong' fontSize='2xl'>
-                {question.cat}
+                Answered: {question.cat}
             </Text>
-            <Text fontSize='2xl'>(Answer to: {question.question})</Text>
         </>
     ) : (
         <Text fontSize='2xl'>{question.question}</Text>
@@ -29,9 +29,11 @@ const Chart = ({ items }) => {
     }
 
     return (
-        <Box p={4}>
+        <Box>
             {title}
-            {chart}
+            <Box bg='gray.50' mt={2} mb={8} borderRadius='sm' overflow='hidden'>
+                {chart}
+            </Box>
         </Box>
     );
 };

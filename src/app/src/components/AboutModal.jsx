@@ -3,6 +3,7 @@ import {
     ModalOverlay,
     ModalContent,
     ModalHeader,
+    Heading,
     ModalBody,
     ModalCloseButton,
     Accordion,
@@ -15,13 +16,25 @@ const AboutModal = ({ isOpen, onClose }) => {
         <Modal
             isOpen={isOpen}
             onClose={onClose}
-            size='xl'
+            size='2xl'
             scrollBehavior='inside'
         >
             <ModalOverlay />
             <ModalContent>
-                <ModalHeader>About the Survey</ModalHeader>
-                <ModalCloseButton />
+                <ModalHeader
+                    borderBottom='1px solid'
+                    borderColor='gray.100'
+                    mb={2}
+                    display='flex'
+                    justifyContent='space-between'
+                    alignItems='center'
+                >
+                    <Heading as='h1' size='md' fontWeight='500'>
+                        About the Survey
+                    </Heading>
+                    <ModalCloseButton position='relative' top='0' right='0' />
+                </ModalHeader>
+
                 <ModalBody>
                     <Accordion allowToggle>
                         <StyledAccordionItem title='About the Survey on Gender Equality at Home'>

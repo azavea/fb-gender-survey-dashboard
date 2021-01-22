@@ -4,6 +4,7 @@ import {
     Button,
     HStack,
     Flex,
+    Box,
     Heading,
     Text,
     VStack,
@@ -38,31 +39,30 @@ const Header = () => {
         <Flex justify='space-between' width='100%'>
             {!isLargeFormat ? (
                 <Heading
+                    as='h1'
+                    textStyle='h3'
+                    lineHeight='1.5'
+                    fontWeight='normal'
                     align='flex-start'
-                    fontWeight='500'
-                    color='white'
                     maxWidth='790px'
-                    fontSize='22px'
-                    m={4}
+                    my={2}
+                    mx={{ base: 1, md: 4, lg: 8 }}
                 >
-                    Survey on Gender Equality at Home
+                    <ChakraLink href='/' variant='homeLink'>
+                        Survey on Gender Equality at Home
+                    </ChakraLink>
                 </Heading>
             ) : (
                 <Spacer />
             )}
-            <HStack spacing='35px' p='2' mr={4}>
-                <Button color='white' variant='link' onClick={faqOnOpen}>
+            <HStack spacing={8} p={2} mr={{ base: 1, md: 4, lg: 8 }}>
+                <Button variant='invertedLink' onClick={faqOnOpen}>
                     FAQS
                 </Button>
-                <Button color='white' variant='link' onClick={aboutOnOpen}>
+                <Button variant='invertedLink' onClick={aboutOnOpen}>
                     About the Survey
                 </Button>
-                <Button
-                    color='white'
-                    variant='link'
-                    as={Link}
-                    to={ROUTES.SAVED}
-                >
+                <Button variant='invertedLink' as={Link} to={ROUTES.SAVED}>
                     Saved Charts
                 </Button>
             </HStack>
@@ -73,26 +73,31 @@ const Header = () => {
         return (
             <VStack
                 as='header'
-                className='App-header'
                 bg='linear-gradient(-225deg, rgb(26, 43, 51) 0%, rgb(1, 16, 23) 100%)'
-                py='2'
+                p={{ base: 1, md: 4, lg: 8 }}
             >
                 {linkBar}
-                <Flex py='2' width='100%' justify={titleJustify}>
-                    <VStack color='white' maxWidth='790px' m={4} spacing={4}>
-                        <Text casing='uppercase'>Dashboard</Text>
-                        <Heading fontWeight='light'>
+                <Flex width='100%' justify={titleJustify}>
+                    <VStack
+                        color='white'
+                        maxWidth='54rem'
+                        m={4}
+                        spacing={4}
+                        textAlign='center'
+                    >
+                        <Heading as='h1' textStyle='h1'>
+                            <Box textStyle='miniTitle'>Dashboard</Box>
                             Survey on Gender Equality at Home
                         </Heading>
-                        <Text fontSize='18px'>
-                            Explore the aggregate data of the Survey on Gender
-                            Equality at Home issued in July 2020 in over 80
-                            languages to more than 460,000 Facebook users in all
-                            world regions.{' '}
+                        <Text fontSize='lg'>
+                            Explore the country and region-level data from the
+                            July 2020 survey, comprising over 460,000 Facebook
+                            users in 208 countries, territories, and islands in
+                            80 languages.{' '}
                             <ChakraLink
                                 href='https://data.humdata.org/dataset/survey-on-gender-equality-at-home'
-                                color='#f3a48e'
                                 isExternal
+                                variant='inverted'
                             >
                                 View the full aggregate dataset here.
                             </ChakraLink>

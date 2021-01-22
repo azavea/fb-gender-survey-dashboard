@@ -3,6 +3,7 @@ import {
     ModalOverlay,
     ModalContent,
     ModalHeader,
+    Heading,
     ModalBody,
     ModalCloseButton,
     Accordion,
@@ -15,24 +16,35 @@ const FaqModal = ({ isOpen, onClose }) => {
         <Modal
             isOpen={isOpen}
             onClose={onClose}
-            size='xl'
+            size='2xl'
             scrollBehavior='inside'
         >
             <ModalOverlay />
             <ModalContent>
-                <ModalHeader>FAQ</ModalHeader>
-                <ModalCloseButton />
+                <ModalHeader
+                    borderBottom='1px solid'
+                    borderColor='gray.100'
+                    mb={2}
+                    display='flex'
+                    justifyContent='space-between'
+                    alignItems='center'
+                >
+                    <Heading as='h1' size='md' fontWeight='500'>
+                        FAQ
+                    </Heading>
+                    <ModalCloseButton position='relative' top='0' right='0' />
+                </ModalHeader>
                 <ModalBody>
                     <Accordion allowToggle>
                         <StyledAccordionItem title='How are the country- and region-level statistics calculated?'>
                             <StyledText>
-                                The country- level statistics provided reflect
+                                The country-level statistics provided reflect
                                 the percentage of respondents in each
                                 country/region providing a given response to
                                 each question. These percentages are calculated
                                 based on all people who responded to a given
-                                question (even if their response is "Don't Know"
-                                or "Prefer not to respond"). These percentages
+                                question (even if their response is “Don’t Know”
+                                or “Prefer not to respond”). These percentages
                                 are then calibrated to provide estimates
                                 representing the online population in each
                                 country and then disaggregated for men and
@@ -72,7 +84,7 @@ const FaqModal = ({ isOpen, onClose }) => {
                                 Additionally, to preserve privacy, responses
                                 from countries where response rates were
                                 insufficient for country-level representation
-                                have been aggregated into a "Rest of region"
+                                have been aggregated into a “Rest of region”
                                 group for their geographic region. This dataset
                                 thus includes data for 116 countries across
                                 seven world regions, using the World Bank
@@ -116,7 +128,7 @@ const FaqModal = ({ isOpen, onClose }) => {
                         <StyledAccordionItem title='The survey included open-ended questions. Where are those responses?'>
                             <StyledText>
                                 Responses to open-ended questions are not
-                                included in this dataset to ensure respondents'
+                                included in this dataset to ensure respondents’
                                 privacy.
                             </StyledText>
                         </StyledAccordionItem>
