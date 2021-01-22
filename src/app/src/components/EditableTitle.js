@@ -9,11 +9,11 @@ import {
     EditablePreview,
     ButtonGroup,
 } from '@chakra-ui/react';
-import { IoMdCreate, IoIosClose } from 'react-icons/io';
+import { IoMdCreate } from 'react-icons/io';
 
 import { renameVisualization } from '../redux/visualizations.actions';
 
-function EditableControls({ isEditing, onSubmit, onCancel, onEdit }) {
+function EditableControls({ isEditing, onSubmit, onEdit }) {
     return isEditing ? (
         <ButtonGroup
             alignItems='center'
@@ -28,12 +28,6 @@ function EditableControls({ isEditing, onSubmit, onCancel, onEdit }) {
             >
                 Save
             </Button>
-            <IconButton
-                isRound
-                size='sm'
-                onClick={onCancel}
-                icon={<IoIosClose size={32} />}
-            />
         </ButtonGroup>
     ) : (
         <Flex
