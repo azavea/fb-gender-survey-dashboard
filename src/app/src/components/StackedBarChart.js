@@ -20,6 +20,7 @@ const StackedBarChart = ({ items }) => {
             [{ index: 'Total' }, { index: 'Men' }, { index: 'Women' }]
         );
         const keys = responses.map(r => r.cat);
+        const formatValue = v => `${v}%`;
 
         return (
             <Box
@@ -50,7 +51,7 @@ const StackedBarChart = ({ items }) => {
                     enableGridX={true}
                     enableGridY={false}
                     minValue='auto'
-                    maxValue='auto'
+                    maxValue={100}
                     groupMode='stacked'
                     layout='horizontal'
                     colors={{ scheme: 'dark2' }}
@@ -67,7 +68,9 @@ const StackedBarChart = ({ items }) => {
                         tickSize: 0,
                         tickPadding: 10,
                         tickRotation: 0,
+                        format: formatValue,
                     }}
+                    tooltipFormat={formatValue}
                     theme={{
                         fontSize: 14,
                         background: 'white',
