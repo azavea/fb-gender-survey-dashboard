@@ -9,7 +9,7 @@ import reducers from './reducers';
 const persistConfig = {
     key: 'root',
     storage,
-    whitelist: ['visualizations'],
+    whitelist: ['visualizations', 'survey'],
 };
 
 const persistedReducer = persistReducer(persistConfig, reducers);
