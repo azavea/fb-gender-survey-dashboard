@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
+    Accordion,
+    AccordionItem,
+    AccordionIcon,
+    AccordionPanel,
+    AccordionButton,
     Box,
     ButtonGroup,
     Button,
-    HStack,
+    Heading,
     Text,
-    Divider,
     Flex,
     Spacer,
 } from '@chakra-ui/react';
@@ -90,64 +94,102 @@ const Visualizations = () => {
     return (
         <Box>
             <Breadcrumbs />
-            <Flex bg='white' p={4} border='1px solid rgb(222, 227, 233)'>
-                <Text fontSize='2xl'>Selected Charts</Text>
+            <Flex layerStyle='selector'>
+                <Heading as='h2' textStyle='h2' mb='0'>
+                    Selected Charts
+                </Heading>
                 <Spacer />
                 <ButtonGroup spacing='4' fontWeight='bold'>
                     <Button
-                        leftIcon={<IoMdDownload />}
-                        onClick={onDownloadCSV}
+                        leftIcon={<IoMdDownload size={20} />}
+                        size='sm'
                         fontWeight='bold'
+                        onClick={onDownloadCSV}
                     >
                         Download CSV
                     </Button>
                     {isSaved ? (
-                        <Button
-                            leftIcon={<IoIosCheckmark />}
+                        <Box
+                            color='green.700'
+                            borderRadius='sm'
+                            bg='gray.50'
                             fontWeight='bold'
-                            isDisabled
+                            width='87px'
+                            py='0'
+                            display='flex'
+                            alignItems='center'
+                            textTransform='uppercase'
+                            letterSpacing='1px'
+                            fontSize='sm'
                         >
+                            <IoIosCheckmark size={25} />
                             Saved
-                        </Button>
+                        </Box>
                     ) : (
                         <Button
-                            leftIcon={<IoIosStar />}
-                            onClick={onSaveVisualization}
+                            leftIcon={<IoIosStar size={20} />}
+                            width='88px'
                             fontWeight='bold'
+                            variant='peach'
+                            size='sm'
+                            onClick={onSaveVisualization}
                         >
                             Save
                         </Button>
                     )}
                 </ButtonGroup>
             </Flex>
-            <Text p={4}>
-                Showing charts for: {currentGeo.join(', ')} •{' '}
-                {currentQuestions.length} questions
-            </Text>
-            <Box>
-                {Object.keys(config.categories).map(cat => {
-                    const questions = categories[config.categories[cat]];
-                    if (!questions.length) return null;
-                    return (
-                        <Box key={cat}>
-                            <HStack
-                                align='center'
-                                justify='center'
-                                spacing={2}
-                                p={4}
-                            >
-                                <Text casing='uppercase' whiteSpace='nowrap'>
-                                    {cat}
-                                </Text>
-                                <Divider />
-                            </HStack>
-                            {questions.map(items => (
-                                <Chart items={items} key={createKey(items)} />
-                            ))}
-                        </Box>
-                    );
-                })}
-            </Box>
+            <Flex my={2} mx={{ base: 4, md: 4, lg: 8 }}>
+                <Text size='2xl' fontWeight='bold'>
+                    Showing charts for: {currentGeo.join(', ')}
+                    <Box as='span' opacity='0.5' mx={1}>
+                        •
+                    </Box>
+                    {currentQuestions.length} questions
+                </Text>
+            </Flex>
+            <Flex
+                direction='column'
+                maxW='960px'
+                mt={8}
+                mx={{ base: 4, md: 4, lg: 'auto' }}
+            >
+                <Accordion defaultIndex={[0, 1, 2, 3, 4]} allowMultiple>
+                    {Object.keys(config.categories).map(cat => {
+                        const questions = categories[config.categories[cat]];
+                        if (!questions.length) return null;
+                        return (
+                            <AccordionItem key={cat}>
+                                <AccordionButton
+                                    alignItems='center'
+                                    justifyContent='space-between'
+                                    p={3}
+                                >
+                                    <Heading
+                                        as='h3'
+                                        size='md'
+                                        fontWeight='normal'
+                                    >
+                                        {cat}
+                                    </Heading>
+                                    <AccordionIcon />
+                                </AccordionButton>
+                                <AccordionPanel
+                                    borderTop='2px solid'
+                                    borderColor='gray.50'
+                                >
+                                    {questions.map(items => (
+                                        <Chart
+                                            items={items}
+                                            key={createKey(items)}
+                                        />
+                                    ))}
+                                </AccordionPanel>
+                            </AccordionItem>
+                        );
+                    })}
+                </Accordion>
+            </Flex>
         </Box>
     );
 };

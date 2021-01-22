@@ -26,7 +26,17 @@ const GroupedBarChart = ({ items }) => {
     const containerRef = useRef();
 
     return (
-        <Box className='chart-container' h={250} ref={containerRef}>
+        <Box
+            className='chart-container'
+            h={250}
+            ref={containerRef}
+            border='1px solid'
+            borderColor='gray.100'
+            p={1}
+            bg='white'
+            borderRadius='md'
+            m={4}
+        >
             <DownloadMenu
                 chartContainerRef={containerRef}
                 question={items[0].question}
@@ -36,10 +46,12 @@ const GroupedBarChart = ({ items }) => {
                 data={data}
                 keys={keys}
                 indexBy='geo'
-                margin={{ top: 50, right: 150, bottom: 50, left: 200 }}
+                margin={{ top: 50, right: 110, bottom: 50, left: 220 }}
                 pixelRatio={2}
                 padding={0.15}
                 innerPadding={0}
+                enableGridX={true}
+                enableGridY={false}
                 minValue='auto'
                 maxValue={isPercent ? 100 : 'auto'}
                 groupMode='grouped'
@@ -55,21 +67,33 @@ const GroupedBarChart = ({ items }) => {
                     legendOffset: -15,
                 }}
                 axisBottom={{
-                    tickSize: 5,
-                    tickPadding: 5,
+                    tickSize: 0,
+                    tickPadding: 10,
                     tickRotation: 0,
                     format: formatValue,
                 }}
                 tooltipFormat={formatValue}
                 theme={{
-                    fontSize: 14,
+                    fontSize: 16,
+                    background: 'white',
                     axis: {
+                        domain: {
+                            line: {
+                                stroke: '#d9d9d9',
+                                strokeWidth: 1,
+                            },
+                        },
                         legend: {
                             text: {
                                 fontSize: 14,
                                 fontWeight: 'bold',
                                 width: 200,
                             },
+                        },
+                    },
+                    legends: {
+                        text: {
+                            fill: '#000000',
                         },
                     },
                 }}

@@ -41,14 +41,14 @@ const Header = () => {
                 <Heading
                     as='h1'
                     textStyle='h3'
+                    lineHeight='1.5'
                     fontWeight='normal'
                     align='flex-start'
-                    color='white'
                     maxWidth='790px'
                     my={2}
                     mx={{ base: 1, md: 4, lg: 8 }}
                 >
-                    <ChakraLink href='/' color='white' textDecoration='none'>
+                    <ChakraLink href='/' variant='homeLink'>
                         Survey on Gender Equality at Home
                     </ChakraLink>
                 </Heading>
@@ -56,18 +56,13 @@ const Header = () => {
                 <Spacer />
             )}
             <HStack spacing={8} p={2} mr={{ base: 1, md: 4, lg: 8 }}>
-                <Button color='white' variant='link' onClick={faqOnOpen}>
+                <Button variant='invertedLink' onClick={faqOnOpen}>
                     FAQS
                 </Button>
-                <Button color='white' variant='link' onClick={aboutOnOpen}>
+                <Button variant='invertedLink' onClick={aboutOnOpen}>
                     About the Survey
                 </Button>
-                <Button
-                    color='white'
-                    variant='link'
-                    as={Link}
-                    to={ROUTES.SAVED}
-                >
+                <Button variant='invertedLink' as={Link} to={ROUTES.SAVED}>
                     Saved Charts
                 </Button>
             </HStack>
@@ -102,6 +97,7 @@ const Header = () => {
                             <ChakraLink
                                 href='https://data.humdata.org/dataset/survey-on-gender-equality-at-home'
                                 isExternal
+                                variant='inverted'
                             >
                                 View the full aggregate dataset here.
                             </ChakraLink>

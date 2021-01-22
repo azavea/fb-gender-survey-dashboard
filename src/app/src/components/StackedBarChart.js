@@ -23,11 +23,16 @@ const StackedBarChart = ({ items }) => {
 
         return (
             <Box
-                h={270}
+                h={200}
                 className='chart-container'
                 key={`stacked-${question.question.qcode}-${responses[0].geo}`}
                 ref={containerRefs.current[i]}
-                pb={10}
+                border='1px solid'
+                borderColor='gray.100'
+                p={1}
+                bg='white'
+                borderRadius='md'
+                m={4}
             >
                 <DownloadMenu
                     chartContainerRef={containerRefs.current[i]}
@@ -38,10 +43,12 @@ const StackedBarChart = ({ items }) => {
                     data={data}
                     keys={keys}
                     indexBy='index'
-                    margin={{ top: 50, right: 250, bottom: 50, left: 60 }}
+                    margin={{ top: 50, right: 250, bottom: 50, left: 80 }}
                     pixelRatio={2}
-                    padding={0.15}
+                    padding={0.25}
                     innerPadding={0}
+                    enableGridX={true}
+                    enableGridY={false}
                     minValue='auto'
                     maxValue='auto'
                     groupMode='stacked'
@@ -57,16 +64,23 @@ const StackedBarChart = ({ items }) => {
                         legendOffset: -15,
                     }}
                     axisBottom={{
-                        tickSize: 5,
-                        tickPadding: 5,
+                        tickSize: 0,
+                        tickPadding: 10,
                         tickRotation: 0,
                     }}
                     theme={{
                         fontSize: 14,
+                        background: 'white',
                         axis: {
+                            domain: {
+                                line: {
+                                    stroke: '#d9d9d9',
+                                    strokeWidth: 1,
+                                },
+                            },
                             legend: {
                                 text: {
-                                    fontSize: 14,
+                                    fontSize: 16,
                                     fontWeight: 'bold',
                                     width: 200,
                                 },

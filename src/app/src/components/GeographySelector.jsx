@@ -8,7 +8,9 @@ import {
     Checkbox,
     CheckboxGroup,
     Text,
+    Image,
     Heading,
+    useMediaQuery,
     VStack,
     Spacer,
 } from '@chakra-ui/react';
@@ -23,6 +25,7 @@ import {
 import { CONFIG, GEO_COUNTRY, GEO_REGION } from '../utils/constants';
 import { formatQuery } from '../utils';
 import SearchInput from './SearchInput';
+import surveyMapImage from '../images/gender-survey-countries.jpg';
 
 const GeographySelector = () => {
     const history = useHistory();
@@ -70,6 +73,9 @@ const GeographySelector = () => {
         );
     }
 
+    // Show or hide the image based on a media query
+    const [isSmallScreen] = useMediaQuery('(max-width: 700px)');
+
     const section = (
         <Box>
             <Flex layerStyle='selector'>
@@ -90,8 +96,23 @@ const GeographySelector = () => {
                     Next
                 </Button>
             </Flex>
-            <Flex m={{ base: 4, md: 4, lg: 8 }}>
-                <Flex flex={1} direction='column'>
+            <Flex
+                m={{ base: 4, md: 8, lg: 8 }}
+                flexDirection={{
+                    base: 'column-reverse',
+                    md: 'column-reverse',
+                    lg: 'row',
+                }}
+                maxW='1200px'
+                mx={{ base: 4, md: 4, lg: 'auto' }}
+                alignItems='flex-start'
+                justifyContent='space-between'
+            >
+                <Flex
+                    flex='auto'
+                    direction='column'
+                    ml={{ base: 4, md: 4, lg: 8 }}
+                >
                     <Box mb={4}>
                         <Flex alignItems='baseline' mb={4}>
                             <Button
@@ -121,7 +142,12 @@ const GeographySelector = () => {
                             </Button>
                         </Flex>
                         {geoMode === GEO_COUNTRY && (
-                            <SearchInput query={query} setQuery={setQuery} />
+                            <Box maxWidth='325px'>
+                                <SearchInput
+                                    query={query}
+                                    setQuery={setQuery}
+                                />
+                            </Box>
                         )}
                     </Box>
                     <Box>
@@ -153,7 +179,37 @@ const GeographySelector = () => {
                         </CheckboxGroup>
                     </Box>
                 </Flex>
-                <Flex flex={2} />
+                {!isSmallScreen && (
+                    <Box
+                        maxWidth='750px'
+                        flex='auto'
+                        ml={{ base: 0, md: 8, lg: 8 }}
+                        mr={{ base: 4, md: 8, lg: 8 }}
+                        mb={{ base: 0, md: 8, lg: 0 }}
+                        boxShadow={{ base: 'none', md: 'none', lg: 'lg' }}
+                        borderRadius='lg'
+                        overflow='hidden'
+                        position='relative'
+                    >
+                        <Box
+                            bg='red.700'
+                            position='absolute'
+                            bottom='0'
+                            right='0'
+                            zIndex='docked'
+                            px={3}
+                            py={2}
+                        >
+                            <Text color='white' fontSize='xs' fontWeight={500}>
+                                Red indicates locations included in the survey.
+                            </Text>
+                        </Box>
+                        <Image
+                            src={surveyMapImage}
+                            alt='Countries and regions surveyed in the Gender Equality at Home Survey.'
+                        />
+                    </Box>
+                )}
             </Flex>
         </Box>
     );

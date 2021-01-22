@@ -3,28 +3,36 @@ import { useDispatch } from 'react-redux';
 import {
     Flex,
     IconButton,
+    Button,
     Editable,
     EditableInput,
     EditablePreview,
     ButtonGroup,
 } from '@chakra-ui/react';
-import { IoMdCreate, IoIosCheckmark } from 'react-icons/io';
+import { IoMdCreate, IoIosClose } from 'react-icons/io';
 
 import { renameVisualization } from '../redux/visualizations.actions';
 
-function EditableControls({ isEditing, onSubmit, onEdit }) {
+function EditableControls({ isEditing, onSubmit, onCancel, onEdit }) {
     return isEditing ? (
         <ButtonGroup
             alignItems='center'
             ml={4}
             onClick={e => e.stopPropagation()}
         >
-            <IconButton
+            <Button
                 size='sm'
-                isRound
-                icon={<IoIosCheckmark />}
+                variant='peach'
                 onClick={onSubmit}
-                fontSize='2xl'
+                minWidth='100px'
+            >
+                Save
+            </Button>
+            <IconButton
+                isRound
+                size='sm'
+                onClick={onCancel}
+                icon={<IoIosClose size={32} />}
             />
         </ButtonGroup>
     ) : (
@@ -72,8 +80,18 @@ function EditableTitle({ title, index }) {
         >
             {props => (
                 <>
-                    <EditablePreview />
-                    <EditableInput onClick={e => e.stopPropagation()} />
+                    <EditablePreview
+                        as='h2'
+                        overflow='hidden'
+                        whiteSpace='nowrap'
+                        textOverflow='ellipsis'
+                        maxWidth='500px'
+                        title={title}
+                    />
+                    <EditableInput
+                        onClick={e => e.stopPropagation()}
+                        maxWidth='500px'
+                    />
                     <EditableControls {...props} />
                 </>
             )}

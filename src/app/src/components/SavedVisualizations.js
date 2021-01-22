@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Box, Text, Flex, Spacer, IconButton } from '@chakra-ui/react';
+import { Box, Text, Heading, Flex, Button, IconButton } from '@chakra-ui/react';
 import { useHistory } from 'react-router-dom';
 import { IoIosArrowRoundForward, IoIosTrash } from 'react-icons/io';
 
@@ -9,6 +9,7 @@ import { setVisualization } from '../redux/app.actions';
 import { deleteVisualization } from '../redux/visualizations.actions';
 import Breadcrumbs from './Breadcrumbs';
 import EditableTitle from './EditableTitle';
+import { IoIosArrowRoundBack } from 'react-icons/io';
 
 const SavedVisualizations = () => {
     const history = useHistory();
@@ -25,11 +26,8 @@ const SavedVisualizations = () => {
         index
     ) => (
         <Flex
-            bg='white'
-            p={4}
-            m={4}
-            borderRadius='sm'
             role='button'
+            layerStyle='savedVizButton'
             onClick={() =>
                 onClickList({
                     currentQuestions,
@@ -38,32 +36,41 @@ const SavedVisualizations = () => {
                     geoMode,
                 })
             }
-            direction='column'
             key={`${index}-${title}`}
         >
-            <Flex flex={1}>
-                <Flex flex={1}>
+            <Box flex={1}>
+                <Flex>
                     <EditableTitle title={title} index={index} />
                 </Flex>
-                <Flex alignItems='center' ml={4}>
-                    <Text fontSize='3xl'>
-                        <IoIosArrowRoundForward />
-                    </Text>
-                </Flex>
-            </Flex>
-            <Flex role='group'>
-                <Text>{currentQuestions.length} questions</Text>
-                <Spacer />
-                <Text fontSize='3xl'>
-                    <IconButton
-                        aria-label='Delete visualization'
-                        icon={<IoIosTrash />}
+                <Flex role='group'>
+                    <Text>{currentQuestions.length} questions</Text>
+                    <Box as='span' opacity='0.5' mx={1}>
+                        •
+                    </Box>
+                    <Button
+                        leftIcon={<IoIosTrash />}
+                        textTransform='none'
+                        letterSpacing='0'
+                        size='small'
+                        variant='ghost'
+                        colorScheme='red'
                         onClick={e => {
                             e.stopPropagation();
                             dispatch(deleteVisualization(index));
                         }}
-                    />
-                </Text>
+                    >
+                        Delete
+                    </Button>
+                </Flex>
+            </Box>
+            <Flex alignSelf='center' ml={4}>
+                <IconButton
+                    className='arrow-button'
+                    size='md'
+                    variant='ghost'
+                    isRound
+                    icon={<IoIosArrowRoundForward size={32} />}
+                />
             </Flex>
         </Flex>
     );
@@ -71,37 +78,46 @@ const SavedVisualizations = () => {
     return (
         <Box>
             <Breadcrumbs />
-            <Flex
-                bg='white'
-                p={4}
-                border='1px solid rgb(222, 227, 233)'
-                align='baseline'
-            >
-                <Text fontSize='2xl'>Saved Charts</Text>
-                <Spacer />
+            <Flex layerStyle='selector' alignItems='baseline'>
+                <Heading as='h2' textStyle='h2' mb='0'>
+                    Saved Charts
+                </Heading>
                 <Text>
                     Charts are saved locally in your browser. Clearing your
                     browser data may impact this page.
                 </Text>
             </Flex>
-            <Box p={4}>
+            <Box
+                direction='column'
+                maxW='960px'
+                mt={8}
+                mx={{ base: 4, md: 4, lg: 'auto' }}
+            >
                 {visualizations.length ? (
                     visualizations.map(renderSavedVisualization)
                 ) : (
-                    <Flex
-                        bg='white'
+                    <Box
                         p={4}
                         m={4}
                         borderRadius='sm'
-                        as='button'
-                        onClick={() => history.push(ROUTES.HOME)}
+                        textAlign='center'
+                        maxW='500px'
+                        mx={{ base: 4, md: 4, lg: 'auto' }}
                     >
-                        <Text fontSize='3xl'>
-                            You have no saved charts yet. Click the 'Save'
+                        <Text fontSize='lg'>
+                            You have no saved charts yet. Click the “Save”
                             button on the charts page in order to keep track of
                             them here.
                         </Text>
-                    </Flex>
+                        <Button
+                            as='button'
+                            leftIcon={IoIosArrowRoundBack}
+                            mt={4}
+                            onClick={() => history.push(ROUTES.HOME)}
+                        >
+                            Go to Home
+                        </Button>
+                    </Box>
                 )}
             </Box>
         </Box>

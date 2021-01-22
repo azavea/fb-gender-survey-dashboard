@@ -135,8 +135,8 @@ const QuestionSelector = () => {
             if (item.cat) {
                 return (
                     <Box>
-                        <Text fontWeight='bold'>{item.cat}</Text>
-                        <Text>{`(Answer to: ${item.question})`}</Text>
+                        <Text>{item.question}</Text>
+                        <Text fontWeight='bold'>{`Answered: ${item.cat}`}</Text>
                     </Box>
                 );
             }
@@ -196,23 +196,6 @@ const QuestionSelector = () => {
             );
         });
 
-        if (!questions.length) {
-            return (
-                <Heading
-                    flex='1'
-                    textAlign='left'
-                    fontSize='2xl'
-                    fontWeight='regular'
-                    as='h3'
-                    bg='white'
-                    p={4}
-                    mt={4}
-                >
-                    {cat} contains no matching questions.
-                </Heading>
-            );
-        }
-
         const allChecked = questionCodes.every(qcode =>
             currentQuestions.includes(qcode)
         );
@@ -222,28 +205,58 @@ const QuestionSelector = () => {
 
         return (
             <AccordionItem key={`qgroup-${catCode}`}>
-                <AccordionButton>
-                    <Checkbox
-                        p={3}
-                        value={catCode}
-                        isIndeterminate={isIndeterminate}
-                    />
-                    <Heading
-                        flex='1'
-                        textAlign='left'
-                        fontSize='2xl'
-                        fontWeight='regular'
-                        as='h3'
-                    >
-                        {cat}
-                    </Heading>
-                    <AccordionIcon />
-                </AccordionButton>
-                <AccordionPanel>
-                    <VStack alignItems='start' spacing={6}>
-                        {questions}
-                    </VStack>
-                </AccordionPanel>
+                {({ isExpanded }) => (
+                    <>
+                        <AccordionButton alignItems='flex-start' p={3}>
+                            <Checkbox
+                                p={2}
+                                mr={2}
+                                value={catCode}
+                                isIndeterminate={isIndeterminate}
+                                isDisabled={!questions.length && true}
+                            />
+                            <Box flex='1' py={1}>
+                                <Heading
+                                    textAlign='left'
+                                    fontSize='2xl'
+                                    fontWeight='regular'
+                                    as='h3'
+                                >
+                                    {cat}
+                                </Heading>
+                                {!questions.length <= 0 && !isExpanded && (
+                                    <Heading
+                                        textAlign='left'
+                                        fontSize='md'
+                                        color='gray.500'
+                                        fontWeight='600'
+                                        as='p'
+                                        mt={1}
+                                    >
+                                        {questions.length} questions
+                                    </Heading>
+                                )}
+                            </Box>
+                            <AccordionIcon alignSelf='center' />
+                        </AccordionButton>
+                        <AccordionPanel pt={4} px={16} pb={8}>
+                            {!questions.length && (
+                                <Heading
+                                    textAlign='left'
+                                    fontSize='md'
+                                    fontWeight='regular'
+                                    as='p'
+                                    fontStyle='italic'
+                                >
+                                    Contains no matching questions.
+                                </Heading>
+                            )}
+                            <VStack alignItems='start' spacing={6}>
+                                {questions}
+                            </VStack>
+                        </AccordionPanel>
+                    </>
+                )}
             </AccordionItem>
         );
     });

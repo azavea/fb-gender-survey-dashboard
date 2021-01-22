@@ -5,16 +5,15 @@ import { IoIosArrowRoundBack } from 'react-icons/io';
 
 const NotFound = () => (
     <VStack spacing={4} margin={8}>
-        <Heading size='xl'>404</Heading>
-        <Heading as='h2' size='2xl'>
-            Something's missing.
+        <Heading as='h2' size='xl'>
+            404
         </Heading>
         <Text>
-            The page you're looking for doesn't exist, or the link you followed
+            The page you’re looking for doesn’t exist, or the link you followed
             was incorrect.
         </Text>
         <Link as={RouterLink} to='/'>
-            <Icon as={IoIosArrowRoundBack} /> Go back home
+            <Icon as={IoIosArrowRoundBack} /> Go to home
         </Link>
     </VStack>
 );
