@@ -44,7 +44,7 @@ const StackedBarChart = ({ items }) => {
                     data={data}
                     keys={keys}
                     indexBy='index'
-                    margin={{ top: 50, right: 250, bottom: 50, left: 80 }}
+                    margin={{ top: 50, right: 250, bottom: 60, left: 80 }}
                     pixelRatio={2}
                     padding={0.25}
                     innerPadding={0}
@@ -69,6 +69,9 @@ const StackedBarChart = ({ items }) => {
                         tickPadding: 10,
                         tickRotation: 0,
                         format: formatValue,
+                        legend: 'Percent providing given response',
+                        legendPosition: 'middle',
+                        legendOffset: 45,
                     }}
                     tooltipFormat={formatValue}
                     theme={{
