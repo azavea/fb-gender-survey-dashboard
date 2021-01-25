@@ -54,7 +54,20 @@ const StackedBarChart = ({ items }) => {
                     maxValue={100}
                     groupMode='stacked'
                     layout='horizontal'
-                    colors={{ scheme: 'dark2' }}
+                    colors={item => {
+                        if (item.id === 'Strongly Disagree/Disagree') {
+                            return 'rgb(54, 17, 52)';
+                        } else if (item.id === 'Neutral') {
+                            return 'rgb(243, 164, 142)';
+                        } else if (item.id === 'Strongly Agree/Agree') {
+                            return 'rgb(220, 56, 70)';
+                        } else {
+                            console.warning(
+                                'An unexpected item was passed to the chart.'
+                            );
+                            return 'rgb(198, 198, 198)';
+                        }
+                    }}
                     axisTop={{
                         tickSize: 0,
                         tickPadding: 5,

@@ -22,6 +22,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Update Text Copy and Header [#70](https://github.com/azavea/fb-gender-survey-dashboard/pull/70)
 - Adjust Grouped Bar Height [#77](https://github.com/azavea/fb-gender-survey-dashboard/pull/77)
 - Small Features [#79](https://github.com/azavea/fb-gender-survey-dashboard/pull/79)
+- Update Chart Colors [#81](https://github.com/azavea/fb-gender-survey-dashboard/pull/81)
 
 ### Fixed
 
