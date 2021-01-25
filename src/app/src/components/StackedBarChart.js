@@ -20,6 +20,7 @@ const StackedBarChart = ({ items }) => {
             [{ index: 'Total' }, { index: 'Men' }, { index: 'Women' }]
         );
         const keys = responses.map(r => r.cat);
+        const formatValue = v => `${v}%`;
 
         return (
             <Box
@@ -43,14 +44,14 @@ const StackedBarChart = ({ items }) => {
                     data={data}
                     keys={keys}
                     indexBy='index'
-                    margin={{ top: 50, right: 250, bottom: 50, left: 80 }}
+                    margin={{ top: 50, right: 250, bottom: 60, left: 80 }}
                     pixelRatio={2}
                     padding={0.25}
                     innerPadding={0}
                     enableGridX={true}
                     enableGridY={false}
                     minValue='auto'
-                    maxValue='auto'
+                    maxValue={100}
                     groupMode='stacked'
                     layout='horizontal'
                     colors={{ scheme: 'dark2' }}
@@ -67,7 +68,12 @@ const StackedBarChart = ({ items }) => {
                         tickSize: 0,
                         tickPadding: 10,
                         tickRotation: 0,
+                        format: formatValue,
+                        legend: 'Percent providing given response',
+                        legendPosition: 'middle',
+                        legendOffset: 45,
                     }}
+                    tooltipFormat={formatValue}
                     theme={{
                         fontSize: 14,
                         background: 'white',

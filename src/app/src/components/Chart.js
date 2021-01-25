@@ -12,7 +12,8 @@ const Chart = ({ items }) => {
         <>
             <Text fontSize='2xl'>{question.question}</Text>
             <Text as='strong' fontSize='2xl'>
-                Answered: {question.cat}
+                {question.type === 'pct' ? 'Percent who answered' : 'Answered'}:{' '}
+                {question.cat}
             </Text>
         </>
     ) : (

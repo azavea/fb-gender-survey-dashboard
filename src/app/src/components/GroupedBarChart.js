@@ -21,7 +21,34 @@ const GroupedBarChart = ({ items }) => {
     const formatValue = v =>
         isPercent ? `${v}%` : parseFloat(v).toLocaleString();
 
-    const legend = cat ? `Answered "${cat}" to ${qcode}` : `Answered ${qcode}`;
+    let legend = `Answered ${qcode}`;
+
+    if (cat) {
+        legend = isPercent
+            ? `Percent who answered "${cat}" to ${qcode}`
+            : `Answered "${cat}" to ${qcode}`;
+    } else {
+        legend = isPercent
+            ? `Percent who answered ${qcode}`
+            : `Answered ${qcode}`;
+    }
+
+    const axisBottom = isPercent
+        ? {
+              tickSize: 0,
+              tickPadding: 10,
+              tickRotation: 0,
+              format: formatValue,
+              legend: 'Percent providing given response',
+              legendPosition: 'middle',
+              legendOffset: 50,
+          }
+        : {
+              tickSize: 0,
+              tickPadding: 10,
+              tickRotation: 0,
+              format: formatValue,
+          };
 
     const containerRef = useRef();
 
@@ -48,7 +75,12 @@ const GroupedBarChart = ({ items }) => {
                 data={data}
                 keys={keys}
                 indexBy='geo'
-                margin={{ top: 50, right: 110, bottom: 50, left: 220 }}
+                margin={{
+                    top: 50,
+                    right: 110,
+                    bottom: isPercent ? 60 : 50,
+                    left: 220,
+                }}
                 pixelRatio={2}
                 padding={0.15}
                 innerPadding={0}
@@ -68,12 +100,7 @@ const GroupedBarChart = ({ items }) => {
                     legendPosition: 'middle',
                     legendOffset: -15,
                 }}
-                axisBottom={{
-                    tickSize: 0,
-                    tickPadding: 10,
-                    tickRotation: 0,
-                    format: formatValue,
-                }}
+                axisBottom={axisBottom}
                 tooltipFormat={formatValue}
                 theme={{
                     fontSize: 16,
