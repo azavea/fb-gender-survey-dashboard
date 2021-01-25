@@ -25,10 +25,11 @@ const GroupedBarChart = ({ items }) => {
 
     const containerRef = useRef();
 
+    const height = 150 + data.length * 50;
+
     return (
         <Box
             className='chart-container'
-            h={250}
             ref={containerRef}
             border='1px solid'
             borderColor='gray.100'
@@ -36,6 +37,7 @@ const GroupedBarChart = ({ items }) => {
             bg='white'
             borderRadius='md'
             m={4}
+            height={height}
         >
             <DownloadMenu
                 chartContainerRef={containerRef}
