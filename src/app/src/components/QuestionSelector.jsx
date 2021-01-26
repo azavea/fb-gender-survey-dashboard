@@ -38,14 +38,68 @@ const QuestionSelector = () => {
     // Select the appropriate config file based on the current geoMode
     const config = CONFIG[geoMode];
 
+    // Determine the indexes of any categories that currently have questions
+    // selected. These will be expanded by default.
+    const categoryLetterCodes = Object.values(config.categories);
+    const currentlySelectedCategories = new Set(
+        currentQuestions.map(q => q[0].toUpperCase())
+    );
+    const currentlySelectedCategoryIndexes = Array.from(
+        currentlySelectedCategories
+    ).map(catCode => categoryLetterCodes.indexOf(catCode));
+
+    const [expandedCategoryIndexes, setExpandedCategoryIndexes] = useState(
+        currentlySelectedCategoryIndexes
+    );
+
+    // Known categories
+    const questionsByCategory = { A: [], B: [], C: [], D: [] };
+
+    const getCategoryData = query =>
+        Object.keys(config.categories).map(cat => {
+            const catCode = config.categories[cat];
+            const questionCodes = questionsByCategory[catCode];
+
+            const filteredQuestionCodes = query.trim().length
+                ? questionCodes.filter(q => {
+                      const item = config.survey[q];
+                      return (
+                          currentQuestions.includes(q) ||
+                          (item &&
+                              formatQuery(
+                                  `${item.question} ${item.cat}`
+                              ).includes(formatQuery(query)))
+                      );
+                  })
+                : questionCodes;
+            return { cat, catCode, questionCodes, filteredQuestionCodes };
+        });
+
+    const handleSetQuery = text => {
+        setQuery(text);
+        if (text.trim().length) {
+            const additionalItems = getCategoryData(text)
+                .filter(
+                    ({ filteredQuestionCodes, catCode }) =>
+                        filteredQuestionCodes.length &&
+                        !expandedCategoryIndexes.includes(
+                            categoryLetterCodes.indexOf(catCode)
+                        )
+                )
+                .map(({ catCode }) => categoryLetterCodes.indexOf(catCode));
+
+            setExpandedCategoryIndexes([
+                ...expandedCategoryIndexes,
+                ...additionalItems,
+            ]);
+        }
+    };
+
     // If a page reloads directly to this page, restart at home
     if (!currentGeo.length) {
         history.push('/');
         return null;
     }
-
-    // Known categories
-    const questionsByCategory = { A: [], B: [], C: [], D: [] };
 
     const handleQuestionSelect = selected => {
         let newSelections = selected;
@@ -155,111 +209,87 @@ const QuestionSelector = () => {
         return item.question;
     };
 
-    // Detremine the indexes of any categories that currently have questions
-    // selected. These will be expanded by default.
-    const categoryLetterCodes = Object.values(config.categories);
-    const currentlySelectedCategories = new Set(
-        currentQuestions.map(q => q[0].toUpperCase())
-    );
-    const currentlySelectedCategoryIndexes = Array.from(
-        currentlySelectedCategories
-    ).map(catCode => categoryLetterCodes.indexOf(catCode));
+    const categories = getCategoryData(query).map(
+        ({ cat, catCode, questionCodes, filteredQuestionCodes }) => {
+            const questions = filteredQuestionCodes.map(q => {
+                return (
+                    <Checkbox
+                        key={q}
+                        value={q}
+                        size='lg'
+                        colorScheme='red'
+                        alignItems='flex-start'
+                    >
+                        {getQuestionCheckboxLabel(q)}
+                    </Checkbox>
+                );
+            });
 
-    const categories = Object.keys(config.categories).map(cat => {
-        const catCode = config.categories[cat];
-        const questionCodes = questionsByCategory[catCode];
-
-        const filteredQuestionCodes = query.trim().length
-            ? questionCodes.filter(q => {
-                  const item = config.survey[q];
-                  return (
-                      currentQuestions.includes(q) ||
-                      (item &&
-                          formatQuery(`${item.question} ${item.cat}`).includes(
-                              formatQuery(query)
-                          ))
-                  );
-              })
-            : questionCodes;
-
-        const questions = filteredQuestionCodes.map(q => {
-            return (
-                <Checkbox
-                    key={q}
-                    value={q}
-                    size='lg'
-                    colorScheme='red'
-                    alignItems='flex-start'
-                >
-                    {getQuestionCheckboxLabel(q)}
-                </Checkbox>
+            const allChecked = questionCodes.every(qcode =>
+                currentQuestions.includes(qcode)
             );
-        });
+            const isIndeterminate =
+                questionCodes.some(qcode => currentQuestions.includes(qcode)) &&
+                !allChecked;
 
-        const allChecked = questionCodes.every(qcode =>
-            currentQuestions.includes(qcode)
-        );
-        const isIndeterminate =
-            questionCodes.some(qcode => currentQuestions.includes(qcode)) &&
-            !allChecked;
-
-        return (
-            <AccordionItem key={`qgroup-${catCode}`}>
-                {({ isExpanded }) => (
-                    <>
-                        <AccordionButton alignItems='flex-start' p={3}>
-                            <Checkbox
-                                p={2}
-                                mr={2}
-                                value={catCode}
-                                isIndeterminate={isIndeterminate}
-                                isDisabled={!questions.length && true}
-                            />
-                            <Box flex='1' py={1}>
-                                <Heading
-                                    textAlign='left'
-                                    fontSize='2xl'
-                                    fontWeight='regular'
-                                    as='h3'
-                                >
-                                    {cat}
-                                </Heading>
-                                {!questions.length <= 0 && !isExpanded && (
+            return (
+                <AccordionItem key={`qgroup-${catCode}`}>
+                    {({ isExpanded }) => (
+                        <>
+                            <AccordionButton alignItems='flex-start' p={3}>
+                                <Checkbox
+                                    p={2}
+                                    mr={2}
+                                    value={catCode}
+                                    isIndeterminate={isIndeterminate}
+                                    isDisabled={!questions.length && true}
+                                />
+                                <Box flex='1' py={1}>
+                                    <Heading
+                                        textAlign='left'
+                                        fontSize='2xl'
+                                        fontWeight='regular'
+                                        as='h3'
+                                    >
+                                        {cat}
+                                    </Heading>
+                                    {!questions.length <= 0 && !isExpanded && (
+                                        <Heading
+                                            textAlign='left'
+                                            fontSize='md'
+                                            color='gray.500'
+                                            fontWeight='600'
+                                            as='p'
+                                            mt={1}
+                                        >
+                                            {questions.length} questions
+                                        </Heading>
+                                    )}
+                                </Box>
+                                <AccordionIcon alignSelf='center' />
+                            </AccordionButton>
+                            <AccordionPanel pt={4} px={16} pb={8}>
+                                {!questions.length && (
                                     <Heading
                                         textAlign='left'
                                         fontSize='md'
-                                        color='gray.500'
-                                        fontWeight='600'
+                                        fontWeight='regular'
                                         as='p'
-                                        mt={1}
+                                        fontStyle='italic'
                                     >
-                                        {questions.length} questions
+                                        Contains no matching questions.
                                     </Heading>
                                 )}
-                            </Box>
-                            <AccordionIcon alignSelf='center' />
-                        </AccordionButton>
-                        <AccordionPanel pt={4} px={16} pb={8}>
-                            {!questions.length && (
-                                <Heading
-                                    textAlign='left'
-                                    fontSize='md'
-                                    fontWeight='regular'
-                                    as='p'
-                                    fontStyle='italic'
-                                >
-                                    Contains no matching questions.
-                                </Heading>
-                            )}
-                            <VStack alignItems='start' spacing={6}>
-                                {questions}
-                            </VStack>
-                        </AccordionPanel>
-                    </>
-                )}
-            </AccordionItem>
-        );
-    });
+                                <VStack alignItems='start' spacing={6}>
+                                    {questions}
+                                </VStack>
+                            </AccordionPanel>
+                        </>
+                    )}
+                </AccordionItem>
+            );
+        }
+    );
 
     return (
         <Box>
@@ -306,7 +336,7 @@ const QuestionSelector = () => {
                         </Link>
                     </Text>
                     <Box width='350px'>
-                        <SearchInput query={query} setQuery={setQuery} />
+                        <SearchInput query={query} setQuery={handleSetQuery} />
                     </Box>
                 </HStack>
                 <Box>
@@ -319,7 +349,8 @@ const QuestionSelector = () => {
                     >
                         <Accordion
                             allowMultiple
-                            defaultIndex={currentlySelectedCategoryIndexes}
+                            index={expandedCategoryIndexes}
+                            onChange={e => setExpandedCategoryIndexes(e)}
                         >
                             {categories}
                         </Accordion>
