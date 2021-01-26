@@ -62,6 +62,20 @@ const WaffleChart = ({ items }) => {
                                 data={data}
                                 key={`waffle-${question.qcode}${response.geo}${data[0].label}`}
                                 pixelRatio={2}
+                                colors={item => {
+                                    if (item.label === 'Women') {
+                                        return 'rgb(54, 17, 52)';
+                                    } else if (item.label === 'Men') {
+                                        return 'rgb(220, 56, 70)';
+                                    } else if (item.label === 'Total') {
+                                        return 'rgb(243, 164, 142)';
+                                    } else {
+                                        console.warning(
+                                            'An unexpected item was passed to the chart.'
+                                        );
+                                        return 'rgb(198, 198, 198)';
+                                    }
+                                }}
                                 total={10}
                                 rows={2}
                                 columns={5}

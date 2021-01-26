@@ -90,7 +90,20 @@ const GroupedBarChart = ({ items }) => {
                 maxValue={isPercent ? 100 : 'auto'}
                 groupMode='grouped'
                 layout='horizontal'
-                colors={{ scheme: 'set1' }}
+                colors={item => {
+                    if (item.id === 'Women') {
+                        return 'rgb(54, 17, 52)';
+                    } else if (item.id === 'Men') {
+                        return 'rgb(220, 56, 70)';
+                    } else if (item.id === 'Total') {
+                        return 'rgb(243, 164, 142)';
+                    } else {
+                        console.warning(
+                            'An unexpected item was passed to the chart.'
+                        );
+                        return 'rgb(198, 198, 198)';
+                    }
+                }}
                 axisTop={{
                     tickSize: 0,
                     tickPadding: 5,
