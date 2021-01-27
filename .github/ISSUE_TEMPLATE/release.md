@@ -48,3 +48,4 @@ git flow release finish -p X.Y.Z
 ```
 
 - [ ] Test the production site
+- [ ] Under Releases on the repository main page, select the new tag and publish it. 
