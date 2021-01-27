@@ -1,10 +1,27 @@
 .btn-icon {
-  vertical-align: middle;
-  height: 1.75rem;
-  width: 1.75rem;
+    vertical-align: middle;
+    height: 1.75rem;
+    width: 1.75rem;
 }
 
 .js-focus-visible :focus:not([data-focus-visible-added]) {
-  outline: none;
-  box-shadow: none;
+    outline: none;
+    box-shadow: none;
+}
+
+div.chart-container {
+    position: relative;
+}
+
+div.download-menu {
+    visibility: hidden;
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    z-index: 9;
+}
+
+div.chart-container:hover div.download-menu,
+div.chart-container:focus div.download-menu {
+    visibility: visible;
 }

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import {
@@ -15,17 +15,22 @@ import {
     Text,
     Heading,
     VStack,
+    Flex,
+    Link,
 } from '@chakra-ui/react';
 import { IoIosArrowRoundForward } from 'react-icons/io';
 import { IconContext } from 'react-icons';
 
 import { setQuestionKeys } from '../redux/app.actions';
-import { CONFIG } from '../utils/constants';
+import { CONFIG, ROUTES } from '../utils/constants';
+import { formatQuery } from '../utils';
 import Breadcrumbs from './Breadcrumbs';
+import SearchInput from './SearchInput';
 
 const QuestionSelector = () => {
     const history = useHistory();
     const dispatch = useDispatch();
+    const [query, setQuery] = useState('');
     const { currentGeo, currentQuestions, geoMode } = useSelector(
         state => state.app
     );
@@ -39,16 +44,64 @@ const QuestionSelector = () => {
         return null;
     }
 
-    const handleQuestionSelect = selected => {
-        // TODO: check if it's a catCode and select all subelements
-        dispatch(setQuestionKeys(selected));
-    };
-    const handleNext = () => {
-        history.push('/visualization');
-    };
-
     // Known categories
     const questionsByCategory = { A: [], B: [], C: [], D: [] };
+
+    const handleQuestionSelect = selected => {
+        let newSelections = selected;
+
+        if (selected.length > currentQuestions.length) {
+            // We added a qcode - find added qcode
+            const newQcode = selected.find(
+                qcode => !currentQuestions.includes(qcode)
+            );
+
+            // If adding a category code, add all questions for category
+            if (Object.keys(questionsByCategory).includes(newQcode)) {
+                newSelections = [
+                    ...selected,
+                    ...questionsByCategory[newQcode].filter(
+                        qcode => !selected.includes(qcode)
+                    ),
+                ];
+            }
+        } else {
+            // We removed a qcode - find removed qcode
+            const removedQcode = currentQuestions.find(
+                qcode => !selected.includes(qcode)
+            );
+
+            // If removing a category code, remove all questions for category
+            if (Object.keys(questionsByCategory).includes(removedQcode)) {
+                newSelections = selected.filter(
+                    qcode => !questionsByCategory[removedQcode].includes(qcode)
+                );
+            }
+        }
+
+        // When using a checkbox group, the prop 'isChecked' is overridden
+        // by the value passed to the group. Therefore, we must manually
+        // add the category code to the current questions if all the questions
+        // in that category are selected, and deselect in the opposite case.
+        Object.keys(questionsByCategory).forEach(catCode => {
+            const allChildrenChecked = questionsByCategory[
+                catCode
+            ].every(qcode => newSelections.includes(qcode));
+            if (allChildrenChecked && !newSelections.includes(catCode)) {
+                newSelections.push(catCode);
+            } else if (!allChildrenChecked && newSelections.includes(catCode)) {
+                newSelections = newSelections.filter(
+                    qcode => qcode !== catCode
+                );
+            }
+        });
+
+        dispatch(setQuestionKeys(newSelections));
+    };
+
+    const handleNext = () => {
+        history.push(ROUTES.VISUALIZATIONS);
+    };
 
     Object.entries(config.survey).forEach(([key, question]) => {
         const categoryCode = question.qcode[0].toUpperCase();
@@ -82,8 +135,8 @@ const QuestionSelector = () => {
             if (item.cat) {
                 return (
                     <Box>
-                        <Text fontWeight='bold'>{item.cat}</Text>
-                        <Text>{`(Answer to: ${item.question})`}</Text>
+                        <Text>{item.question}</Text>
+                        <Text fontWeight='bold'>{`Answered: ${item.cat}`}</Text>
                     </Box>
                 );
             }
@@ -115,33 +168,95 @@ const QuestionSelector = () => {
     const categories = Object.keys(config.categories).map(cat => {
         const catCode = config.categories[cat];
         const questionCodes = questionsByCategory[catCode];
-        const questions = questionCodes.map(q => {
+
+        const filteredQuestionCodes = query.trim().length
+            ? questionCodes.filter(q => {
+                  const item = config.survey[q];
+                  return (
+                      currentQuestions.includes(q) ||
+                      (item &&
+                          formatQuery(`${item.question} ${item.cat}`).includes(
+                              formatQuery(query)
+                          ))
+                  );
+              })
+            : questionCodes;
+
+        const questions = filteredQuestionCodes.map(q => {
             return (
-                <Checkbox key={q} value={q} size='lg' colorScheme='red'>
+                <Checkbox
+                    key={q}
+                    value={q}
+                    size='lg'
+                    colorScheme='red'
+                    alignItems='flex-start'
+                >
                     {getQuestionCheckboxLabel(q)}
                 </Checkbox>
             );
         });
+
+        const allChecked = questionCodes.every(qcode =>
+            currentQuestions.includes(qcode)
+        );
+        const isIndeterminate =
+            questionCodes.some(qcode => currentQuestions.includes(qcode)) &&
+            !allChecked;
+
         return (
             <AccordionItem key={`qgroup-${catCode}`}>
-                <AccordionButton>
-                    <Checkbox p={3} value={catCode} />
-                    <Heading
-                        flex='1'
-                        textAlign='left'
-                        fontSize='2xl'
-                        fontWeight='regular'
-                        as='h3'
-                    >
-                        {cat}
-                    </Heading>
-                    <AccordionIcon />
-                </AccordionButton>
-                <AccordionPanel>
-                    <VStack alignItems='start' spacing={6}>
-                        {questions}
-                    </VStack>
-                </AccordionPanel>
+                {({ isExpanded }) => (
+                    <>
+                        <AccordionButton alignItems='flex-start' p={3}>
+                            <Checkbox
+                                p={2}
+                                mr={2}
+                                value={catCode}
+                                isIndeterminate={isIndeterminate}
+                                isDisabled={!questions.length && true}
+                            />
+                            <Box flex='1' py={1}>
+                                <Heading
+                                    textAlign='left'
+                                    fontSize='2xl'
+                                    fontWeight='regular'
+                                    as='h3'
+                                >
+                                    {cat}
+                                </Heading>
+                                {!questions.length <= 0 && !isExpanded && (
+                                    <Heading
+                                        textAlign='left'
+                                        fontSize='md'
+                                        color='gray.500'
+                                        fontWeight='600'
+                                        as='p'
+                                        mt={1}
+                                    >
+                                        {questions.length} questions
+                                    </Heading>
+                                )}
+                            </Box>
+                            <AccordionIcon alignSelf='center' />
+                        </AccordionButton>
+                        <AccordionPanel pt={4} px={16} pb={8}>
+                            {!questions.length && (
+                                <Heading
+                                    textAlign='left'
+                                    fontSize='md'
+                                    fontWeight='regular'
+                                    as='p'
+                                    fontStyle='italic'
+                                >
+                                    Contains no matching questions.
+                                </Heading>
+                            )}
+                            <VStack alignItems='start' spacing={6}>
+                                {questions}
+                            </VStack>
+                        </AccordionPanel>
+                    </>
+                )}
             </AccordionItem>
         );
     });
@@ -149,8 +264,8 @@ const QuestionSelector = () => {
     return (
         <Box>
             <Breadcrumbs />
-            <HStack>
-                <Heading as='h2' fontWeight='light'>
+            <Flex layerStyle='selector'>
+                <Heading as='h2' textStyle='h2' mb='0'>
                     Select questions
                 </Heading>
                 <Button
@@ -166,22 +281,51 @@ const QuestionSelector = () => {
                 >
                     Next
                 </Button>
-            </HStack>
-            <Box>
-                <CheckboxGroup
-                    size='xl'
-                    colorScheme='red'
-                    defaultValue={currentQuestions}
-                    onChange={handleQuestionSelect}
-                >
-                    <Accordion
-                        allowMultiple
-                        defaultIndex={currentlySelectedCategoryIndexes}
+            </Flex>
+            <Flex my={2} mx={{ base: 4, md: 4, lg: 8 }}>
+                <Text size='2xl' fontWeight='bold'>
+                    {currentGeo.join(', ')}
+                </Text>
+            </Flex>
+            <Flex
+                direction='column'
+                maxW='960px'
+                mt={8}
+                mx={{ base: 4, md: 4, lg: 'auto' }}
+            >
+                <HStack mb={4}>
+                    <Text size='sm'>
+                        The survey was structured into four sections to provide
+                        a snapshot of gender dynamics during Covid-19.{' '}
+                        <Link
+                            href='https://dataforgood.fb.com/wp-content/uploads/2020/09/Survey-on-Gender-Equality-at-Home-Report-1.pdf#page=60'
+                            textDecoration='underline'
+                            isExternal
+                        >
+                            View the full survey here.
+                        </Link>
+                    </Text>
+                    <Box width='350px'>
+                        <SearchInput query={query} setQuery={setQuery} />
+                    </Box>
+                </HStack>
+                <Box>
+                    <CheckboxGroup
+                        size='xl'
+                        colorScheme='red'
+                        defaultValue={currentQuestions}
+                        value={currentQuestions}
+                        onChange={handleQuestionSelect}
                     >
-                        {categories}
-                    </Accordion>
-                </CheckboxGroup>
-            </Box>
+                        <Accordion
+                            allowMultiple
+                            defaultIndex={currentlySelectedCategoryIndexes}
+                        >
+                            {categories}
+                        </Accordion>
+                    </CheckboxGroup>
+                </Box>
+            </Flex>
         </Box>
     );
 };

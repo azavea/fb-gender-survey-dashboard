@@ -1,20 +1,27 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
+    Accordion,
+    AccordionItem,
+    AccordionIcon,
+    AccordionPanel,
+    AccordionButton,
     Box,
+    ButtonGroup,
     Button,
-    HStack,
+    Heading,
     Text,
-    Divider,
     Flex,
     Spacer,
 } from '@chakra-ui/react';
 import { useHistory } from 'react-router-dom';
-import { IoIosCheckmark } from 'react-icons/io';
+import { IoIosCheckmark, IoIosStar, IoMdDownload } from 'react-icons/io';
 
 import { CONFIG } from '../utils/constants';
 import { DataIndexer } from '../utils';
+import { downloadVisualizationsCSV } from '../utils/csv';
 import { saveVisualization } from '../redux/visualizations.actions';
+import { setShowSurvey } from '../redux/survey.actions';
 import Breadcrumbs from './Breadcrumbs';
 import Chart from './Chart';
 
@@ -29,6 +36,20 @@ const Visualizations = () => {
         geoMode,
         data,
     } = useSelector(state => state.app);
+    const { surveyHasBeenDisplayed, showSurvey } = useSelector(
+        state => state.survey
+    );
+
+    // Scroll to top on initial page load
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
+
+    useEffect(() => {
+        if (!surveyHasBeenDisplayed && !showSurvey) {
+            setTimeout(() => dispatch(setShowSurvey(true)), 30000);
+        }
+    }, [showSurvey, surveyHasBeenDisplayed, dispatch]);
 
     // If a page reloads directly to this page, restart at home
     if (!currentQuestions.length || !currentGeo.length) {
@@ -39,6 +60,7 @@ const Visualizations = () => {
     const categorize = questionSet => {
         const questionsByCategory = { A: [], B: [], C: [], D: [] };
         questionSet.forEach(qs => {
+            if (!qs[0].question) return;
             // All responses in a questionset are in the same category. Take the
             // first, and map it to a category key
             const key = qs[0].question.qcode[0].toUpperCase();
@@ -56,6 +78,10 @@ const Visualizations = () => {
 
     const config = CONFIG[geoMode];
 
+    const onDownloadCSV = () => {
+        downloadVisualizationsCSV(categories);
+    };
+
     const onSaveVisualization = () => {
         const title = `${currentGeo.join(', ')}`;
         dispatch(
@@ -70,47 +96,110 @@ const Visualizations = () => {
         setSaved(true);
     };
 
+    const createKey = items =>
+        items[0].response
+            ? `${items[0].response.key}-${items[0].response.geo}`
+            : `${items[0].responses[0].key}-${items[0].responses[0].geo}`;
+
     return (
         <Box>
             <Breadcrumbs />
-            <Flex bg='white' p={4} border='1px solid rgb(222, 227, 233)'>
-                <Text fontSize='2xl'>Selected Charts</Text>
+            <Flex layerStyle='selector'>
+                <Heading as='h2' textStyle='h2' mb='0'>
+                    Selected Charts
+                </Heading>
                 <Spacer />
-                {isSaved ? (
-                    <Button leftIcon={<IoIosCheckmark />} isDisabled>
-                        Saved
+                <ButtonGroup spacing='4' fontWeight='bold'>
+                    <Button
+                        leftIcon={<IoMdDownload size={20} />}
+                        size='sm'
+                        fontWeight='bold'
+                        onClick={onDownloadCSV}
+                    >
+                        Download CSV
                     </Button>
-                ) : (
-                    <Button onClick={onSaveVisualization}>Save</Button>
-                )}
-            </Flex>
-            <Text p={4}>
-                Showing charts for: {currentGeo.join(', ')} •{' '}
-                {currentQuestions.length} questions
-            </Text>
-            <Box>
-                {Object.keys(config.categories).map(cat => (
-                    <Box key={cat}>
-                        <HStack
-                            align='center'
-                            justify='center'
-                            spacing={2}
-                            p={4}
+                    {isSaved ? (
+                        <Box
+                            color='green.700'
+                            borderRadius='sm'
+                            bg='gray.50'
+                            fontWeight='bold'
+                            width='87px'
+                            py='0'
+                            display='flex'
+                            alignItems='center'
+                            textTransform='uppercase'
+                            letterSpacing='1px'
+                            fontSize='sm'
                         >
-                            <Text casing='uppercase' whiteSpace='nowrap'>
-                                {cat}
-                            </Text>
-                            <Divider />
-                        </HStack>
-                        {categories[config.categories[cat]].map(items => (
-                            <Chart
-                                items={items}
-                                key={items[0].question.qcode}
-                            />
-                        ))}
+                            <IoIosCheckmark size={25} />
+                            Saved
+                        </Box>
+                    ) : (
+                        <Button
+                            leftIcon={<IoIosStar size={20} />}
+                            width='88px'
+                            fontWeight='bold'
+                            variant='peach'
+                            size='sm'
+                            onClick={onSaveVisualization}
+                        >
+                            Save
+                        </Button>
+                    )}
+                </ButtonGroup>
+            </Flex>
+            <Flex my={2} mx={{ base: 4, md: 4, lg: 8 }}>
+                <Text size='2xl' fontWeight='bold'>
+                    Showing charts for: {currentGeo.join(', ')}
+                    <Box as='span' opacity='0.5' mx={1}>
+                        •
                     </Box>
-                ))}
-            </Box>
+                    {currentQuestions.length} questions
+                </Text>
+            </Flex>
+            <Flex
+                direction='column'
+                maxW='960px'
+                mt={8}
+                mx={{ base: 4, md: 4, lg: 'auto' }}
+            >
+                <Accordion defaultIndex={[0, 1, 2, 3, 4]} allowMultiple>
+                    {Object.keys(config.categories).map(cat => {
+                        const questions = categories[config.categories[cat]];
+                        if (!questions.length) return null;
+                        return (
+                            <AccordionItem key={cat}>
+                                <AccordionButton
+                                    alignItems='center'
+                                    justifyContent='space-between'
+                                    p={3}
+                                >
+                                    <Heading
+                                        as='h3'
+                                        size='md'
+                                        fontWeight='normal'
+                                    >
+                                        {cat}
+                                    </Heading>
+                                    <AccordionIcon />
+                                </AccordionButton>
+                                <AccordionPanel
+                                    borderTop='2px solid'
+                                    borderColor='gray.50'
+                                >
+                                    {questions.map(items => (
+                                        <Chart
+                                            items={items}
+                                            key={createKey(items)}
+                                        />
+                                    ))}
+                                </AccordionPanel>
+                            </AccordionItem>
+                        );
+                    })}
+                </Accordion>
+            </Flex>
         </Box>
     );
 };

@@ -2,11 +2,12 @@
 
 Interactive exploration of global results from the Facebook "Survey on Gender Equality At Home".
 
-Original data set:
-<https://data.humdata.org/dataset/survey-on-gender-equality-at-home>
+Important links:
 
-Survey results report
-<https://dataforgood.fb.com/docs/gendersurveyreport/>
+- Staging site: <https://develop--gender-survey-dashboard.netlify.app/>
+- Production site: <https://gender-survey-dashboard.netlify.app/>
+- Original data set: <https://data.humdata.org/dataset/survey-on-gender-equality-at-home>
+- Survey results report <https://dataforgood.fb.com/docs/gendersurveyreport/>
 
 ## Requirements
 
@@ -40,9 +41,7 @@ Facebook's data team:
 <https://data.humdata.org/dataset/survey-on-gender-equality-at-home>
 
 To convert the source dataset into a format used by the application, run the
-`dataproc` script on your VM. First, you will need to download the two Excel
-sheets from GDrive and place in `src/dataproc`. In the future, this script will
-automatically download the required data from HDX.
+`dataproc` script on your VM.
 
 ```sh
 vagrant up
@@ -51,8 +50,10 @@ vagrant ssh
 ./scripts/dataproc
 ```
 
-This will download the source data, process it, and convert it to several JSON files. The
-resulting files can be found in `src/dataproc/output`.
+This will download the source data, process it, and convert it to several
+JSON files. The resulting files can be found in `src/dataproc/output`. If the
+upstream HDX data sources are updated, the URLs used in the processing script
+will need to be updated to match.
 
 ### Data files
 
@@ -87,7 +88,7 @@ does not automatically move new data files to decrease the risk that a
 malformed data file will be deployed. Please thoroughly test any newly
 generated data in the application before releasing it.
 
-The two config files should be moved into `src/app/data` from where they are
+The two config files should be moved into `src/app/src/data` from where they are
 directly built into the source code bundles of the app. This is because the
 files are small, and are required for the initial rendering of the homepage.
 By bundling them into the source code we ensure a fast initial render.

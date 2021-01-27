@@ -41,7 +41,9 @@
     "start": "craco start",
     "build": "craco build",
     "test": "craco test",
-    "lint": "eslint ./src --ext .js --ext .jsx"
+    "lint": "eslint ./src --ext .js --ext .jsx",
+    "react-spring-issue-1078": "find node_modules -path \\*@react-spring/\\*/package.json -exec sed -i.bak 's/\"sideEffects\": false/\"sideEffects\": true/g' {} +",
+    "postinstall": "npm run react-spring-issue-1078"
   },
   "eslintConfig": {
     "extends": "react-app"

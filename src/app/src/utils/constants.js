@@ -13,5 +13,6 @@ export const CONFIG = {
 export const ROUTES = {
     HOME: '/',
     QUESTIONS: '/questions',
-    VISUALIZATIONS: '/visualization',
+    VISUALIZATIONS: '/charts',
+    SAVED: '/saved',
 };

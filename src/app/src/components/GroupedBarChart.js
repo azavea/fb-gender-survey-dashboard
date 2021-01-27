@@ -1,34 +1,109 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { Box } from '@chakra-ui/react';
 import { ResponsiveBarCanvas } from '@nivo/bar';
 
-const GroupedBarChart = ({ items, item }) => {
-    const data = items.map(({ response }) => ({
-        ...response,
-        Men: response.male,
-        Women: response.female,
-        Total: response.combined,
-    }));
+import DownloadMenu from './DownloadMenu';
+import { formatGroupedCSV } from '../utils/csv';
+
+const GroupedBarChart = ({ items }) => {
+    const data = items
+        .map(({ response }) => ({
+            ...response,
+            Men: response.male,
+            Women: response.female,
+            Total: response.combined,
+        }))
+        .reverse();
     const keys = ['Total', 'Men', 'Women'];
 
-    const { cat, qcode } = items[0].question;
-    const legend = cat ? `Answered "${cat}" to ${qcode}` : `Answered ${qcode}`;
+    const { cat, qcode, type } = items[0].question;
+    const isPercent = type === 'pct';
+    const formatValue = v =>
+        isPercent ? `${v}%` : parseFloat(v).toLocaleString();
+
+    let legend = `Answered ${qcode}`;
+
+    if (cat) {
+        legend = isPercent
+            ? `Percent who answered "${cat}" to ${qcode}`
+            : `Answered "${cat}" to ${qcode}`;
+    } else {
+        legend = isPercent
+            ? `Percent who answered ${qcode}`
+            : `Answered ${qcode}`;
+    }
+
+    const axisBottom = isPercent
+        ? {
+              tickSize: 0,
+              tickPadding: 10,
+              tickRotation: 0,
+              format: formatValue,
+              legend: 'Percent providing given response',
+              legendPosition: 'middle',
+              legendOffset: 50,
+          }
+        : {
+              tickSize: 0,
+              tickPadding: 10,
+              tickRotation: 0,
+              format: formatValue,
+          };
+
+    const containerRef = useRef();
+
+    const height = 150 + data.length * 50;
 
     return (
-        <Box h={250}>
+        <Box
+            className='chart-container'
+            ref={containerRef}
+            border='1px solid'
+            borderColor='gray.100'
+            p={1}
+            bg='white'
+            borderRadius='md'
+            m={4}
+            height={height}
+        >
+            <DownloadMenu
+                chartContainerRef={containerRef}
+                question={items[0].question}
+                csvData={formatGroupedCSV(items)}
+            />
             <ResponsiveBarCanvas
                 data={data}
                 keys={keys}
                 indexBy='geo'
-                margin={{ top: 50, right: 150, bottom: 50, left: 200 }}
+                margin={{
+                    top: 50,
+                    right: 110,
+                    bottom: isPercent ? 60 : 50,
+                    left: 220,
+                }}
                 pixelRatio={2}
                 padding={0.15}
                 innerPadding={0}
+                enableGridX={true}
+                enableGridY={false}
                 minValue='auto'
-                maxValue='auto'
+                maxValue={isPercent ? 100 : 'auto'}
                 groupMode='grouped'
                 layout='horizontal'
-                colors={{ scheme: 'set1' }}
+                colors={item => {
+                    if (item.id === 'Women') {
+                        return 'rgb(54, 17, 52)';
+                    } else if (item.id === 'Men') {
+                        return 'rgb(220, 56, 70)';
+                    } else if (item.id === 'Total') {
+                        return 'rgb(243, 164, 142)';
+                    } else {
+                        console.warning(
+                            'An unexpected item was passed to the chart.'
+                        );
+                        return 'rgb(198, 198, 198)';
+                    }
+                }}
                 axisTop={{
                     tickSize: 0,
                     tickPadding: 5,
@@ -38,20 +113,29 @@ const GroupedBarChart = ({ items, item }) => {
                     legendPosition: 'middle',
                     legendOffset: -15,
                 }}
-                axisBottom={{
-                    tickSize: 5,
-                    tickPadding: 5,
-                    tickRotation: 0,
-                }}
+                axisBottom={axisBottom}
+                tooltipFormat={formatValue}
                 theme={{
-                    fontSize: 14,
+                    fontSize: 16,
+                    background: 'white',
                     axis: {
+                        domain: {
+                            line: {
+                                stroke: '#d9d9d9',
+                                strokeWidth: 1,
+                            },
+                        },
                         legend: {
                             text: {
                                 fontSize: 14,
                                 fontWeight: 'bold',
                                 width: 200,
                             },
+                        },
+                    },
+                    legends: {
+                        text: {
+                            fill: '#000000',
                         },
                     },
                 }}

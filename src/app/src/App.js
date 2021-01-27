@@ -9,6 +9,9 @@ import Header from './components/Header';
 import GeographySelector from './components/GeographySelector';
 import QuestionSelector from './components/QuestionSelector';
 import Visualizations from './components/Visualizations';
+import SavedVisualizations from './components/SavedVisualizations';
+import SurveyNotification from './components/SurveyNotification';
+import NotFound from './components/NotFound';
 import theme from './theme';
 
 import { setData } from './redux/app.actions';
@@ -36,6 +39,7 @@ function App() {
         <Router>
             <ChakraProvider resetCss theme={theme}>
                 <div className='App'>
+                    <SurveyNotification />
                     <Header />
                     <Switch>
                         <Route exact path={ROUTES.HOME}>
@@ -46,6 +50,12 @@ function App() {
                         </Route>
                         <Route path={ROUTES.VISUALIZATIONS}>
                             <Visualizations />
+                        </Route>
+                        <Route path={ROUTES.SAVED}>
+                            <SavedVisualizations />
+                        </Route>
+                        <Route>
+                            <NotFound />
                         </Route>
                     </Switch>
                 </div>

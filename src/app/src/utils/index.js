@@ -56,11 +56,14 @@ export class DataIndexer {
 
     formatForViz(key, geo) {
         const resp = this.survey[key];
+        if (!resp) {
+            return { key, geo };
+        }
         const idx = resp.idx;
         const d = this.data.geographies[geo];
-        const c = d['Combined'][idx];
-        const m = d['Male'][idx];
-        const f = d['Female'][idx];
+        const c = d['Combined'][idx].toFixed(2);
+        const m = d['Male'][idx].toFixed(2);
+        const f = d['Female'][idx].toFixed(2);
 
         return {
             key: key,
@@ -87,3 +90,5 @@ export class DataIndexer {
         return rest;
     }
 }
+
+export const formatQuery = str => str?.trim().toLowerCase() || '';

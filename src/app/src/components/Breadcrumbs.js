@@ -6,7 +6,6 @@ import {
     BreadcrumbItem,
     BreadcrumbLink,
     Box,
-    Button,
 } from '@chakra-ui/react';
 
 import { ROUTES } from '../utils/constants';
@@ -14,26 +13,29 @@ import { ROUTES } from '../utils/constants';
 const CustomBreadcrumb = ({ isCurrentPage, icon, title, to }) => {
     if (isCurrentPage) {
         return (
-            <BreadcrumbItem spacing={1} isCurrentPage>
-                <BreadcrumbLink>
-                    <Box bg='rgb(72, 86, 92)' size='sm' p={4}>
-                        {title}
-                    </Box>
+            <BreadcrumbItem isCurrentPage>
+                <BreadcrumbLink
+                    textTransform='uppercase'
+                    size='sm'
+                    fontWeight='600'
+                    letterSpacing='1px'
+                    fontSize='0.875rem'
+                    px={2}
+                    py={1}
+                    display='inline-flex'
+                >
+                    {title}
                 </BreadcrumbLink>
             </BreadcrumbItem>
         );
     } else {
         return (
-            <BreadcrumbItem spacing={1}>
-                <BreadcrumbLink as={Link} to={to}>
-                    <Button
-                        bg='rgb(39, 55, 63)'
-                        size='sm'
-                        p={4}
-                        leftIcon={icon}
-                    >
-                        {title}
-                    </Button>
+            <BreadcrumbItem>
+                <BreadcrumbLink as={Link} to={to} display='flex'>
+                    <Box as='span' mr={1}>
+                        {icon}
+                    </Box>
+                    {title}
                 </BreadcrumbLink>
             </BreadcrumbItem>
         );
@@ -47,12 +49,25 @@ const Breadcrumbs = () => {
     const isCharts = pathname === ROUTES.VISUALIZATIONS;
 
     return (
-        <Box bg='rgb(72, 86, 92)' w='100%' p={4} color='white'>
+        <Box
+            bg='gray.600'
+            w='100%'
+            py={4}
+            px={{ base: 1, md: 4, lg: 8 }}
+            color='white'
+            spacing={1}
+            sx={{
+                '.chakra-breadcrumb__list': {
+                    display: 'flex',
+                    alignItems: 'center',
+                },
+            }}
+        >
             <Breadcrumb>
                 <CustomBreadcrumb
                     to={ROUTES.HOME}
                     title='Regions & Countries'
-                    icon={<IoIosHome />}
+                    icon={<IoIosHome size={18} />}
                 />
                 {(isQuestions || isCharts) && (
                     <CustomBreadcrumb
