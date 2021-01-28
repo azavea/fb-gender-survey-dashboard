@@ -46,7 +46,7 @@ const Header = () => {
                     align='flex-start'
                     maxWidth='790px'
                     my={2}
-                    mx={{ base: 1, md: 4, lg: 8 }}
+                    mx={{ sm: 1, md: 4, lg: 8 }}
                 >
                     <ChakraLink href='/' variant='homeLink'>
                         Survey on Gender Equality at Home
@@ -55,14 +55,32 @@ const Header = () => {
             ) : (
                 <Spacer />
             )}
-            <HStack spacing={8} p={2} mr={{ base: 1, md: 4, lg: 8 }}>
-                <Button variant='invertedLink' onClick={faqOnOpen}>
+            <HStack
+                spacing={8}
+                p={2}
+                mr={{ sm: 'auto', md: 4, lg: 8 }}
+                mx={{ sm: 'auto', lg: 0 }}
+            >
+                <Button
+                    fontSize={{ base: 'sm', md: 'md', lg: 'md' }}
+                    variant='invertedLink'
+                    onClick={faqOnOpen}
+                >
                     FAQS
                 </Button>
-                <Button variant='invertedLink' onClick={aboutOnOpen}>
+                <Button
+                    variant='invertedLink'
+                    fontSize={{ base: 'sm', md: 'md', lg: 'md' }}
+                    onClick={aboutOnOpen}
+                >
                     About the Survey
                 </Button>
-                <Button variant='invertedLink' as={Link} to={ROUTES.SAVED}>
+                <Button
+                    variant='invertedLink'
+                    fontSize={{ base: 'sm', md: 'md', lg: 'md' }}
+                    as={Link}
+                    to={ROUTES.SAVED}
+                >
                     Saved Charts
                 </Button>
             </HStack>
@@ -74,22 +92,41 @@ const Header = () => {
             <VStack
                 as='header'
                 bg='linear-gradient(-225deg, rgb(26, 43, 51) 0%, rgb(1, 16, 23) 100%)'
-                p={{ base: 1, md: 4, lg: 8 }}
+                p={{ sm: 2, md: 4, lg: 8 }}
             >
                 {linkBar}
                 <Flex width='100%' justify={titleJustify}>
                     <VStack
                         color='white'
                         maxWidth='54rem'
-                        m={4}
-                        spacing={4}
+                        m={{
+                            sm: 2,
+                            md: 4,
+                        }}
+                        p={{
+                            sm: 2,
+                            md: 4,
+                        }}
                         textAlign='center'
                     >
                         <Heading as='h1' textStyle='h1'>
-                            <Box textStyle='miniTitle'>Dashboard</Box>
+                            <Box
+                                textStyle='miniTitle'
+                                mb={{
+                                    sm: 2,
+                                    md: 0,
+                                }}
+                            >
+                                Dashboard
+                            </Box>
                             Survey on Gender Equality at Home
                         </Heading>
-                        <Text fontSize='lg'>
+                        <Text
+                            fontSize={{
+                                base: 'md',
+                                md: 'lg',
+                            }}
+                        >
                             Explore the country and region-level data from the
                             July 2020 survey, comprising over 460,000 Facebook
                             users in 208 countries, territories, and islands in

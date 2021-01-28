@@ -348,6 +348,7 @@ const QuestionSelector = () => {
                         onChange={handleQuestionSelect}
                     >
                         <Accordion
+                            id='questions-selector-container'
                             allowMultiple
                             index={expandedCategoryIndexes}
                             onChange={e => setExpandedCategoryIndexes(e)}

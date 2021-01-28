@@ -150,7 +150,7 @@ const GeographySelector = () => {
                             </Box>
                         )}
                     </Box>
-                    <Box>
+                    <Box id={`${geoMode}-selector-container`}>
                         <CheckboxGroup
                             key={`geogroup-${geoMode}`}
                             onChange={handleSelection}

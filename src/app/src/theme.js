@@ -259,17 +259,17 @@ const theme = extendTheme({
     },
     textStyles: {
         h1: {
-            fontSize: ['36px', '54px'],
-            fontWeight: 'light',
+            fontSize: { base: '24px', md: '42px', lg: '54px' },
+            fontWeight: { base: 'medium', md: 'light', lg: 'light' },
             lineHeight: '1.1',
         },
         h2: {
-            fontSize: ['24px', '36px'],
-            fontWeight: 'light',
+            fontSize: { base: '22px', md: '30px', lg: '36px' },
+            fontWeight: { base: 'medium', md: 'light', lg: 'light' },
             lineHeight: '1.2',
         },
         h3: {
-            fontSize: ['18px', '24px'],
+            fontSize: { base: '18px', md: '20px', lg: '24px' },
             fontWeight: 'light',
             lineHeight: '1.2',
         },
@@ -284,7 +284,7 @@ const theme = extendTheme({
             lineHeight: '1.2',
         },
         miniTitle: {
-            fontSize: '16px',
+            fontSize: { base: '14px', md: '14px', lg: '16px' },
             fontWeight: 'medium',
             letterSpacing: '1px',
             textTransform: 'uppercase',
@@ -296,9 +296,29 @@ const theme = extendTheme({
             borderBottom: '1px solid',
             borderColor: 'gray.100',
             alignItems: 'center',
-            justifyContent: 'space-between',
-            py: 4,
+            position: 'sticky',
+            top: '0',
+            zIndex: 'docked',
+            flexDirection: {
+                base: 'column',
+                md: 'row',
+            },
+            justifyContent: {
+                base: 'stretch',
+                md: 'space-between',
+            },
+            py: { base: 3, md: 4 },
             px: { base: 4, md: 4, lg: 8 },
+            button: {
+                mt: {
+                    base: 2,
+                    md: 0,
+                },
+                width: {
+                    base: '100%',
+                    md: 'auto',
+                },
+            },
         },
         savedVizButton: {
             bg: 'white',
