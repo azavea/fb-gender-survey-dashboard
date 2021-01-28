@@ -7,7 +7,7 @@ import json
 # updated in the future, the links will likely need to be refreshed from the HDX website
 # https://data.humdata.org/dataset/survey-on-gender-equality-at-home
 country_xls_uri = "https://data.humdata.org/dataset/504fce69-12c2-4c56-ada2-3173c663107a/resource/694d3c50-42bd-47f5-9304-c42db9d1f95f/download/sog_agg_country.xlsx"
-region_xls_uri = "https://data.humdata.org/dataset/504fce69-12c2-4c56-ada2-3173c663107a/resource/9cc03bd3-54b8-4335-94a0-09ccf8e7f57a/download/sog_agg_region.xlsx"
+region_xls_uri = "https://data.humdata.org/dataset/504fce69-12c2-4c56-ada2-3173c663107a/resource/27cbee61-62e4-44a5-aebe-88cab9686b93/download/sog_agg_region.xlsx"
 
 output_dir = "/opt/src/src/dataproc/output"
 
