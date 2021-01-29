@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Open Categories in Response to Search [#82](https://github.com/azavea/fb-gender-survey-dashboard/pull/82)
+- Add GTM to App [#86](https://github.com/azavea/fb-gender-survey-dashboard/pull/86)
 
 ### Changed
 
