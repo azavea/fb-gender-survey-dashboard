@@ -106,7 +106,7 @@ const SavedVisualizations = () => {
             </Flex>
             <Box
                 direction='column'
-                maxW='960px'
+                maxW='1200px'
                 mt={8}
                 mx={{ base: 4, md: 4, lg: 'auto' }}
             >

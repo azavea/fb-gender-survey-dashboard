@@ -161,7 +161,7 @@ const Visualizations = () => {
             <Flex
                 my={2}
                 mx={{ base: 4, md: 4, lg: 8, xl: 'auto' }}
-                maxW='960px'
+                maxW='1200px'
             >
                 <Text size='2xl' fontWeight='bold'>
                     Showing charts for: {currentGeo.join(', ')}
@@ -173,7 +173,7 @@ const Visualizations = () => {
             </Flex>
             <Flex
                 direction='column'
-                maxW='960px'
+                maxW='1200px'
                 mt={8}
                 mx={{ base: 4, md: 4, lg: 'auto' }}
             >

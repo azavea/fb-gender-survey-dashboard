@@ -28,7 +28,7 @@ const SurveyNotification = () => {
             <Box width='100%' zIndex={1} pos='sticky' top='0'>
                 <Alert status='info' colorScheme='red' variant='solid'>
                     <Flex
-                        width=' 100%'
+                        width='100%'
                         maxW='1200px'
                         mx='auto'
                         alignItems='center'
@@ -36,7 +36,7 @@ const SurveyNotification = () => {
                         <AlertIcon />
                         <Flex flex='1' alignItems='center'>
                             <AlertDescription display='block' mr='10px'>
-                                You’re invited to take a 30-second survey about
+                                You’re invited to take a 1-minute survey about
                                 this dataset –{' '}
                                 <Link
                                     href={surveyURL}

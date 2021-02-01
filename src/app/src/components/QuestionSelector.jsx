@@ -344,7 +344,7 @@ const QuestionSelector = () => {
             <Flex
                 my={2}
                 mx={{ base: 4, md: 4, lg: 8, xl: 'auto' }}
-                maxW='960px'
+                maxW='1200px'
             >
                 <Text size='2xl' fontWeight='bold'>
                     {currentGeo.join(', ')}
@@ -352,7 +352,7 @@ const QuestionSelector = () => {
             </Flex>
             <Flex
                 direction='column'
-                maxW='960px'
+                maxW='1200px'
                 my={{ lg: 8 }}
                 mx={{ base: 4, lg: 'auto' }}
             >
