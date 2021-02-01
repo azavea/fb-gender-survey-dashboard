@@ -168,8 +168,13 @@ const FaqModal = ({ isOpen, onClose }) => {
                                 The questions and response options in the two
                                 datasets are similar, with few exceptions. For
                                 example: Response options for two questions
-                                (C.1. and B.6. - see codebook) are not available
-                                at the country level due to low response rates.
+                                (C.1. and B.6. - see{' '}
+                                <StyledLink
+                                    href='https://data.humdata.org/dataset/504fce69-12c2-4c56-ada2-3173c663107a/resource/694d3c50-42bd-47f5-9304-c42db9d1f95f/download/sog_agg_country.xlsx'
+                                    title='codebook'
+                                ></StyledLink>
+                                ) are not available at the country level due to
+                                low response rates.
                             </StyledText>
                         </StyledAccordionItem>
                     </Accordion>
