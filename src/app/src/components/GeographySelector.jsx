@@ -26,6 +26,7 @@ import { CONFIG, GEO_COUNTRY, GEO_REGION } from '../utils/constants';
 import { formatQuery } from '../utils';
 import SearchInput from './SearchInput';
 import surveyMapImage from '../images/gender-survey-countries.png';
+import fallbackImage from '../images/fallback.jpg';
 
 const GeographySelector = () => {
     const history = useHistory();
@@ -210,7 +211,10 @@ const GeographySelector = () => {
                         </Box>
                         <Image
                             src={surveyMapImage}
-                            alt='Countries and regions surveyed in the Gender Equality at Home Survey.'
+                            fallbackSrc={fallbackImage}
+                            htmlHeight={1082}
+                            htmlWidth={1500}
+                            alt='Countries and regions surveyed in the Survey on Gender Equality at Home.'
                         />
                     </Box>
                 )}
