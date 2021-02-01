@@ -1,6 +1,8 @@
 import React from 'react';
 import {
-    Box,
+    FormControl,
+    FormLabel,
+    VisuallyHidden,
     Text,
     Input,
     InputGroup,
@@ -10,7 +12,10 @@ import { IoIosSearch } from 'react-icons/io';
 
 const SearchInput = ({ query, setQuery, placeholder }) => {
     return (
-        <Box flex={1}>
+        <FormControl role='search' as='form' flex={1}>
+            <FormLabel>
+                <VisuallyHidden>Search</VisuallyHidden>
+            </FormLabel>
             <InputGroup bg='white'>
                 <InputLeftElement
                     pointerEvents='none'
@@ -21,12 +26,13 @@ const SearchInput = ({ query, setQuery, placeholder }) => {
                     }
                 />
                 <Input
+                    type='text'
                     value={query}
                     onChange={e => setQuery(e.target.value)}
                     placeholder={placeholder}
                 />
             </InputGroup>
-        </Box>
+        </FormControl>
     );
 };
 
