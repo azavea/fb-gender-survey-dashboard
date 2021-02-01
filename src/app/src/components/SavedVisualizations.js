@@ -1,6 +1,14 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Box, Text, Heading, Flex, Button, IconButton } from '@chakra-ui/react';
+import {
+    Box,
+    Text,
+    Heading,
+    Flex,
+    Button,
+    IconButton,
+    useMediaQuery,
+} from '@chakra-ui/react';
 import { useHistory } from 'react-router-dom';
 import { IoIosArrowRoundForward, IoIosTrash } from 'react-icons/io';
 
@@ -21,6 +29,9 @@ const SavedVisualizations = () => {
         history.push(ROUTES.VISUALIZATIONS);
     };
 
+    // Show or hide the breadcrumbs if small screen
+    const [isSmallScreen] = useMediaQuery('(max-width: 30em)');
+
     const renderSavedVisualization = (
         { title, currentQuestions, currentGeo, currentYear, geoMode },
         index
@@ -28,6 +39,7 @@ const SavedVisualizations = () => {
         <Flex
             role='button'
             layerStyle='savedVizButton'
+            flexDirection={{ base: 'column', md: 'row' }}
             onClick={() =>
                 onClickList({
                     currentQuestions,
@@ -38,7 +50,7 @@ const SavedVisualizations = () => {
             }
             key={`${index}-${title}`}
         >
-            <Box flex={1}>
+            <Box flex={1} width='100%'>
                 <Flex>
                     <EditableTitle title={title} index={index} />
                 </Flex>
@@ -63,7 +75,10 @@ const SavedVisualizations = () => {
                     </Button>
                 </Flex>
             </Box>
-            <Flex alignSelf='center' ml={4}>
+            <Flex
+                alignSelf={{ base: 'flex-start', md: 'center' }}
+                ml={{ base: 0, md: 4 }}
+            >
                 <IconButton
                     className='arrow-button'
                     size='md'
@@ -77,19 +92,21 @@ const SavedVisualizations = () => {
 
     return (
         <Box>
-            <Breadcrumbs />
+            {!isSmallScreen && <Breadcrumbs />}
             <Flex layerStyle='selector' alignItems='baseline'>
-                <Heading as='h2' textStyle='h2' mb='0'>
-                    Saved Charts
-                </Heading>
-                <Text>
-                    Charts are saved locally in your browser. Clearing your
-                    browser data may impact this page.
-                </Text>
+                <Flex>
+                    <Heading as='h2' textStyle='h2' mb={{ base: 2, lg: 0 }}>
+                        Saved Charts
+                    </Heading>
+                    <Text>
+                        Charts are saved locally in your browser. Clearing your
+                        browser data may impact this page.
+                    </Text>
+                </Flex>
             </Flex>
             <Box
                 direction='column'
-                maxW='960px'
+                maxW='1200px'
                 mt={8}
                 mx={{ base: 4, md: 4, lg: 'auto' }}
             >

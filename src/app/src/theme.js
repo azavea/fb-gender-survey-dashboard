@@ -1,4 +1,5 @@
 import { extendTheme } from '@chakra-ui/react';
+import { createBreakpoints } from '@chakra-ui/theme-tools';
 
 const Accordion = {
     baseStyle: {
@@ -160,6 +161,14 @@ const Breadcrumb = {
     },
 };
 
+const breakpoints = createBreakpoints({
+    base: '0em',
+    sm: '30em',
+    md: '48em',
+    lg: '62em',
+    xl: '80em',
+});
+
 const Checkbox = {
     baseStyle: {
         label: {
@@ -210,6 +219,7 @@ const Link = {
 };
 
 const theme = extendTheme({
+    breakpoints,
     components: {
         Accordion,
         Button,
@@ -295,28 +305,33 @@ const theme = extendTheme({
             bg: 'white',
             borderBottom: '1px solid',
             borderColor: 'gray.100',
-            alignItems: 'center',
             position: 'sticky',
             top: '0',
             zIndex: 'docked',
-            flexDirection: {
-                base: 'column',
-                md: 'row',
-            },
-            justifyContent: {
-                base: 'stretch',
-                md: 'space-between',
-            },
             py: { base: 3, md: 4 },
             px: { base: 4, md: 4, lg: 8 },
-            button: {
-                mt: {
-                    base: 2,
-                    md: 0,
+            '> div': {
+                width: '100%',
+                maxW: '1200px',
+                alignItems: 'center',
+                mx: 'auto',
+                flexDirection: {
+                    base: 'column',
+                    sm: 'row',
                 },
-                width: {
-                    base: '100%',
-                    md: 'auto',
+                justifyContent: {
+                    base: 'stretch',
+                    sm: 'space-between',
+                },
+                button: {
+                    mt: {
+                        base: 2,
+                        sm: 0,
+                    },
+                    width: {
+                        base: '100%',
+                        sm: 'auto',
+                    },
                 },
             },
         },

@@ -18,6 +18,7 @@ const AboutModal = ({ isOpen, onClose }) => {
             onClose={onClose}
             size='2xl'
             scrollBehavior='inside'
+            m={3}
         >
             <ModalOverlay />
             <ModalContent>
@@ -38,6 +39,11 @@ const AboutModal = ({ isOpen, onClose }) => {
                 <ModalBody>
                     <Accordion allowToggle>
                         <StyledAccordionItem title='About the Survey on Gender Equality at Home'>
+                            <StyledText>
+                                This survey was conducted by Facebook in
+                                consultation with the World Bank, UN Women,
+                                Equal Measures 2030, and Ladysmith.
+                            </StyledText>
                             <StyledText>
                                 In July 2020, approximately half a million
                                 people in 208 countries, territories and islands
@@ -69,6 +75,14 @@ const AboutModal = ({ isOpen, onClose }) => {
                                 of life during the pandemic, such as food
                                 insecurity, access to education and healthcare,
                                 and employment prospects.
+                            </StyledText>
+                            <StyledText>
+                                Contact{' '}
+                                <StyledLink
+                                    href='mailto:gendersurvey@fb.com'
+                                    title='gendersurvey@fb.com'
+                                />{' '}
+                                with any questions.
                             </StyledText>
                         </StyledAccordionItem>
                         <StyledAccordionItem title='How the survey contributes to Facebook’s mission and the UN Sustainable Development Goals'>

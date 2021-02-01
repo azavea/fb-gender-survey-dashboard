@@ -8,11 +8,11 @@ import {
     AccordionButton,
     Box,
     ButtonGroup,
+    useMediaQuery,
     Button,
     Heading,
     Text,
     Flex,
-    Spacer,
 } from '@chakra-ui/react';
 import { useHistory } from 'react-router-dom';
 import { IoIosCheckmark, IoIosStar, IoMdDownload } from 'react-icons/io';
@@ -39,6 +39,9 @@ const Visualizations = () => {
     const { surveyHasBeenDisplayed, showSurvey } = useSelector(
         state => state.survey
     );
+
+    // Show or hide the breadcrumbs if small screen
+    const [isSmallScreen] = useMediaQuery('(max-width: 30em)');
 
     // Scroll to top on initial page load
     useEffect(() => {
@@ -103,53 +106,63 @@ const Visualizations = () => {
 
     return (
         <Box>
-            <Breadcrumbs />
+            {!isSmallScreen && <Breadcrumbs />}
             <Flex layerStyle='selector'>
-                <Heading as='h2' textStyle='h2' mb='0'>
-                    Selected Charts
-                </Heading>
-                <Spacer />
-                <ButtonGroup spacing='4' fontWeight='bold'>
-                    <Button
-                        leftIcon={<IoMdDownload size={20} />}
-                        size='sm'
+                <Flex>
+                    <Heading as='h2' textStyle='h2' mb='0'>
+                        Selected Charts
+                    </Heading>
+                    <ButtonGroup
+                        flexDirection={{ base: 'column', sm: 'row' }}
+                        spacing={{ base: 0, sm: 4 }}
                         fontWeight='bold'
-                        onClick={onDownloadCSV}
                     >
-                        Download CSV
-                    </Button>
-                    {isSaved ? (
-                        <Box
-                            color='green.700'
-                            borderRadius='sm'
-                            bg='gray.50'
-                            fontWeight='bold'
-                            width='87px'
-                            py='0'
-                            display='flex'
-                            alignItems='center'
-                            textTransform='uppercase'
-                            letterSpacing='1px'
-                            fontSize='sm'
-                        >
-                            <IoIosCheckmark size={25} />
-                            Saved
-                        </Box>
-                    ) : (
                         <Button
-                            leftIcon={<IoIosStar size={20} />}
-                            width='88px'
-                            fontWeight='bold'
-                            variant='peach'
+                            leftIcon={<IoMdDownload size={20} />}
                             size='sm'
-                            onClick={onSaveVisualization}
+                            fontWeight='bold'
+                            onClick={onDownloadCSV}
                         >
-                            Save
+                            Download CSV
                         </Button>
-                    )}
-                </ButtonGroup>
+                        {isSaved ? (
+                            <Box
+                                color='green.700'
+                                borderRadius='sm'
+                                bg='gray.50'
+                                fontWeight='bold'
+                                width={{ base: '100%', sm: '87px' }}
+                                py={0}
+                                mt={{ base: 2, sm: 0 }}
+                                display='flex'
+                                alignItems='center'
+                                textTransform='uppercase'
+                                letterSpacing='1px'
+                                fontSize='sm'
+                            >
+                                <IoIosCheckmark size={25} />
+                                Saved
+                            </Box>
+                        ) : (
+                            <Button
+                                leftIcon={<IoIosStar size={20} />}
+                                width='88px'
+                                fontWeight='bold'
+                                variant='peach'
+                                size='sm'
+                                onClick={onSaveVisualization}
+                            >
+                                Save
+                            </Button>
+                        )}
+                    </ButtonGroup>
+                </Flex>
             </Flex>
-            <Flex my={2} mx={{ base: 4, md: 4, lg: 8 }}>
+            <Flex
+                my={2}
+                mx={{ base: 4, md: 4, lg: 8, xl: 'auto' }}
+                maxW='1200px'
+            >
                 <Text size='2xl' fontWeight='bold'>
                     Showing charts for: {currentGeo.join(', ')}
                     <Box as='span' opacity='0.5' mx={1}>
@@ -160,7 +173,7 @@ const Visualizations = () => {
             </Flex>
             <Flex
                 direction='column'
-                maxW='960px'
+                maxW='1200px'
                 mt={8}
                 mx={{ base: 4, md: 4, lg: 'auto' }}
             >

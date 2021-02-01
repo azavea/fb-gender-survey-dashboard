@@ -13,6 +13,7 @@ import {
     CheckboxGroup,
     HStack,
     Text,
+    useMediaQuery,
     Heading,
     VStack,
     Flex,
@@ -34,6 +35,9 @@ const QuestionSelector = () => {
     const { currentGeo, currentQuestions, geoMode } = useSelector(
         state => state.app
     );
+
+    // Show or hide the breadcrumbs if small screen
+    const [isSmallScreen] = useMediaQuery('(max-width: 30em)');
 
     // Select the appropriate config file based on the current geoMode
     const config = CONFIG[geoMode];
@@ -188,16 +192,19 @@ const QuestionSelector = () => {
             const item = config.survey[key];
             if (item.cat) {
                 return (
-                    <Box>
-                        <Text>{item.question}</Text>
-                        <Text fontWeight='bold'>{`Answered: ${item.cat}`}</Text>
+                    <Box fontWeight='400'>
+                        <Text fontSize='inherit'>{item.question}</Text>
+                        <Text
+                            fontSize='inherit'
+                            fontWeight='bold'
+                        >{`Answered: ${item.cat}`}</Text>
                     </Box>
                 );
             }
 
             return (
-                <Box>
-                    <Text>{item.question}</Text>
+                <Box fontWeight='regular'>
+                    <Text fontSize='inherit'>{item.question}</Text>
                 </Box>
             );
         }
@@ -236,10 +243,16 @@ const QuestionSelector = () => {
                 <AccordionItem key={`qgroup-${catCode}`}>
                     {({ isExpanded }) => (
                         <>
-                            <AccordionButton alignItems='flex-start' p={3}>
+                            <AccordionButton
+                                alignItems={{
+                                    base: 'center',
+                                    md: 'flex-start',
+                                }}
+                                p={{ base: 1, sm: 3 }}
+                            >
                                 <Checkbox
                                     p={2}
-                                    mr={2}
+                                    mr={{ base: 1, sm: 2 }}
                                     value={catCode}
                                     isIndeterminate={isIndeterminate}
                                     isDisabled={!questions.length && true}
@@ -247,8 +260,11 @@ const QuestionSelector = () => {
                                 <Box flex='1' py={1}>
                                     <Heading
                                         textAlign='left'
-                                        fontSize='2xl'
-                                        fontWeight='regular'
+                                        fontSize={{ base: 'lg', md: '2xl' }}
+                                        fontWeight={{
+                                            base: 'semibold',
+                                            md: '400',
+                                        }}
                                         as='h3'
                                     >
                                         {cat}
@@ -256,9 +272,9 @@ const QuestionSelector = () => {
                                     {!questions.length <= 0 && !isExpanded && (
                                         <Heading
                                             textAlign='left'
-                                            fontSize='md'
+                                            fontSize={{ base: 'sm', sm: 'md' }}
                                             color='gray.500'
-                                            fontWeight='600'
+                                            fontWeight='semibold'
                                             as='p'
                                             mt={1}
                                         >
@@ -268,12 +284,21 @@ const QuestionSelector = () => {
                                 </Box>
                                 <AccordionIcon alignSelf='center' />
                             </AccordionButton>
-                            <AccordionPanel pt={4} px={16} pb={8}>
+                            <AccordionPanel
+                                pt={4}
+                                borderTop={{ base: '1px solid', md: 'none' }}
+                                borderColor='gray.100'
+                                px={{ base: 3, md: 16 }}
+                                pb={8}
+                            >
                                 {!questions.length && (
                                     <Heading
                                         textAlign='left'
-                                        fontSize='md'
-                                        fontWeight='regular'
+                                        fontSize={{ base: 'sm', md: 'md' }}
+                                        fontWeight={{
+                                            base: 'semibold',
+                                            md: '400',
+                                        }}
                                         as='p'
                                         fontStyle='italic'
                                     >
@@ -293,38 +318,46 @@ const QuestionSelector = () => {
 
     return (
         <Box>
-            <Breadcrumbs />
+            {!isSmallScreen && <Breadcrumbs />}
             <Flex layerStyle='selector'>
-                <Heading as='h2' textStyle='h2' mb='0'>
-                    Select questions
-                </Heading>
-                <Button
-                    colorScheme='red'
-                    variant='solid'
-                    rightIcon={
-                        <IconContext.Provider value={{ className: 'btn-icon' }}>
-                            <IoIosArrowRoundForward />
-                        </IconContext.Provider>
-                    }
-                    disabled={!currentQuestions.length}
-                    onClick={handleNext}
-                >
-                    Next
-                </Button>
+                <Flex>
+                    <Heading as='h2' textStyle='h2' mb='0'>
+                        Select questions
+                    </Heading>
+                    <Button
+                        colorScheme='red'
+                        variant='solid'
+                        rightIcon={
+                            <IconContext.Provider
+                                value={{ className: 'btn-icon' }}
+                            >
+                                <IoIosArrowRoundForward />
+                            </IconContext.Provider>
+                        }
+                        disabled={!currentQuestions.length}
+                        onClick={handleNext}
+                    >
+                        Next
+                    </Button>
+                </Flex>
             </Flex>
-            <Flex my={2} mx={{ base: 4, md: 4, lg: 8 }}>
+            <Flex
+                my={2}
+                mx={{ base: 4, md: 4, lg: 8, xl: 'auto' }}
+                maxW='1200px'
+            >
                 <Text size='2xl' fontWeight='bold'>
                     {currentGeo.join(', ')}
                 </Text>
             </Flex>
             <Flex
                 direction='column'
-                maxW='960px'
-                mt={8}
-                mx={{ base: 4, md: 4, lg: 'auto' }}
+                maxW='1200px'
+                my={{ lg: 8 }}
+                mx={{ base: 4, lg: 'auto' }}
             >
-                <HStack mb={4}>
-                    <Text size='sm'>
+                <HStack flexDirection={{ base: 'column', md: 'row' }} mb={4}>
+                    <Text size='sm' mb={{ base: 2, md: 'none' }}>
                         The survey was structured into four sections to provide
                         a snapshot of gender dynamics during Covid-19.{' '}
                         <Link
@@ -335,7 +368,7 @@ const QuestionSelector = () => {
                             View the full survey here.
                         </Link>
                     </Text>
-                    <Box width='350px'>
+                    <Box width={{ base: '100%', md: '350px' }}>
                         <SearchInput query={query} setQuery={handleSetQuery} />
                     </Box>
                 </HStack>

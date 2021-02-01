@@ -63,7 +63,8 @@ function EditableTitle({ title, index }) {
             textAlign='left'
             defaultValue={title}
             color='rgb(39, 55, 63)'
-            fontSize='2xl'
+            fontSize={{ base: 'md', md: '2xl' }}
+            fontWeight={{ base: 'semibold', md: '400' }}
             isPreviewFocusable={false}
             display='flex'
             flex={1}

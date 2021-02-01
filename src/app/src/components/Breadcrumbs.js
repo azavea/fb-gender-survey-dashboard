@@ -20,8 +20,8 @@ const CustomBreadcrumb = ({ isCurrentPage, icon, title, to }) => {
                     fontWeight='600'
                     letterSpacing='1px'
                     fontSize='0.875rem'
-                    px={2}
-                    py={1}
+                    px={{ base: 3, md: 2 }}
+                    py={{ base: 0, md: 1 }}
                     display='inline-flex'
                 >
                     {title}
@@ -31,7 +31,12 @@ const CustomBreadcrumb = ({ isCurrentPage, icon, title, to }) => {
     } else {
         return (
             <BreadcrumbItem>
-                <BreadcrumbLink as={Link} to={to} display='flex'>
+                <BreadcrumbLink
+                    as={Link}
+                    to={to}
+                    display='flex'
+                    flex='1 0 auto'
+                >
                     <Box as='span' mr={1}>
                         {icon}
                     </Box>
@@ -52,14 +57,17 @@ const Breadcrumbs = () => {
         <Box
             bg='gray.600'
             w='100%'
-            py={4}
-            px={{ base: 1, md: 4, lg: 8 }}
+            py={{ base: 2, md: 4 }}
+            px={{ base: 2, md: 4, lg: 8 }}
             color='white'
             spacing={1}
             sx={{
                 '.chakra-breadcrumb__list': {
                     display: 'flex',
                     alignItems: 'center',
+                    width: '100%',
+                    maxW: '1200px',
+                    mx: 'auto',
                 },
             }}
         >

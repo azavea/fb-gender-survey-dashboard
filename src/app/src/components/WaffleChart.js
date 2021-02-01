@@ -56,7 +56,10 @@ const WaffleChart = ({ items }) => {
                         question={{ ...question, geo: response.geo }}
                         csvData={formatWaffleCSV({ question, response })}
                     />
-                    <HStack h={200}>
+                    <HStack
+                        h={{ base: 500, md: 200 }}
+                        flexDirection={{ base: 'column', md: 'row' }}
+                    >
                         {responses.map(data => (
                             <ResponsiveWaffleCanvas
                                 data={data}
