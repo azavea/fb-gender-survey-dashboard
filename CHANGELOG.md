@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add GTM to App [#86](https://github.com/azavea/fb-gender-survey-dashboard/pull/86)
 
 ### Changed
+- Final app polish, updates to copy, & more accessible search input [#87](https://github.com/azavea/fb-gender-survey-dashboard/pull/87)
 
 ### Fixed
 
