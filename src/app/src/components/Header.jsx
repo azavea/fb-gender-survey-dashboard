@@ -10,7 +10,6 @@ import {
     VStack,
     useDisclosure,
     Link as ChakraLink,
-    Spacer,
 } from '@chakra-ui/react';
 
 import AboutModal from './AboutModal';
@@ -36,32 +35,39 @@ const Header = () => {
     } = useDisclosure();
 
     const linkBar = (
-        <Flex justify='space-between' width='100%'>
-            {!isLargeFormat ? (
+        <Flex
+            flexDirection={{ base: 'column', md: 'row' }}
+            justify={{ base: 'center', md: 'space-between' }}
+            width='100%'
+            maxW='1200px'
+        >
+            {!isLargeFormat && (
                 <Heading
                     as='h1'
                     textStyle='h3'
                     lineHeight='1.5'
-                    fontWeight='normal'
-                    align='flex-start'
-                    maxWidth='790px'
-                    my={2}
-                    mx={{ sm: 1, md: 4, lg: 8 }}
+                    flex='1 0 auto'
+                    fontWeight={{ base: 'semibold', md: 'normal' }}
+                    align={{ base: 'center', sm: 'center', md: 'flex-start' }}
+                    textAlign={{ base: 'center', md: 'left' }}
+                    my={{ base: 0, md: 2 }}
+                    mx={{ base: 1, md: 8, xl: 0 }}
                 >
                     <ChakraLink href='/' variant='homeLink'>
                         Survey on Gender Equality at Home
                     </ChakraLink>
                 </Heading>
-            ) : (
-                <Spacer />
             )}
             <HStack
-                spacing={8}
-                p={2}
-                mr={{ sm: 'auto', md: 4, lg: 8 }}
-                mx={{ sm: 'auto', lg: 0 }}
+                spacing={{ base: 5, md: 8 }}
+                width='100%'
+                maxW='1200px'
+                p={{ base: 1, md: 2 }}
+                justifyContent={{ base: 'center', md: 'flex-end' }}
+                mx='auto'
             >
                 <Button
+                    height='2.15rem'
                     fontSize={{ base: 'sm', md: 'md', lg: 'md' }}
                     variant='invertedLink'
                     onClick={faqOnOpen}
@@ -69,6 +75,7 @@ const Header = () => {
                     FAQS
                 </Button>
                 <Button
+                    height='2.15rem'
                     variant='invertedLink'
                     fontSize={{ base: 'sm', md: 'md', lg: 'md' }}
                     onClick={aboutOnOpen}
@@ -76,6 +83,7 @@ const Header = () => {
                     About the Survey
                 </Button>
                 <Button
+                    height='2.15rem'
                     variant='invertedLink'
                     fontSize={{ base: 'sm', md: 'md', lg: 'md' }}
                     as={Link}
@@ -92,7 +100,7 @@ const Header = () => {
             <VStack
                 as='header'
                 bg='linear-gradient(-225deg, rgb(26, 43, 51) 0%, rgb(1, 16, 23) 100%)'
-                p={{ sm: 2, md: 4, lg: 8 }}
+                p={{ base: 2, md: 4, lg: 8 }}
             >
                 {linkBar}
                 <Flex width='100%' justify={titleJustify}>
@@ -100,11 +108,11 @@ const Header = () => {
                         color='white'
                         maxWidth='54rem'
                         m={{
-                            sm: 2,
+                            base: 2,
                             md: 4,
                         }}
                         p={{
-                            sm: 2,
+                            base: 2,
                             md: 4,
                         }}
                         textAlign='center'
@@ -113,7 +121,7 @@ const Header = () => {
                             <Box
                                 textStyle='miniTitle'
                                 mb={{
-                                    sm: 2,
+                                    base: 2,
                                     md: 0,
                                 }}
                             >
@@ -128,9 +136,9 @@ const Header = () => {
                             }}
                         >
                             Explore the country and region-level data from the
-                            July 2020 survey, comprising over 460,000 Facebook
-                            users in 208 countries, territories, and islands in
-                            80 languages.{' '}
+                            July 2020 survey, which reached over 460,000
+                            Facebook users in 208 countries, territories, and
+                            islands in 80 languages.{' '}
                             <ChakraLink
                                 href='https://data.humdata.org/dataset/survey-on-gender-equality-at-home'
                                 isExternal

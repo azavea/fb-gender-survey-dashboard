@@ -79,39 +79,43 @@ const GeographySelector = () => {
     const section = (
         <Box>
             <Flex layerStyle='selector'>
-                <Heading as='h2' textStyle='h2' mb='0'>
-                    Start by selecting countries or regions
-                </Heading>
-                <Spacer />
-                <Button
-                    colorScheme='red'
-                    rightIcon={
-                        <IconContext.Provider value={{ className: 'btn-icon' }}>
-                            <IoIosArrowRoundForward />
-                        </IconContext.Provider>
-                    }
-                    disabled={!currentGeo.length}
-                    onClick={handleNext}
-                >
-                    Next
-                </Button>
+                <Flex>
+                    <Heading as='h2' textStyle='h2' mb='0'>
+                        Start by selecting countries or regions
+                    </Heading>
+                    <Spacer />
+                    <Button
+                        colorScheme='red'
+                        rightIcon={
+                            <IconContext.Provider
+                                value={{ className: 'btn-icon' }}
+                            >
+                                <IoIosArrowRoundForward />
+                            </IconContext.Provider>
+                        }
+                        disabled={!currentGeo.length}
+                        onClick={handleNext}
+                    >
+                        Next
+                    </Button>
+                </Flex>
             </Flex>
             <Flex
-                m={{ base: 4, md: 8, lg: 8 }}
+                m={{ base: 4, md: 8 }}
                 flexDirection={{
                     base: 'column-reverse',
                     md: 'column-reverse',
                     lg: 'row',
                 }}
                 maxW='1200px'
-                mx={{ base: 4, md: 4, lg: 'auto' }}
+                mx={{ base: 4, lg: 'auto' }}
                 alignItems='flex-start'
                 justifyContent='space-between'
             >
                 <Flex
                     flex='auto'
                     direction='column'
-                    ml={{ base: 4, md: 4, lg: 8 }}
+                    ml={{ base: 4, md: 8, xl: 0 }}
                 >
                     <Box mb={4}>
                         <Flex alignItems='baseline' mb={4}>
@@ -142,7 +146,7 @@ const GeographySelector = () => {
                             </Button>
                         </Flex>
                         {geoMode === GEO_COUNTRY && (
-                            <Box maxWidth='325px'>
+                            <Box maxW={{ md: '325px' }}>
                                 <SearchInput
                                     query={query}
                                     setQuery={setQuery}
@@ -184,7 +188,7 @@ const GeographySelector = () => {
                         maxWidth='750px'
                         flex='auto'
                         ml={{ base: 0, md: 8, lg: 8 }}
-                        mr={{ base: 4, md: 8, lg: 8 }}
+                        mr={{ base: 4, md: 8, xl: 0 }}
                         mb={{ base: 0, md: 8, lg: 0 }}
                         boxShadow={{ base: 'none', md: 'none', lg: 'lg' }}
                         borderRadius='lg'
@@ -201,7 +205,7 @@ const GeographySelector = () => {
                             py={2}
                         >
                             <Text color='white' fontSize='xs' fontWeight={500}>
-                                Red indicates locations included in the survey.
+                                Red indicates countries included in the survey.
                             </Text>
                         </Box>
                         <Image

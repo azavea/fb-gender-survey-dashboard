@@ -10,14 +10,24 @@ const Chart = ({ items }) => {
 
     const title = question.cat ? (
         <>
-            <Text fontSize='2xl'>{question.question}</Text>
-            <Text as='strong' fontSize='2xl'>
+            <Text
+                fontSize={{ base: 'md', lg: '2xl' }}
+                fontWeight={{ base: 'semibold', lg: '400' }}
+            >
+                {question.question}
+            </Text>
+            <Text as='strong' fontSize={{ base: 'md', lg: '2xl' }}>
                 {question.type === 'pct' ? 'Percent who answered' : 'Answered'}:{' '}
                 {question.cat}
             </Text>
         </>
     ) : (
-        <Text fontSize='2xl'>{question.question}</Text>
+        <Text
+            fontSize={{ base: 'md', lg: '2xl' }}
+            fontWeight={{ base: 'semibold', lg: '400' }}
+        >
+            {question.question}
+        </Text>
     );
 
     let chart;
@@ -32,7 +42,7 @@ const Chart = ({ items }) => {
     return (
         <Box>
             {title}
-            <Box bg='gray.50' mt={2} mb={8} borderRadius='sm' overflow='hidden'>
+            <Box bg='gray.50' mt={2} mb={8} borderRadius='sm' overflowX='auto'>
                 {chart}
             </Box>
         </Box>

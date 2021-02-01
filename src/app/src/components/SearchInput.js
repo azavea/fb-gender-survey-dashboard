@@ -15,7 +15,7 @@ const SearchInput = ({ query, setQuery, placeholder }) => {
                 <InputLeftElement
                     pointerEvents='none'
                     children={
-                        <Text color='gray.300' fontSize='1rem'>
+                        <Text color='gray.500' fontSize='1rem'>
                             <IoIosSearch />
                         </Text>
                     }

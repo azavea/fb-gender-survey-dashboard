@@ -65,6 +65,7 @@ const GroupedBarChart = ({ items }) => {
             borderRadius='md'
             m={4}
             height={height}
+            minW='700px'
         >
             <DownloadMenu
                 chartContainerRef={containerRef}
