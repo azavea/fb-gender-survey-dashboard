@@ -13,6 +13,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- Fix Question Filtering [#91](https://github.com/azavea/fb-gender-survey-dashboard/pull/91)
+
 ### Removed
 
 ## 1.1.0
