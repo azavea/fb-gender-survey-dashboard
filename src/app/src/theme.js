@@ -1,4 +1,5 @@
 import { extendTheme } from '@chakra-ui/react';
+import { createBreakpoints } from '@chakra-ui/theme-tools';
 
 const Accordion = {
     baseStyle: {
@@ -160,6 +161,14 @@ const Breadcrumb = {
     },
 };
 
+const breakpoints = createBreakpoints({
+    base: '0em',
+    sm: '30em',
+    md: '48em',
+    lg: '62em',
+    xl: '80em',
+});
+
 const Checkbox = {
     baseStyle: {
         label: {
@@ -210,6 +219,7 @@ const Link = {
 };
 
 const theme = extendTheme({
+    breakpoints,
     components: {
         Accordion,
         Button,
@@ -259,17 +269,17 @@ const theme = extendTheme({
     },
     textStyles: {
         h1: {
-            fontSize: ['36px', '54px'],
-            fontWeight: 'light',
+            fontSize: { base: '24px', md: '42px', lg: '54px' },
+            fontWeight: { base: 'medium', md: 'light', lg: 'light' },
             lineHeight: '1.1',
         },
         h2: {
-            fontSize: ['24px', '36px'],
-            fontWeight: 'light',
+            fontSize: { base: '22px', md: '30px', lg: '36px' },
+            fontWeight: { base: 'medium', md: 'light', lg: 'light' },
             lineHeight: '1.2',
         },
         h3: {
-            fontSize: ['18px', '24px'],
+            fontSize: { base: '18px', md: '20px', lg: '24px' },
             fontWeight: 'light',
             lineHeight: '1.2',
         },
@@ -284,7 +294,7 @@ const theme = extendTheme({
             lineHeight: '1.2',
         },
         miniTitle: {
-            fontSize: '16px',
+            fontSize: { base: '14px', md: '14px', lg: '16px' },
             fontWeight: 'medium',
             letterSpacing: '1px',
             textTransform: 'uppercase',
@@ -295,10 +305,35 @@ const theme = extendTheme({
             bg: 'white',
             borderBottom: '1px solid',
             borderColor: 'gray.100',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            py: 4,
+            position: 'sticky',
+            top: '0',
+            zIndex: 'docked',
+            py: { base: 3, md: 4 },
             px: { base: 4, md: 4, lg: 8 },
+            '> div': {
+                width: '100%',
+                maxW: '1200px',
+                alignItems: 'center',
+                mx: 'auto',
+                flexDirection: {
+                    base: 'column',
+                    sm: 'row',
+                },
+                justifyContent: {
+                    base: 'stretch',
+                    sm: 'space-between',
+                },
+                button: {
+                    mt: {
+                        base: 2,
+                        sm: 0,
+                    },
+                    width: {
+                        base: '100%',
+                        sm: 'auto',
+                    },
+                },
+            },
         },
         savedVizButton: {
             bg: 'white',

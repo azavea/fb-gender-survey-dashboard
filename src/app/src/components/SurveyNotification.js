@@ -5,6 +5,7 @@ import {
     AlertIcon,
     AlertDescription,
     Box,
+    Flex,
     CloseButton,
     Link,
 } from '@chakra-ui/react';
@@ -24,33 +25,35 @@ const SurveyNotification = () => {
 
     if (showSurvey && !surveyHasBeenDisplayed) {
         return (
-            <Box pos='fixed' width='100%' zIndex={1}>
-                <Alert
-                    status='info'
-                    colorScheme='white'
-                    border='1px solid rgb(222, 227, 233)'
-                >
-                    <AlertIcon />
-                    <Box flex='1'>
-                        <AlertDescription display='block' mr='10px'>
-                            You're invited to take a 30-second survey about this
-                            dataset -{' '}
-                            <Link
-                                href={surveyURL}
-                                textDecoration='underline'
-                                isExternal
+            <Box width='100%' zIndex={1} pos='sticky' top='0'>
+                <Alert status='info' colorScheme='red' variant='solid'>
+                    <Flex
+                        width='100%'
+                        maxW='1200px'
+                        mx='auto'
+                        alignItems='center'
+                    >
+                        <AlertIcon />
+                        <Flex flex='1' alignItems='center'>
+                            <AlertDescription display='block' mr='10px'>
+                                You’re invited to take a 1-minute survey about
+                                this dataset –{' '}
+                                <Link
+                                    href={surveyURL}
+                                    textDecoration='underline'
+                                    color='white'
+                                    isExternal
+                                    onClick={markSurveyDisplayed}
+                                >
+                                    click here to begin!
+                                </Link>
+                            </AlertDescription>
+                            <CloseButton
+                                ml='auto'
                                 onClick={markSurveyDisplayed}
-                            >
-                                click here to begin!
-                            </Link>
-                        </AlertDescription>
-                    </Box>
-                    <CloseButton
-                        pos='absolute'
-                        right='8px'
-                        top='8px'
-                        onClick={markSurveyDisplayed}
-                    />
+                            />
+                        </Flex>
+                    </Flex>
                 </Alert>
             </Box>
         );

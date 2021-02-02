@@ -57,19 +57,27 @@ const FaqModal = ({ isOpen, onClose }) => {
                         </StyledAccordionItem>
                         <StyledAccordionItem title='How should I interpret the values?'>
                             <StyledText>
-                                Unless otherwise indicated in the Codebook, a
-                                value is the percent of all respondents of that
-                                gender who responded to that specific variable.
-                                For instance, a value of “56” for variable
-                                “a1_neutral” for gender “Female” means that 56%
-                                of all females who answered question A1
+                                Unless otherwise indicated in the{' '}
+                                <StyledLink
+                                    href='https://data.humdata.org/dataset/504fce69-12c2-4c56-ada2-3173c663107a/resource/694d3c50-42bd-47f5-9304-c42db9d1f95f/download/sog_agg_country.xlsx'
+                                    title='Codebook,'
+                                ></StyledLink>{' '}
+                                a value is the percent of all respondents of
+                                that gender who responded to that specific
+                                variable. For instance, a value of “56” for
+                                variable “a1_neutral” for gender “Female” means
+                                that 56% of all females who answered question A1
                                 responded “neutral.”
                             </StyledText>
                             <StyledText>
-                                The codebook indicates exceptions, which are
-                                usually done to enable sharing of data where
-                                individual response counts are too low to
-                                preserve privacy.
+                                The{' '}
+                                <StyledLink
+                                    href='https://data.humdata.org/dataset/504fce69-12c2-4c56-ada2-3173c663107a/resource/694d3c50-42bd-47f5-9304-c42db9d1f95f/download/sog_agg_country.xlsx'
+                                    title='codebook'
+                                ></StyledLink>{' '}
+                                indicates exceptions, which are usually done to
+                                enable sharing of data where individual response
+                                counts are too low to preserve privacy.
                             </StyledText>
                         </StyledAccordionItem>
                         <StyledAccordionItem title="Why aren't all countries included?">
@@ -93,10 +101,7 @@ const FaqModal = ({ isOpen, onClose }) => {
                         </StyledAccordionItem>
                         <StyledAccordionItem title='Why aren’t statistics provided for every response option for each question?'>
                             <StyledText>
-                                The country- and region-level estimates are
-                                intended to be consistent with those used to
-                                write the public report (see link above). In
-                                general, the following parameters inform what
+                                In general, the following parameters inform what
                                 data is and is not included: We aimed to cover
                                 as many variables and response categories as
                                 possible within a concise, useful data file.
@@ -160,15 +165,16 @@ const FaqModal = ({ isOpen, onClose }) => {
                         </StyledAccordionItem>
                         <StyledAccordionItem title='Is the data provided for regions and countries the same?'>
                             <StyledText>
-                                De-identified, record-level response data to
-                                most questions may be available to individuals
-                                and non-profit organizations for research
-                                purposes. Please email{' '}
+                                The questions and response options in the two
+                                datasets are similar, with few exceptions. For
+                                example: Response options for two questions
+                                (C.1. and B.6. - see{' '}
                                 <StyledLink
-                                    href='mailto:gendersurvey@fb.com'
-                                    title='gendersurvey@fb.com'
-                                />{' '}
-                                if you are interested in learning more.
+                                    href='https://data.humdata.org/dataset/504fce69-12c2-4c56-ada2-3173c663107a/resource/694d3c50-42bd-47f5-9304-c42db9d1f95f/download/sog_agg_country.xlsx'
+                                    title='codebook'
+                                ></StyledLink>
+                                ) are not available at the country level due to
+                                low response rates.
                             </StyledText>
                         </StyledAccordionItem>
                     </Accordion>

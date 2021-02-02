@@ -34,6 +34,7 @@ const StackedBarChart = ({ items }) => {
                 bg='white'
                 borderRadius='md'
                 m={4}
+                minW='700px'
             >
                 <DownloadMenu
                     chartContainerRef={containerRefs.current[i]}

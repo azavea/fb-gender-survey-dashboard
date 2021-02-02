@@ -13,6 +13,7 @@ import {
     CheckboxGroup,
     HStack,
     Text,
+    useMediaQuery,
     Heading,
     VStack,
     Flex,
@@ -35,17 +36,74 @@ const QuestionSelector = () => {
         state => state.app
     );
 
+    // Show or hide the breadcrumbs if small screen
+    const [isSmallScreen] = useMediaQuery('(max-width: 30em)');
+
     // Select the appropriate config file based on the current geoMode
     const config = CONFIG[geoMode];
+
+    // Determine the indexes of any categories that currently have questions
+    // selected. These will be expanded by default.
+    const categoryLetterCodes = Object.values(config.categories);
+    const currentlySelectedCategories = new Set(
+        currentQuestions.map(q => q[0].toUpperCase())
+    );
+    const currentlySelectedCategoryIndexes = Array.from(
+        currentlySelectedCategories
+    ).map(catCode => categoryLetterCodes.indexOf(catCode));
+
+    const [expandedCategoryIndexes, setExpandedCategoryIndexes] = useState(
+        currentlySelectedCategoryIndexes
+    );
+
+    // Known categories
+    const questionsByCategory = { A: [], B: [], C: [], D: [] };
+
+    const getCategoryData = query =>
+        Object.keys(config.categories).map(cat => {
+            const catCode = config.categories[cat];
+            const questionCodes = questionsByCategory[catCode];
+
+            const filteredQuestionCodes = query.trim().length
+                ? questionCodes.filter(q => {
+                      const item = config.survey[q];
+                      return (
+                          currentQuestions.includes(q) ||
+                          (item &&
+                              formatQuery(
+                                  `${item.question} ${item.cat}`
+                              ).includes(formatQuery(query)))
+                      );
+                  })
+                : questionCodes;
+            return { cat, catCode, questionCodes, filteredQuestionCodes };
+        });
+
+    const handleSetQuery = text => {
+        setQuery(text);
+        if (text.trim().length) {
+            const additionalItems = getCategoryData(text)
+                .filter(
+                    ({ filteredQuestionCodes, catCode }) =>
+                        filteredQuestionCodes.length &&
+                        !expandedCategoryIndexes.includes(
+                            categoryLetterCodes.indexOf(catCode)
+                        )
+                )
+                .map(({ catCode }) => categoryLetterCodes.indexOf(catCode));
+
+            setExpandedCategoryIndexes([
+                ...expandedCategoryIndexes,
+                ...additionalItems,
+            ]);
+        }
+    };
 
     // If a page reloads directly to this page, restart at home
     if (!currentGeo.length) {
         history.push('/');
         return null;
     }
-
-    // Known categories
-    const questionsByCategory = { A: [], B: [], C: [], D: [] };
 
     const handleQuestionSelect = selected => {
         let newSelections = selected;
@@ -134,16 +192,19 @@ const QuestionSelector = () => {
             const item = config.survey[key];
             if (item.cat) {
                 return (
-                    <Box>
-                        <Text>{item.question}</Text>
-                        <Text fontWeight='bold'>{`Answered: ${item.cat}`}</Text>
+                    <Box fontWeight='400'>
+                        <Text fontSize='inherit'>{item.question}</Text>
+                        <Text
+                            fontSize='inherit'
+                            fontWeight='bold'
+                        >{`Answered: ${item.cat}`}</Text>
                     </Box>
                 );
             }
 
             return (
-                <Box>
-                    <Text>{item.question}</Text>
+                <Box fontWeight='regular'>
+                    <Text fontSize='inherit'>{item.question}</Text>
                 </Box>
             );
         }
@@ -155,146 +216,148 @@ const QuestionSelector = () => {
         return item.question;
     };
 
-    // Detremine the indexes of any categories that currently have questions
-    // selected. These will be expanded by default.
-    const categoryLetterCodes = Object.values(config.categories);
-    const currentlySelectedCategories = new Set(
-        currentQuestions.map(q => q[0].toUpperCase())
-    );
-    const currentlySelectedCategoryIndexes = Array.from(
-        currentlySelectedCategories
-    ).map(catCode => categoryLetterCodes.indexOf(catCode));
+    const categories = getCategoryData(query).map(
+        ({ cat, catCode, questionCodes, filteredQuestionCodes }) => {
+            const questions = filteredQuestionCodes.map(q => {
+                return (
+                    <Checkbox
+                        key={q}
+                        value={q}
+                        size='lg'
+                        colorScheme='red'
+                        alignItems='flex-start'
+                    >
+                        {getQuestionCheckboxLabel(q)}
+                    </Checkbox>
+                );
+            });
 
-    const categories = Object.keys(config.categories).map(cat => {
-        const catCode = config.categories[cat];
-        const questionCodes = questionsByCategory[catCode];
-
-        const filteredQuestionCodes = query.trim().length
-            ? questionCodes.filter(q => {
-                  const item = config.survey[q];
-                  return (
-                      currentQuestions.includes(q) ||
-                      (item &&
-                          formatQuery(`${item.question} ${item.cat}`).includes(
-                              formatQuery(query)
-                          ))
-                  );
-              })
-            : questionCodes;
-
-        const questions = filteredQuestionCodes.map(q => {
-            return (
-                <Checkbox
-                    key={q}
-                    value={q}
-                    size='lg'
-                    colorScheme='red'
-                    alignItems='flex-start'
-                >
-                    {getQuestionCheckboxLabel(q)}
-                </Checkbox>
+            const allChecked = questionCodes.every(qcode =>
+                currentQuestions.includes(qcode)
             );
-        });
+            const isIndeterminate =
+                questionCodes.some(qcode => currentQuestions.includes(qcode)) &&
+                !allChecked;
 
-        const allChecked = questionCodes.every(qcode =>
-            currentQuestions.includes(qcode)
-        );
-        const isIndeterminate =
-            questionCodes.some(qcode => currentQuestions.includes(qcode)) &&
-            !allChecked;
-
-        return (
-            <AccordionItem key={`qgroup-${catCode}`}>
-                {({ isExpanded }) => (
-                    <>
-                        <AccordionButton alignItems='flex-start' p={3}>
-                            <Checkbox
-                                p={2}
-                                mr={2}
-                                value={catCode}
-                                isIndeterminate={isIndeterminate}
-                                isDisabled={!questions.length && true}
-                            />
-                            <Box flex='1' py={1}>
-                                <Heading
-                                    textAlign='left'
-                                    fontSize='2xl'
-                                    fontWeight='regular'
-                                    as='h3'
-                                >
-                                    {cat}
-                                </Heading>
-                                {!questions.length <= 0 && !isExpanded && (
+            return (
+                <AccordionItem key={`qgroup-${catCode}`}>
+                    {({ isExpanded }) => (
+                        <>
+                            <AccordionButton
+                                alignItems={{
+                                    base: 'center',
+                                    md: 'flex-start',
+                                }}
+                                p={{ base: 1, sm: 3 }}
+                            >
+                                <Checkbox
+                                    p={2}
+                                    mr={{ base: 1, sm: 2 }}
+                                    value={catCode}
+                                    isIndeterminate={isIndeterminate}
+                                    isDisabled={!questions.length && true}
+                                />
+                                <Box flex='1' py={1}>
                                     <Heading
                                         textAlign='left'
-                                        fontSize='md'
-                                        color='gray.500'
-                                        fontWeight='600'
-                                        as='p'
-                                        mt={1}
+                                        fontSize={{ base: 'lg', md: '2xl' }}
+                                        fontWeight={{
+                                            base: 'semibold',
+                                            md: '400',
+                                        }}
+                                        as='h3'
                                     >
-                                        {questions.length} questions
+                                        {cat}
+                                    </Heading>
+                                    {!questions.length <= 0 && !isExpanded && (
+                                        <Heading
+                                            textAlign='left'
+                                            fontSize={{ base: 'sm', sm: 'md' }}
+                                            color='gray.500'
+                                            fontWeight='semibold'
+                                            as='p'
+                                            mt={1}
+                                        >
+                                            {questions.length} questions
+                                        </Heading>
+                                    )}
+                                </Box>
+                                <AccordionIcon alignSelf='center' />
+                            </AccordionButton>
+                            <AccordionPanel
+                                pt={4}
+                                borderTop={{ base: '1px solid', md: 'none' }}
+                                borderColor='gray.100'
+                                px={{ base: 3, md: 16 }}
+                                pb={8}
+                            >
+                                {!questions.length && (
+                                    <Heading
+                                        textAlign='left'
+                                        fontSize={{ base: 'sm', md: 'md' }}
+                                        fontWeight={{
+                                            base: 'semibold',
+                                            md: '400',
+                                        }}
+                                        as='p'
+                                        fontStyle='italic'
+                                    >
+                                        Contains no matching questions.
                                     </Heading>
                                 )}
-                            </Box>
-                            <AccordionIcon alignSelf='center' />
-                        </AccordionButton>
-                        <AccordionPanel pt={4} px={16} pb={8}>
-                            {!questions.length && (
-                                <Heading
-                                    textAlign='left'
-                                    fontSize='md'
-                                    fontWeight='regular'
-                                    as='p'
-                                    fontStyle='italic'
-                                >
-                                    Contains no matching questions.
-                                </Heading>
-                            )}
-                            <VStack alignItems='start' spacing={6}>
-                                {questions}
-                            </VStack>
-                        </AccordionPanel>
-                    </>
-                )}
-            </AccordionItem>
-        );
-    });
+                                <VStack alignItems='start' spacing={6}>
+                                    {questions}
+                                </VStack>
+                            </AccordionPanel>
+                        </>
+                    )}
+                </AccordionItem>
+            );
+        }
+    );
 
     return (
         <Box>
-            <Breadcrumbs />
+            {!isSmallScreen && <Breadcrumbs />}
             <Flex layerStyle='selector'>
-                <Heading as='h2' textStyle='h2' mb='0'>
-                    Select questions
-                </Heading>
-                <Button
-                    colorScheme='red'
-                    variant='solid'
-                    rightIcon={
-                        <IconContext.Provider value={{ className: 'btn-icon' }}>
-                            <IoIosArrowRoundForward />
-                        </IconContext.Provider>
-                    }
-                    disabled={!currentQuestions.length}
-                    onClick={handleNext}
-                >
-                    Next
-                </Button>
+                <Flex>
+                    <Heading as='h2' textStyle='h2' mb='0'>
+                        Select questions
+                    </Heading>
+                    <Button
+                        colorScheme='red'
+                        variant='solid'
+                        rightIcon={
+                            <IconContext.Provider
+                                value={{ className: 'btn-icon' }}
+                            >
+                                <IoIosArrowRoundForward />
+                            </IconContext.Provider>
+                        }
+                        disabled={!currentQuestions.length}
+                        onClick={handleNext}
+                    >
+                        Next
+                    </Button>
+                </Flex>
             </Flex>
-            <Flex my={2} mx={{ base: 4, md: 4, lg: 8 }}>
+            <Flex
+                my={2}
+                mx={{ base: 4, md: 4, lg: 8, xl: 'auto' }}
+                maxW='1200px'
+            >
                 <Text size='2xl' fontWeight='bold'>
                     {currentGeo.join(', ')}
                 </Text>
             </Flex>
             <Flex
                 direction='column'
-                maxW='960px'
-                mt={8}
-                mx={{ base: 4, md: 4, lg: 'auto' }}
+                maxW='1200px'
+                my={{ lg: 8 }}
+                mx={{ base: 4, lg: 'auto' }}
             >
-                <HStack mb={4}>
-                    <Text size='sm'>
+                <HStack flexDirection={{ base: 'column', md: 'row' }} mb={4}>
+                    <Text size='sm' mb={{ base: 2, md: 'none' }}>
                         The survey was structured into four sections to provide
                         a snapshot of gender dynamics during Covid-19.{' '}
                         <Link
@@ -305,8 +368,8 @@ const QuestionSelector = () => {
                             View the full survey here.
                         </Link>
                     </Text>
-                    <Box width='350px'>
-                        <SearchInput query={query} setQuery={setQuery} />
+                    <Box width={{ base: '100%', md: '350px' }}>
+                        <SearchInput query={query} setQuery={handleSetQuery} />
                     </Box>
                 </HStack>
                 <Box>
@@ -318,8 +381,10 @@ const QuestionSelector = () => {
                         onChange={handleQuestionSelect}
                     >
                         <Accordion
+                            id='questions-selector-container'
                             allowMultiple
-                            defaultIndex={currentlySelectedCategoryIndexes}
+                            index={expandedCategoryIndexes}
+                            onChange={e => setExpandedCategoryIndexes(e)}
                         >
                             {categories}
                         </Accordion>
