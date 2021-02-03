@@ -9,7 +9,7 @@ import {
     MenuItem,
 } from '@chakra-ui/react';
 import { FaDownload } from 'react-icons/fa';
-import { combineCanvases, setBackgroundColor } from '../utils/canvas';
+import { combineCanvases, setBackgroundColor, addTitle } from '../utils/canvas';
 import { downloadCSV } from '../utils/csv';
 
 const download = (dataUrl, filename, filetype = 'png') => {
@@ -51,8 +51,14 @@ const DownloadMenu = ({
                 ? combineCanvases(chartCanvases, combineDir)
                 : chartCanvases[0];
 
+        const title = `Question ${question.qcode}${
+            question.type === 'ten' ? ` in ${question.geo}` : ''
+        }: ${question.question}`;
+
+        const canvasWithTitle = addTitle(chartCanvas, title);
+
         // Set a white background instead of the default transparent
-        const newCanvas = setBackgroundColor(chartCanvas, '#FFF');
+        const newCanvas = setBackgroundColor(canvasWithTitle, '#FFF');
 
         // Convert the entire new canvas to a base64 data URL
         const dataUrl = newCanvas.toDataURL('image/png');
