@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Add Titles to Chart Downloads [#95](https://github.com/azavea/fb-gender-survey-dashboard/pull/95)
+
 ### Changed
 
 - Recognize Gender as Percent and Update Data [#93](https://github.com/azavea/fb-gender-survey-dashboard/pull/93)
