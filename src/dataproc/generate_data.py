@@ -6,8 +6,8 @@ import json
 # These are direct URIs that link to a particular version of the dataset. If they are
 # updated in the future, the links will likely need to be refreshed from the HDX website
 # https://data.humdata.org/dataset/survey-on-gender-equality-at-home
-country_xls_uri = "https://data.humdata.org/dataset/504fce69-12c2-4c56-ada2-3173c663107a/resource/694d3c50-42bd-47f5-9304-c42db9d1f95f/download/sog_agg_country.xlsx"
-region_xls_uri = "https://data.humdata.org/dataset/504fce69-12c2-4c56-ada2-3173c663107a/resource/27cbee61-62e4-44a5-aebe-88cab9686b93/download/sog_agg_region.xlsx"
+country_xls_uri = "https://data.humdata.org/dataset/504fce69-12c2-4c56-ada2-3173c663107a/resource/f9bb675a-0c83-4513-b1cc-464c75048906/download/sog_agg_country.xlsx"
+region_xls_uri = "https://data.humdata.org/dataset/504fce69-12c2-4c56-ada2-3173c663107a/resource/d9fbb283-9147-487d-8be3-746ebf4e3478/download/sog_agg_region.xlsx"
 
 output_dir = "/opt/src/src/dataproc/output"
 
@@ -122,6 +122,7 @@ def generate_config(config_df, data_df, mode: str):
             & config_df["question"].str.contains("agree or disagree")
         ),
         (config_df["cat"].notna()),
+        (~config_df["cat"].notna() & config_df["question"].str.contains("What is your gender")),
         (~config_df["cat"].notna() & config_df["question"].str.contains("Out of 10")),
         (
             ~config_df["cat"].notna()
@@ -131,7 +132,7 @@ def generate_config(config_df, data_df, mode: str):
     ]
 
     # The value to use for type, based on the heuristic index above
-    values = ["stack", "pct", "ten", "hours", None]
+    values = ["stack", "pct", "pct", "ten", "hours", None]
 
     # Assign the type column
     config_df["type"] = np.select(question_types, values)

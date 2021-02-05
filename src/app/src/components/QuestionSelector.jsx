@@ -66,14 +66,26 @@ const QuestionSelector = () => {
 
             const filteredQuestionCodes = query.trim().length
                 ? questionCodes.filter(q => {
+                      if (currentQuestions.includes(q)) return true;
+
                       const item = config.survey[q];
-                      return (
-                          currentQuestions.includes(q) ||
-                          (item &&
+
+                      // if the item isn't found,
+                      // we need to look at items that match the qcode
+                      if (!item) {
+                          const items = Object.keys(config.survey)
+                              .map(key => config.survey[key])
+                              .filter(question => question.qcode === q);
+                          return items.some(question =>
                               formatQuery(
-                                  `${item.question} ${item.cat}`
-                              ).includes(formatQuery(query)))
-                      );
+                                  `${question.question} ${question.cat}`
+                              ).includes(formatQuery(query))
+                          );
+                      } else {
+                          return formatQuery(
+                              `${item.question} ${item.cat}`
+                          ).includes(formatQuery(query));
+                      }
                   })
                 : questionCodes;
             return { cat, catCode, questionCodes, filteredQuestionCodes };

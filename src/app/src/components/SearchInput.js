@@ -12,7 +12,12 @@ import { IoIosSearch } from 'react-icons/io';
 
 const SearchInput = ({ query, setQuery, placeholder }) => {
     return (
-        <FormControl role='search' as='form' flex={1}>
+        <FormControl
+            role='search'
+            as='form'
+            flex={1}
+            onSubmit={e => e.preventDefault()}
+        >
             <FormLabel>
                 <VisuallyHidden>Search</VisuallyHidden>
             </FormLabel>
