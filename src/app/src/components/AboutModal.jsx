@@ -210,6 +210,17 @@ const AboutModal = ({ isOpen, onClose }) => {
                                 if you are interested in learning more.
                             </StyledText>{' '}
                         </StyledAccordionItem>
+                        <StyledAccordionItem title='Source code'>
+                            <StyledText>
+                                The source code for this website is available
+                                under an Apache license. The code is available{' '}
+                                <StyledLink
+                                    href='https://github.com/azavea/fb-gender-survey-dashboard'
+                                    title='here'
+                                />
+                                .
+                            </StyledText>
+                        </StyledAccordionItem>
                     </Accordion>
                 </ModalBody>
             </ModalContent>
