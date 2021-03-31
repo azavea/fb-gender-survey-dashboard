@@ -5,3 +5,4 @@
   base    = "src/app"
   publish = "build"
   command = "../../scripts/cibuild"
+  ignore = "false"
