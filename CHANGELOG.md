@@ -15,6 +15,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Removed
 
+# 1.3.2
+
+### Added
+
+### Changed
+
+### Fixed
+
+- Force Netlify Build [#103](https://github.com/azavea/fb-gender-survey-dashboard/pull/103)
+
+### Removed
+
 # 1.3.1
 
 ### Added
