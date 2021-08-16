@@ -1,6 +1,6 @@
 ---
 pip_executable: "pip3"
-pip_version: "20.2.*"
+pip_version: "20.3.*"
 
 docker_version: "5:19.*"
 docker_compose_version: "1.26.*"
