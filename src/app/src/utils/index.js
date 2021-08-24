@@ -62,10 +62,11 @@ export class DataIndexer {
         }
         const idx = resp.idx;
         const d = this.data.geographies[geo];
-        const c = d['Combined'][idx].toFixed(2);
-        const m = d['Male'][idx].toFixed(2);
-        const f = d['Female'][idx].toFixed(2);
+        const c = this.formatCell(d, 'Combined', idx);
+        const m = this.formatCell(d, 'Male', idx);
+        const f = this.formatCell(d, 'Female', idx);
 
+        const dataUnavailable = c == null && m == null && f == null;
         return {
             key: key,
             geo: geo,
@@ -73,7 +74,13 @@ export class DataIndexer {
             combined: c,
             female: f,
             male: m,
+            dataUnavailable,
         };
+    }
+
+    formatCell(d, g, idx) {
+        const cell = d[g][idx];
+        return cell === null ? null : cell.toFixed(2);
     }
 
     getAllResponsesForQ(qcode) {
