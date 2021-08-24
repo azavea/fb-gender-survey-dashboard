@@ -42,8 +42,8 @@ def generate():
     country_data = pd.read_excel(country_xls_uri, sheet_name="Data")
 
     print("Generating country data...")
-    generate_config(country_config, country_data, "country")
-    generate_data(country_data, "country")
+    generate_config(country_config, country_data, "subregion")
+    generate_data(country_data, "subregion")
 
     print("Generating region data...")
     generate_config(region_config, region_data, "region")
@@ -73,7 +73,7 @@ def generate_data(data_df, mode: str):
     # nested structure that maps well to our final dict
     data_df = data_df.set_index(["Year", mode.capitalize(), "Gender"])
 
-    if mode == "country":
+    if mode == "subregion":
         # Drop country specific columns that don't need to be included
         data_df = data_df.drop(columns=["Region", "Internet_Penetration"])
 
@@ -93,9 +93,13 @@ def generate_data(data_df, mode: str):
                 # values by index.
                 output[year]["geographies"][geography][gender] = data_df.xs(
                     [year, geography, gender]
-                ).tolist()
+                ).replace({np.nan: None}).tolist()
 
-    with open(f"{output_dir}/{mode}_data.json", "w") as f:
+    name = mode
+    if mode == "subregion":
+        name = "country"
+
+    with open(f"{output_dir}/{name}_data.json", "w") as f:
         f.write(json.dumps(output, cls=NpEncoder))
 
 
@@ -106,17 +110,29 @@ def generate_config(config_df, data_df, mode: str):
     config_df.rename(
         columns={
             "Variable": "var",
+            "Variable Name": "var",
             "Variable Label": "label",
+            "Parameter or Survey Question": "label",
             "Response Category": "cat",
             "Response category": "cat",
+            "Answer Label or Code": "cat",
         },
         inplace=True,
     )
 
+    def partition_if_string(s):
+        if type(s) is str:
+            return s.partition(". ")
+        else:
+            return ("","","")
+
     # The question column values have a code prefix ("C.2.") and a text
     # sentence, split these out into two fields
-    config_df["question"] = config_df["label"].apply(lambda s: s.partition(". ")[2])
-    config_df["qcode"] = config_df["label"].apply(lambda s: s.partition(". ")[0])
+    config_df["question"] = config_df["label"].apply(lambda s: partition_if_string(s)[2])
+    config_df["qcode"] = config_df["label"].apply(lambda s: partition_if_string(s)[0])
+
+    config_df["cat"] = config_df["cat"].apply(lambda x: x if "[Open-ended]" != x else None)
+    config_df["cat"] = config_df["cat"].apply(lambda x: x if "[Average]" != x else None)
 
     # The visualization type can be detremined by the absence and presence
     # of values in the category or question columns. Define these heuristics.
@@ -148,7 +164,7 @@ def generate_config(config_df, data_df, mode: str):
 
     # Define columns that we don't want persisted per data source
     region_attrs_drop = ["Year", "Region", "Gender"]
-    country_attrs_drop = region_attrs_drop + ["Internet_Penetration", "Country"]
+    country_attrs_drop = region_attrs_drop + ["Internet_Penetration", "Subregion"]
     attrs_drop = region_attrs_drop if mode == "region" else country_attrs_drop
 
     # Set the variable name value as the row index, which will be the key
@@ -177,14 +193,18 @@ def generate_config(config_df, data_df, mode: str):
         "geographies": geos_clean,
         "survey": data_config,
         "categories": {
-            "Background": "A",
-            "Decision Making and Resource Allocation": "B",
-            "Unpaid care giving": "C",
-            "Demographic Information": "D",
+            "Norms, Access, and Agency": "A",
+            "Time Spent and Care": "B",
+            "COVID's Impact": "C",
+            "Demographics": "D",
         },
     }
 
-    with open(f"{output_dir}/{mode}_config.json", "w") as f:
+    name = mode
+    if mode == "subregion":
+        name = "country"
+
+    with open(f"{output_dir}/{name}_config.json", "w") as f:
         f.write(json.dumps(config, ensure_ascii=False))
 
 
