@@ -6,3 +6,8 @@
   publish = "build"
   command = "../../scripts/cibuild"
   ignore = "false"
+
+[[headers]]
+for = "/*"
+  [headers.values]
+  Access-Control-Allow-Origin = "*"
