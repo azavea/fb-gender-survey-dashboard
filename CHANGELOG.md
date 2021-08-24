@@ -11,6 +11,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Enable cross-origin requests [#111](https://github.com/azavea/fb-gender-survey-dashboard/pull/111)
+
 ### Fixed
 
 - Update get-pip url [#109](https://github.com/azavea/fb-gender-survey-dashboard/pull/109)
