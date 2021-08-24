@@ -11,6 +11,10 @@ region_xls_uri = "https://data.humdata.org/dataset/504fce69-12c2-4c56-ada2-3173c
 
 output_dir = "/opt/src/src/dataproc/output"
 
+# Currently, these path are local to the dataproc contatiner but are intended
+# to be replaced by the appropriate URI, as defined above.
+region_xls_uri = "/opt/src/src/dataproc/sog_agg_region.xlsx"
+country_xls_uri = "/opt/src/src/dataproc/sog_agg_country.xlsx"
 
 class NpEncoder(json.JSONEncoder):
     """Numpy type encoder.
