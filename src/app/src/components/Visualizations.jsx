@@ -17,7 +17,7 @@ import {
 import { useHistory } from 'react-router-dom';
 import { IoIosCheckmark, IoIosStar, IoMdDownload } from 'react-icons/io';
 
-import { CONFIG } from '../utils/constants';
+import { CONFIG, ROUTES } from '../utils/constants';
 import { DataIndexer } from '../utils';
 import { downloadVisualizationsCSV } from '../utils/csv';
 import { saveVisualization } from '../redux/visualizations.actions';
@@ -32,7 +32,7 @@ const Visualizations = () => {
     const {
         currentQuestions,
         currentGeo,
-        currentYear,
+        currentYears,
         geoMode,
         data,
     } = useSelector(state => state.app);
@@ -55,8 +55,12 @@ const Visualizations = () => {
     }, [showSurvey, surveyHasBeenDisplayed, dispatch]);
 
     // If a page reloads directly to this page, restart at home
-    if (!currentQuestions.length || !currentGeo.length) {
-        history.push('/');
+    if (
+        !currentQuestions.length ||
+        !currentGeo.length ||
+        !currentYears.length
+    ) {
+        history.push(ROUTES.HOME);
         return null;
     }
 
@@ -75,7 +79,12 @@ const Visualizations = () => {
         return questionsByCategory;
     };
 
-    const dataIndexer = new DataIndexer(currentYear, geoMode, currentGeo, data);
+    const dataIndexer = new DataIndexer(
+        currentYears,
+        geoMode,
+        currentGeo,
+        data
+    );
     const viz = currentQuestions.map(q => dataIndexer.getResponse(q));
     const categories = categorize(viz);
 
@@ -92,7 +101,7 @@ const Visualizations = () => {
                 title,
                 currentQuestions,
                 currentGeo,
-                currentYear,
+                currentYears,
                 geoMode,
             })
         );

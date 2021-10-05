@@ -7,6 +7,7 @@ import 'focus-visible/dist/focus-visible';
 import './App.css';
 import Header from './components/Header';
 import GeographySelector from './components/GeographySelector';
+import YearSelector from './components/YearSelector';
 import QuestionSelector from './components/QuestionSelector';
 import Visualizations from './components/Visualizations';
 import SavedVisualizations from './components/SavedVisualizations';
@@ -44,6 +45,9 @@ function App() {
                     <Switch>
                         <Route exact path={ROUTES.HOME}>
                             <GeographySelector />
+                        </Route>
+                        <Route exact path={ROUTES.YEARS}>
+                            <YearSelector />
                         </Route>
                         <Route path={ROUTES.QUESTIONS}>
                             <QuestionSelector />

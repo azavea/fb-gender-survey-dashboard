@@ -24,8 +24,19 @@ const SavedVisualizations = () => {
     const dispatch = useDispatch();
     const visualizations = useSelector(state => state.visualizations);
 
-    const onClickList = visualization => {
-        dispatch(setVisualization(visualization));
+    const onClickList = data => {
+        const { currentYear, ...visualization } = data;
+        // User has an old visualization stored using 'currentYear'
+        if (!!currentYear) {
+            dispatch(
+                setVisualization({
+                    ...visualization,
+                    currentYears: [currentYear.toString()],
+                })
+            );
+        } else {
+            dispatch(setVisualization(visualization));
+        }
         history.push(ROUTES.VISUALIZATIONS);
     };
 
@@ -33,7 +44,14 @@ const SavedVisualizations = () => {
     const [isSmallScreen] = useMediaQuery('(max-width: 30em)');
 
     const renderSavedVisualization = (
-        { title, currentQuestions, currentGeo, currentYear, geoMode },
+        {
+            title,
+            currentQuestions,
+            currentGeo,
+            currentYears,
+            currentYear,
+            geoMode,
+        },
         index
     ) => (
         <Flex
@@ -44,6 +62,7 @@ const SavedVisualizations = () => {
                 onClickList({
                     currentQuestions,
                     currentGeo,
+                    currentYears,
                     currentYear,
                     geoMode,
                 })

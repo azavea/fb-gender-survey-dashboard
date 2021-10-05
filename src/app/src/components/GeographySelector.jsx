@@ -20,9 +20,9 @@ import { IconContext } from 'react-icons';
 import {
     setGeoSelection,
     setGeoSelectionMode,
-    setQuestionKeys,
+    setYears,
 } from '../redux/app.actions';
-import { CONFIG, GEO_COUNTRY, GEO_REGION } from '../utils/constants';
+import { CONFIG, GEO_COUNTRY, GEO_REGION, ROUTES } from '../utils/constants';
 import { formatQuery } from '../utils';
 import SearchInput from './SearchInput';
 import surveyMapImage from '../images/gender-survey-countries.png';
@@ -56,11 +56,11 @@ const GeographySelector = () => {
     };
 
     const handleNext = () => {
-        // Remove any previously selected question keys from state, otherwise
+        // Remove any previously selected years from state, otherwise
         // they will be re-rendered when the app navigates to the next section,
         // and the user will have to uncheck any/all that they don't want.
-        dispatch(setQuestionKeys([]));
-        history.push('/questions');
+        dispatch(setYears([]));
+        history.push(ROUTES.YEARS);
     };
 
     // The list of either regions or countries to show

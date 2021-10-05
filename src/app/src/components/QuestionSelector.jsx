@@ -32,7 +32,7 @@ const QuestionSelector = () => {
     const history = useHistory();
     const dispatch = useDispatch();
     const [query, setQuery] = useState('');
-    const { currentGeo, currentQuestions, geoMode } = useSelector(
+    const { currentGeo, currentQuestions, geoMode, currentYears } = useSelector(
         state => state.app
     );
 
@@ -112,7 +112,7 @@ const QuestionSelector = () => {
     };
 
     // If a page reloads directly to this page, restart at home
-    if (!currentGeo.length) {
+    if (!currentGeo.length || !currentYears.length) {
         history.push('/');
         return null;
     }
