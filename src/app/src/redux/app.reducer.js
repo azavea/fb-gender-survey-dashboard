@@ -9,12 +9,13 @@ import {
     setGeoSelectionMode,
     setQuestionKeys,
     setVisualization,
+    setYears,
 } from './app.actions';
 
 export const initialState = Object.freeze({
     data: {},
     geoMode: GEO_COUNTRY,
-    currentYear: 2020,
+    currentYears: [],
     currentGeo: [],
     currentQuestions: [],
 });
@@ -27,10 +28,11 @@ export default createReducer(
         [setQuestionKeys]: set('currentQuestions'),
         [setVisualization]: produce((state, payload) => {
             state.geoMode = payload.geoMode;
-            state.currentYear = payload.currentYear;
+            state.currentYears = payload.currentYears;
             state.currentGeo = payload.currentGeo;
             state.currentQuestions = payload.currentQuestions;
         }),
+        [setYears]: set('currentYears'),
     },
     initialState
 );

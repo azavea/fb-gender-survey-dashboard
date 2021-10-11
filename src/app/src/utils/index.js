@@ -19,9 +19,10 @@ export const isQuestionCode = key => {
 };
 
 export class DataIndexer {
-    constructor(year, geoMode, geographies, data) {
+    constructor(years, geoMode, geographies, data) {
         // Index the data by the current year and geography mode
-        this.data = data[geoMode][year];
+        // TODO: Enable multi-year question handling
+        this.data = data[geoMode][years[0]];
         this.geographies = geographies;
         this.survey = CONFIG[geoMode].survey;
     }
