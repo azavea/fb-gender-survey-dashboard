@@ -8,6 +8,12 @@ import GroupedBarChart from './GroupedBarChart';
 const Chart = ({ items }) => {
     const { question } = items[0];
 
+    const dataUnavailable = items.every(
+        item =>
+            item.response?.dataUnavailable ||
+            item.responses?.every(i => i.dataUnavailable)
+    );
+
     const title = question.cat ? (
         <>
             <Text
@@ -29,6 +35,19 @@ const Chart = ({ items }) => {
             {question.question}
         </Text>
     );
+
+    if (dataUnavailable) {
+        return (
+            <Box>
+                {title}
+                <Box mt={2} mb={8} borderRadius='sm' overflowX='auto'>
+                    <Text as='i' fontSize='md'>
+                        Data unavailable.
+                    </Text>
+                </Box>
+            </Box>
+        );
+    }
 
     let chart;
     if (question.type === 'stack') {
