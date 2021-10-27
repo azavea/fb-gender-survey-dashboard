@@ -75,7 +75,7 @@ def generate_data(data_df, mode: str):
 
     if mode == "subregion":
         # Drop country specific columns that don't need to be included
-        data_df = data_df.drop(columns=["Region", "Internet_Penetration"])
+        data_df = data_df.drop(columns=["Region"])
 
     # Loop through each index level, and create a nested dictionary
     output = {}
@@ -100,7 +100,7 @@ def generate_data(data_df, mode: str):
         name = "country"
 
     with open(f"{output_dir}/{name}_data.json", "w") as f:
-        f.write(json.dumps(output, cls=NpEncoder))
+        f.write(json.dumps(output, cls=NpEncoder, indent=2, sort_keys=True))
 
 
 def generate_config(config_df, data_df, mode: str):
@@ -130,6 +130,9 @@ def generate_config(config_df, data_df, mode: str):
     # sentence, split these out into two fields
     config_df["question"] = config_df["label"].apply(lambda s: partition_if_string(s)[2])
     config_df["qcode"] = config_df["label"].apply(lambda s: partition_if_string(s)[0])
+
+    config_df["cat"] = config_df["cat"].apply(lambda x: x if "[Open-ended]" != x else None)
+    config_df["cat"] = config_df["cat"].apply(lambda x: x if "[Average]" != x else None)
 
     config_df["cat"] = config_df["cat"].apply(lambda x: x if "[Open-ended]" != x else None)
     config_df["cat"] = config_df["cat"].apply(lambda x: x if "[Average]" != x else None)
@@ -164,7 +167,7 @@ def generate_config(config_df, data_df, mode: str):
 
     # Define columns that we don't want persisted per data source
     region_attrs_drop = ["Year", "Region", "Gender"]
-    country_attrs_drop = region_attrs_drop + ["Internet_Penetration", "Subregion"]
+    country_attrs_drop = region_attrs_drop + ["Subregion"]
     attrs_drop = region_attrs_drop if mode == "region" else country_attrs_drop
 
     # Set the variable name value as the row index, which will be the key
@@ -205,7 +208,7 @@ def generate_config(config_df, data_df, mode: str):
         name = "country"
 
     with open(f"{output_dir}/{name}_config.json", "w") as f:
-        f.write(json.dumps(config, ensure_ascii=False))
+        f.write(json.dumps(config, ensure_ascii=False, indent=2, sort_keys=True))
 
 
 if __name__ == "__main__":
