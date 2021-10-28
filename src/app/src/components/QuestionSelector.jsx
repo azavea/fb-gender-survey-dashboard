@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import {
@@ -24,7 +24,7 @@ import { IconContext } from 'react-icons';
 
 import { setQuestionKeys } from '../redux/app.actions';
 import { CONFIG, ROUTES } from '../utils/constants';
-import { formatQuery } from '../utils';
+import { formatQuery, DataIndexer } from '../utils';
 import Breadcrumbs from './Breadcrumbs';
 import SearchInput from './SearchInput';
 
@@ -32,9 +32,13 @@ const QuestionSelector = () => {
     const history = useHistory();
     const dispatch = useDispatch();
     const [query, setQuery] = useState('');
-    const { currentGeo, currentQuestions, geoMode, currentYears } = useSelector(
-        state => state.app
-    );
+    const {
+        currentGeo,
+        currentQuestions,
+        geoMode,
+        currentYears,
+        data,
+    } = useSelector(state => state.app);
 
     // Show or hide the breadcrumbs if small screen
     const [isSmallScreen] = useMediaQuery('(max-width: 30em)');
@@ -55,6 +59,11 @@ const QuestionSelector = () => {
     const [expandedCategoryIndexes, setExpandedCategoryIndexes] = useState(
         currentlySelectedCategoryIndexes
     );
+
+    const dataIndexer = useMemo(() => {
+        if (!currentGeo.length || !currentYears.length) return null;
+        return new DataIndexer(currentYears, geoMode, currentGeo, data);
+    }, [currentYears, geoMode, currentGeo, data]);
 
     // Known categories
     const questionsByCategory = { A: [], B: [], C: [], D: [] };
@@ -173,24 +182,26 @@ const QuestionSelector = () => {
         history.push(ROUTES.VISUALIZATIONS);
     };
 
-    Object.entries(config.survey).forEach(([key, question]) => {
-        const categoryCode = question.qcode[0].toUpperCase();
+    Object.entries(config.survey)
+        .filter(([key, question]) => !dataIndexer.isDataUnavailable(key))
+        .forEach(([key, question]) => {
+            const categoryCode = question.qcode[0].toUpperCase();
 
-        // Stack questions need to be grouped (agree/neutral/disagree) and
-        // only have the *question code* added once.
-        if (
-            question.type === 'stack' &&
-            !questionsByCategory[categoryCode].includes(question.qcode)
-        ) {
-            questionsByCategory[categoryCode].push(question.qcode);
+            // Stack questions need to be grouped (agree/neutral/disagree) and
+            // only have the *question code* added once.
+            if (
+                question.type === 'stack' &&
+                !questionsByCategory[categoryCode].includes(question.qcode)
+            ) {
+                questionsByCategory[categoryCode].push(question.qcode);
 
-            // Other types are directly about the respose, so we use the question/resoponse key
-            // and not the question code. We'll need to be aware of this mixed content when
-            // parsing questionsByCategory later.
-        } else if (question.type !== 'stack') {
-            questionsByCategory[categoryCode].push(key);
-        }
-    });
+                // Other types are directly about the respose, so we use the question/resoponse key
+                // and not the question code. We'll need to be aware of this mixed content when
+                // parsing questionsByCategory later.
+            } else if (question.type !== 'stack') {
+                questionsByCategory[categoryCode].push(key);
+            }
+        });
 
     const getQuestionCheckboxLabel = key => {
         // Generate a checkbox for a question. The checkbox text will differ

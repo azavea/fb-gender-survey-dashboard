@@ -18,6 +18,8 @@ export const isQuestionCode = key => {
     return key.includes('.');
 };
 
+const isCellEmpty = value => value == null || value.length === 0;
+
 export class DataIndexer {
     constructor(years, geoMode, geographies, data) {
         // Index the data by the current year and geography mode
@@ -57,9 +59,11 @@ export class DataIndexer {
 
     formatForViz(key, geo) {
         const resp = this.survey[key];
+
         if (!resp) {
-            return { key, geo };
+            return { key, geo, dataUnavailable: true };
         }
+
         const idx = resp.idx;
         const d = this.data.geographies[geo];
         const c = this.formatCell(d, 'Combined', idx);
@@ -67,6 +71,7 @@ export class DataIndexer {
         const f = this.formatCell(d, 'Female', idx);
 
         const dataUnavailable = c == null && m == null && f == null;
+
         return {
             key: key,
             geo: geo,
@@ -80,7 +85,7 @@ export class DataIndexer {
 
     formatCell(d, g, idx) {
         const cell = d[g][idx];
-        return cell === null ? null : cell.toFixed(2);
+        return isCellEmpty(cell) ? null : cell.toFixed(2);
     }
 
     getAllResponsesForQ(qcode) {
@@ -96,6 +101,14 @@ export class DataIndexer {
         // attribute is the only thing that makes a general question a response
         const { cat, ...rest } = response;
         return rest;
+    }
+
+    isDataUnavailable(key) {
+        // There is no data available for the question
+        // for any selected geography in the current year
+        return this.geographies.every(
+            geo => this.formatForViz(key, geo).dataUnavailable
+        );
     }
 }
 
