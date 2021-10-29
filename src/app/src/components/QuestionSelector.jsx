@@ -370,6 +370,10 @@ const QuestionSelector = () => {
                 maxW='1200px'
             >
                 <Text size='2xl' fontWeight='bold'>
+                    Showing charts for: {currentYears.join(',')}
+                    <Box as='span' opacity='0.5' mx={1}>
+                        •
+                    </Box>
                     {currentGeo.join(', ')}
                 </Text>
             </Flex>
