@@ -173,7 +173,11 @@ const Visualizations = () => {
                 maxW='1200px'
             >
                 <Text size='2xl' fontWeight='bold'>
-                    Showing charts for: {currentGeo.join(', ')}
+                    Showing charts for: {currentYears.join(', ')}
+                    <Box as='span' opacity='0.5' mx={1}>
+                        •
+                    </Box>
+                    {currentGeo.join(', ')}
                     <Box as='span' opacity='0.5' mx={1}>
                         •
                     </Box>
