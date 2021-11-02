@@ -1,4 +1,5 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { Box } from '@chakra-ui/react';
 import { ResponsiveBarCanvas } from '@nivo/bar';
 
@@ -7,18 +8,28 @@ import useRefs from '../hooks/useRefs';
 import { formatStackedCSV } from '../utils/csv';
 
 const StackedBarChart = ({ items }) => {
+    const { currentYears } = useSelector(state => state.app);
     const containerRefs = useRefs(items.length);
-
     return items.map(({ question, responses }, i) => {
-        const data = responses.reduce(
-            (acc, curr) => {
-                acc[0][curr.cat] = Math.round(curr.combined, 2);
-                acc[1][curr.cat] = Math.round(curr.male, 2);
-                acc[2][curr.cat] = Math.round(curr.female, 2);
-                return acc;
-            },
-            [{ index: 'Total' }, { index: 'Men' }, { index: 'Women' }]
-        );
+        const data = currentYears
+            .map(year =>
+                responses
+                    .filter(r => r.year === year)
+                    .reduce(
+                        (acc, curr) => {
+                            acc[0][curr.cat] = Math.round(curr.combined, 2);
+                            acc[1][curr.cat] = Math.round(curr.male, 2);
+                            acc[2][curr.cat] = Math.round(curr.female, 2);
+                            return acc;
+                        },
+                        [
+                            { index: `Total ${year}` },
+                            { index: `Men ${year}` },
+                            { index: `Women ${year}` },
+                        ]
+                    )
+            )
+            .flat();
         const keys = responses.map(r => r.cat);
         const formatValue = v => `${v}%`;
 
@@ -45,7 +56,7 @@ const StackedBarChart = ({ items }) => {
                     data={data}
                     keys={keys}
                     indexBy='index'
-                    margin={{ top: 50, right: 250, bottom: 60, left: 80 }}
+                    margin={{ top: 50, right: 250, bottom: 60, left: 120 }}
                     pixelRatio={2}
                     padding={0.25}
                     innerPadding={0}

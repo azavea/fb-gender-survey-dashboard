@@ -24,6 +24,7 @@ export class DataIndexer {
     constructor(years, geoMode, geographies, data) {
         // Index the data by the current year and geography mode
         // TODO: Enable multi-year question handling
+        this.year = years[0];
         this.data = data[geoMode][years[0]];
         this.geographies = geographies;
         this.survey = CONFIG[geoMode].survey;
@@ -59,7 +60,6 @@ export class DataIndexer {
 
     formatForViz(key, geo) {
         const resp = this.survey[key];
-
         if (!resp) {
             return { key, geo, dataUnavailable: true };
         }
@@ -79,6 +79,7 @@ export class DataIndexer {
             combined: c,
             female: f,
             male: m,
+            year: this.year,
             dataUnavailable,
         };
     }
