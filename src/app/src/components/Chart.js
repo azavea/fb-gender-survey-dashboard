@@ -8,11 +8,15 @@ import GroupedBarChart from './GroupedBarChart';
 const Chart = ({ items }) => {
     const { question } = items[0];
 
-    const dataUnavailable = items.every(
+    const data = items.filter(
         item =>
-            item.response?.dataUnavailable ||
-            item.responses?.every(i => i.dataUnavailable)
+            !(
+                item.response?.dataUnavailable ||
+                item.responses?.every(i => i.dataUnavailable)
+            )
     );
+
+    if (!data.length) return null;
 
     const title = question.cat ? (
         <>
@@ -36,26 +40,13 @@ const Chart = ({ items }) => {
         </Text>
     );
 
-    if (dataUnavailable) {
-        return (
-            <Box>
-                {title}
-                <Box mt={2} mb={8} borderRadius='sm' overflowX='auto'>
-                    <Text as='i' fontSize='md'>
-                        Data unavailable.
-                    </Text>
-                </Box>
-            </Box>
-        );
-    }
-
     let chart;
     if (question.type === 'stack') {
-        chart = <StackedBarChart items={items} />;
+        chart = <StackedBarChart items={data} />;
     } else if (question.type === 'ten') {
-        chart = <WaffleChart items={items} />;
+        chart = <WaffleChart items={data} />;
     } else {
-        chart = <GroupedBarChart items={items} />;
+        chart = <GroupedBarChart items={data} />;
     }
 
     return (
