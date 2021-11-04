@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import {
@@ -31,9 +31,39 @@ import fallbackImage from '../images/fallback.jpg';
 const GeographySelector = () => {
     const history = useHistory();
     const dispatch = useDispatch();
-    const { geoMode, currentGeo } = useSelector(state => state.app);
+    const { geoMode, currentGeo, data } = useSelector(state => state.app);
     const [prevGeoSelection, setPrevGeoSelection] = useState([]);
     const [query, setQuery] = useState('');
+
+    const years = useMemo(
+        () => (geoMode && data[geoMode] ? Object.keys(data[geoMode]) : []),
+        [geoMode, data]
+    );
+
+    // The list of either regions or countries to show
+    let geoList = CONFIG[geoMode].geographies;
+
+    const geoData = data[geoMode];
+    const yearAvailability = useMemo(
+        () =>
+            geoList.reduce(
+                (ya, geo) => ({
+                    ...ya,
+                    [geo]: years.filter(y => {
+                        const { Combined, Female, Male } = geoData[
+                            y
+                        ].geographies[geo];
+                        const isUnavailable =
+                            Combined.every(el => !el) &&
+                            Female.every(el => !el) &&
+                            Male.every(el => !el);
+                        return !isUnavailable;
+                    }),
+                }),
+                {}
+            ),
+        [years, geoList, geoData]
+    );
 
     const handleGeoSet = newGeoMode => {
         // Prevent making changes if the user clicked the current geo mode button
@@ -62,9 +92,6 @@ const GeographySelector = () => {
         dispatch(setYears([]));
         history.push(ROUTES.YEARS);
     };
-
-    // The list of either regions or countries to show
-    let geoList = CONFIG[geoMode].geographies;
 
     if (query.trim().length && geoMode === GEO_COUNTRY) {
         geoList = geoList.filter(
@@ -167,16 +194,26 @@ const GeographySelector = () => {
                                 align='start'
                             >
                                 {geoList.length ? (
-                                    geoList.map(geo => (
-                                        <Checkbox
-                                            key={`geo-${geo}`}
-                                            value={geo}
-                                            size='lg'
-                                            colorScheme='red'
-                                        >
-                                            {geo}
-                                        </Checkbox>
-                                    ))
+                                    geoList.map(geo => {
+                                        const availableYears =
+                                            yearAvailability[geo];
+                                        return (
+                                            <Checkbox
+                                                key={`geo-${geo}`}
+                                                value={geo}
+                                                size='lg'
+                                                colorScheme='red'
+                                            >
+                                                {geo}{' '}
+                                                {availableYears.length <
+                                                years.length
+                                                    ? `(${availableYears.join(
+                                                          ', '
+                                                      )} only)`
+                                                    : ''}
+                                            </Checkbox>
+                                        );
+                                    })
                                 ) : (
                                     <Text>No areas found.</Text>
                                 )}

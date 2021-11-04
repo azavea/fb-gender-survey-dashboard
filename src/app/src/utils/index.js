@@ -111,6 +111,18 @@ export class DataIndexer {
             geo => this.formatForViz(key, geo).dataUnavailable
         );
     }
+
+    getGeoAvailability(key) {
+        // Returns an object showing the question's
+        // availability for each geography
+        return this.geographies.reduce(
+            (acc, geo) => ({
+                ...acc,
+                [geo]: this.formatForViz(key, geo).dataUnavailable,
+            }),
+            {}
+        );
+    }
 }
 
 export const formatQuery = str => str?.trim().toLowerCase() || '';

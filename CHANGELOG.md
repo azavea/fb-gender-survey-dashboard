@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Process 2021 config data [#120](https://github.com/azavea/fb-gender-survey-dashboard/pull/120)
 - Add 2021 data [#121](https://github.com/azavea/fb-gender-survey-dashboard/pull/121)
 - Hide unavailable questions [#122](https://github.com/azavea/fb-gender-survey-dashboard/pull/122)
+- Handle unavailable years [#125](https://github.com/azavea/fb-gender-survey-dashboard/pull/125)
 
 ### Changed
 

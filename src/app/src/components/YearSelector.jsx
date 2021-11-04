@@ -1,4 +1,4 @@
-import React from 'react';
+import { useMemo, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import {
@@ -17,7 +17,8 @@ import { IoIosArrowRoundForward } from 'react-icons/io';
 import { IconContext } from 'react-icons';
 
 import { setQuestionKeys, setYears } from '../redux/app.actions';
-import { ROUTES } from '../utils/constants';
+import { CONFIG, ROUTES } from '../utils/constants';
+import { DataIndexer } from '../utils';
 import Breadcrumbs from './Breadcrumbs';
 
 // TODO: Update this component to use Checkboxes when multi-year comparison is enabled
@@ -31,13 +32,46 @@ const YearSelector = () => {
     // Show or hide the breadcrumbs if small screen
     const [isSmallScreen] = useMediaQuery('(max-width: 30em)');
 
+    // Select the appropriate config file based on the current geoMode
+    const survey = CONFIG[geoMode]?.survey;
+    const years = useMemo(
+        () => (geoMode && data[geoMode] ? Object.keys(data[geoMode]) : []),
+        [geoMode, data]
+    );
+
+    // Select the available years based on available questions for selected geographies
+    const availableYearsGeography = useMemo(() => {
+        if (!currentGeo.length) return [];
+        return years.reduce((availableYears, year) => {
+            const indexer = new DataIndexer([year], geoMode, currentGeo, data);
+            const geoAvailability = Object.entries(
+                survey
+            ).map(([key, question]) => indexer.getGeoAvailability(key));
+
+            return {
+                ...availableYears,
+                [year]: currentGeo.filter(geo =>
+                    geoAvailability.some(ga => !ga[geo])
+                ),
+            };
+        }, {});
+    }, [years, geoMode, currentGeo, data, survey]);
+
+    // If only one year is available, autoselect that year
+    useEffect(() => {
+        const availableYears = Object.keys(availableYearsGeography).filter(
+            y => availableYearsGeography[y].length
+        );
+        if (availableYears.length === 1) {
+            dispatch(setYears(availableYears));
+        }
+    }, [availableYearsGeography, dispatch]);
+
     // If a page reloads directly to this page, restart at home
     if (!currentGeo.length) {
         history.push('/');
         return null;
     }
-
-    const availableYears = Object.keys(data[geoMode]);
 
     const handleSelection = selections => {
         dispatch(setYears([selections]));
@@ -77,6 +111,15 @@ const YearSelector = () => {
                 </Flex>
             </Flex>
             <Flex
+                my={2}
+                mx={{ base: 4, md: 4, lg: 8, xl: 'auto' }}
+                maxW='1200px'
+            >
+                <Text size='2xl' fontWeight='bold'>
+                    Showing options for: {currentGeo.join(', ')}
+                </Text>
+            </Flex>
+            <Flex
                 m={{ base: 4, md: 8 }}
                 flexDirection={{
                     base: 'column-reverse',
@@ -97,24 +140,37 @@ const YearSelector = () => {
                         <RadioGroup
                             key={`year-selector`}
                             onChange={handleSelection}
-                            defaultValue={currentYears[0]}
+                            value={currentYears[0]}
                         >
                             <VStack
                                 spacing={5}
                                 direction='column'
                                 align='start'
                             >
-                                {availableYears.length ? (
-                                    availableYears.map(year => (
-                                        <Radio
-                                            key={`year-${year}`}
-                                            value={year}
-                                            size='lg'
-                                            colorScheme='red'
-                                        >
-                                            {year}
-                                        </Radio>
-                                    ))
+                                {years.length ? (
+                                    years.map(year => {
+                                        const geos =
+                                            availableYearsGeography[year];
+                                        const unavailableGeos = currentGeo.filter(
+                                            g => !geos.includes(g)
+                                        );
+                                        return (
+                                            <Radio
+                                                key={`year-${year}`}
+                                                value={year}
+                                                size='lg'
+                                                colorScheme='red'
+                                                isDisabled={!geos?.length}
+                                            >
+                                                {year}{' '}
+                                                {unavailableGeos.length
+                                                    ? `(not available for ${unavailableGeos.join(
+                                                          ', '
+                                                      )})`
+                                                    : ''}
+                                            </Radio>
+                                        );
+                                    })
                                 ) : (
                                     <Text>No years available.</Text>
                                 )}
