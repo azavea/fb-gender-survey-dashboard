@@ -37,7 +37,7 @@ const WaffleChart = ({ items }) => {
             <Box py={4} key={`waffle-${question.qcode}${response.geo}`}>
                 <Flex justify='center' mb={2}>
                     <Text as='strong' size='sm'>
-                        {response.geo}
+                        {response.geo} {response.year}
                     </Text>
                 </Flex>
                 <Box
@@ -53,7 +53,11 @@ const WaffleChart = ({ items }) => {
                 >
                     <DownloadMenu
                         chartContainerRef={containerRefs.current[i]}
-                        question={{ ...question, geo: response.geo }}
+                        question={{
+                            ...question,
+                            geo: response.geo,
+                            year: response.year,
+                        }}
                         csvData={formatWaffleCSV({ question, response })}
                     />
                     <HStack

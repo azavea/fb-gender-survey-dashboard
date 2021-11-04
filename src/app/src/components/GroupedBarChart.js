@@ -9,11 +9,13 @@ const GroupedBarChart = ({ items }) => {
     const data = items
         .map(({ response }) => ({
             ...response,
+            geoyear: `${response.geo} ${response.year}`,
             Men: response.male,
             Women: response.female,
             Total: response.combined,
         }))
         .reverse();
+
     const keys = ['Total', 'Men', 'Women'];
 
     const { cat, qcode, type } = items[0].question;
@@ -75,12 +77,12 @@ const GroupedBarChart = ({ items }) => {
             <ResponsiveBarCanvas
                 data={data}
                 keys={keys}
-                indexBy='geo'
+                indexBy='geoyear'
                 margin={{
                     top: 50,
                     right: 110,
                     bottom: isPercent ? 60 : 50,
-                    left: 220,
+                    left: 230,
                 }}
                 pixelRatio={2}
                 padding={0.15}

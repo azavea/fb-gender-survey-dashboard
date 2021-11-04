@@ -1,5 +1,6 @@
 const csvHeader = [
     'Geography',
+    'Year',
     'Question Code',
     'Question Text',
     'Response Category',
@@ -12,6 +13,7 @@ const addCSVResponse = ({ question, response, data }) => {
     // This order must match the header columns
     const row = [
         response.geo,
+        response.year,
         question.qcode,
         question.question,
         response.cat,
