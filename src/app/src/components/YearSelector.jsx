@@ -80,7 +80,7 @@ const YearSelector = () => {
             <Flex layerStyle='selector'>
                 <Flex>
                     <Heading as='h2' textStyle='h2' mb='0'>
-                        Select the year(s) to view
+                        Select the survey year
                     </Heading>
                     <Spacer />
                     <Button
@@ -110,15 +110,9 @@ const YearSelector = () => {
             </Flex>
             <Flex
                 m={{ base: 4, md: 8 }}
-                flexDirection={{
-                    base: 'column-reverse',
-                    md: 'column-reverse',
-                    lg: 'row',
-                }}
+                flexDirection='column-reverse'
                 maxW='1200px'
                 mx={{ base: 4, lg: 'auto' }}
-                alignItems='flex-start'
-                justifyContent='space-between'
             >
                 <Flex
                     flex='auto'
