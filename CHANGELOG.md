@@ -20,6 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Use local data for development [#110](https://github.com/azavea/fb-gender-survey-dashboard/pull/110)
 - Add year selector [#116](https://github.com/azavea/fb-gender-survey-dashboard/pull/116)
 - Add year in charts and downloads [#124](https://github.com/azavea/fb-gender-survey-dashboard/pull/124)
+- Update text [#129](https://github.com/azavea/fb-gender-survey-dashboard/pull/129)
 
 ### Fixed
 
