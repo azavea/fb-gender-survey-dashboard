@@ -7,6 +7,7 @@ import {
     MenuButton,
     MenuList,
     MenuItem,
+    Portal,
 } from '@chakra-ui/react';
 import { FaDownload } from 'react-icons/fa';
 import { combineCanvases, setBackgroundColor, addTitle } from '../utils/canvas';
@@ -81,10 +82,12 @@ const DownloadMenu = ({
                     isRound={true}
                     icon={<FaDownload />}
                 />
-                <MenuList>
-                    <MenuItem onClick={saveImage}>PNG</MenuItem>
-                    <MenuItem onClick={saveCSV}>CSV</MenuItem>
-                </MenuList>
+                <Portal>
+                    <MenuList>
+                        <MenuItem onClick={saveImage}>PNG</MenuItem>
+                        <MenuItem onClick={saveCSV}>CSV</MenuItem>
+                    </MenuList>
+                </Portal>
             </Menu>
         </Flex>
     );
