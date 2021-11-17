@@ -36,101 +36,93 @@ const FaqModal = ({ isOpen, onClose }) => {
                 </ModalHeader>
                 <ModalBody>
                     <Accordion allowToggle>
-                        <StyledAccordionItem title='How are the country- and region-level statistics calculated?'>
+                        <StyledAccordionItem title='What data does this dashboard show?'>
                             <StyledText>
-                                The country-level statistics provided reflect
-                                the percentage of respondents in each
-                                country/region providing a given response to
-                                each question. These percentages are calculated
-                                based on all people who responded to a given
-                                question (even if their response is “Don’t Know”
-                                or “Prefer not to respond”). These percentages
-                                are then calibrated to provide estimates
-                                representing the online population in each
-                                country and then disaggregated for men and
-                                women, shedding light on gender differences
-                                within countries and regions. Weights were
-                                applied at the individual respondent level
-                                before aggregation. Visit the website to learn
-                                more about the methodology (see link above).
-                            </StyledText>
-                        </StyledAccordionItem>
-                        <StyledAccordionItem title='How should I interpret the values?'>
-                            <StyledText>
-                                Unless otherwise indicated in the{' '}
+                                This dashboard shows the public, aggregate data
+                                for all waves of the Survey on Gender Equality
+                                at Home. This data is available at the{' '}
                                 <StyledLink
-                                    href='https://data.humdata.org/dataset/504fce69-12c2-4c56-ada2-3173c663107a/resource/694d3c50-42bd-47f5-9304-c42db9d1f95f/download/sog_agg_country.xlsx'
-                                    title='Codebook,'
-                                ></StyledLink>{' '}
-                                a value is the percent of all respondents of
-                                that gender who responded to that specific
-                                variable. For instance, a value of “56” for
-                                variable “a1_neutral” for gender “Female” means
-                                that 56% of all females who answered question A1
-                                responded “neutral.”
-                            </StyledText>
-                            <StyledText>
-                                The{' '}
-                                <StyledLink
-                                    href='https://data.humdata.org/dataset/504fce69-12c2-4c56-ada2-3173c663107a/resource/694d3c50-42bd-47f5-9304-c42db9d1f95f/download/sog_agg_country.xlsx'
-                                    title='codebook'
-                                ></StyledLink>{' '}
-                                indicates exceptions, which are usually done to
-                                enable sharing of data where individual response
-                                counts are too low to preserve privacy.
-                            </StyledText>
-                        </StyledAccordionItem>
-                        <StyledAccordionItem title="Why aren't all countries included?">
-                            <StyledText>
-                                The survey was not administered in every country
-                                in the world. (For a list of countries included,{' '}
-                                <StyledLink
-                                    href='https://dataforgood.fb.com/docs/gendersurveyreport/'
-                                    title='visit the website'
+                                    href='https://data.humdata.org/dataset/survey-on-gender-equality-at-home'
+                                    title='Humanitarian Data Exchange website'
                                 />{' '}
-                                to learn more about the methodology).
-                                Additionally, to preserve privacy, responses
-                                from countries where response rates were
-                                insufficient for country-level representation
-                                have been aggregated into a “Rest of region”
-                                group for their geographic region. This dataset
-                                thus includes data for 116 countries across
-                                seven world regions, using the World Bank
-                                classification of countries by region.
+                                and is shared through the{' '}
+                                <StyledLink
+                                    href='https://dataforgood.fb.com/'
+                                    title='Data for Good at Meta program'
+                                />
+                                .
                             </StyledText>
                         </StyledAccordionItem>
-                        <StyledAccordionItem title='Why aren’t statistics provided for every response option for each question?'>
+
+                        <StyledAccordionItem title='What are the differences between the 2020 and 2021 waves?'>
                             <StyledText>
-                                In general, the following parameters inform what
-                                data is and is not included: We aimed to cover
-                                as many variables and response categories as
-                                possible within a concise, useful data file.
-                                This necessitated excluding some questions that
-                                are difficult to interpret or are of limited
-                                relevance as country- or region-level aggregate
-                                statistics. For a few of the multiple-choice
-                                questions, we collapse multiple answers
-                                following the same logic used for the public
-                                report. The statistics for some response options
-                                are blank for some countries where an
-                                insufficient number of people responded to
-                                ensure representativeness and anonymity. These
-                                decisions serve to keep a balance between
-                                providing useful data and maintaining a
-                                manageable dataset.
+                                There are some similarities and differences
+                                between the 2020 and 2021 waves of the Survey on
+                                Gender Equality at Home. For example, about half
+                                of the questions in the 2021 questionnaire are
+                                different from the 2020 questionnaire, and the
+                                sample size was different for each wave. Visit
+                                the{' '}
+                                <StyledLink
+                                    href='https://dataforgood.facebook.com/dfg/tools/survey-on-gender-equality-at-home'
+                                    title='Data for Good at Meta website'
+                                />{' '}
+                                for more information about each wave.
                             </StyledText>
                         </StyledAccordionItem>
-                        <StyledAccordionItem title='The survey included an "Optional" section. Where is that data?'>
+                        <StyledAccordionItem title='Was the sample size and geographical coverage the same for both waves?'>
                             <StyledText>
-                                In general, respondents were allowed to skip any
-                                question(s) they did not want to answer. Due to
-                                the nature of online surveys and length of the
-                                questionnaire, response rates for this section
-                                were too low to warrant including in this
-                                dataset.
+                                No. The sample for the 2020 questionnaire
+                                included over 460,000 respondents across 208
+                                geographies, compared to over 96,000 respondents
+                                across 200 geographies in 2021. The country
+                                selection page on this dashboard includes a
+                                clarification for those geographies for which
+                                only data from 2020 or 2021 is available.
+                            </StyledText>
+                            <StyledText>
+                                Because of these differences, caution must be
+                                given to drawing comparisons between regions or
+                                countries across waves. For example, different
+                                countries constituted the East Asia and Pacific
+                                region in 2020 compared to in 2021.
                             </StyledText>
                         </StyledAccordionItem>
-                        <StyledAccordionItem title='The survey included open-ended questions. Where are those responses?'>
+                        <StyledAccordionItem title='Where can I see the questionnaire for each wave?'>
+                            <StyledText>
+                                The questionnaire for each wave is included in
+                                the global report for each wave, available at
+                                the{' '}
+                                <StyledLink
+                                    href='https://dataforgood.facebook.com/dfg/tools/survey-on-gender-equality-at-home'
+                                    title='Data for Good at Meta website'
+                                />
+                                .
+                            </StyledText>
+                        </StyledAccordionItem>
+                        <StyledAccordionItem title='How do I cite this data?'>
+                            <StyledText>
+                                Please cite this data as: Data for Good at Meta
+                                (2021). Survey on Gender Equality at Home.
+                                Available at:
+                                https://dataforgood.facebook.com/dfg/docs/survey-on-gender-equality-at-home-2021-report
+                            </StyledText>
+                        </StyledAccordionItem>
+                        <StyledAccordionItem title='Can I access the raw survey data for the 2020 or 2021 waves?'>
+                            <StyledText>
+                                De-identified, record-level response data to
+                                most questions may be available to individuals
+                                and non-profit organizations for research
+                                purposes. Visit the{' '}
+                                <StyledLink
+                                    href='https://dataforgood.facebook.com/dfg/tools/survey-on-gender-equality-at-home'
+                                    title='Data for Good at Meta website'
+                                />{' '}
+                                to learn more about how to request access to
+                                this microdata.
+                            </StyledText>
+                        </StyledAccordionItem>
+                        <StyledAccordionItem title='The questionnaires included open-ended questions. Where are those responses?'>
                             <StyledText>
                                 Responses to open-ended questions are not
                                 included in this dataset to ensure respondents’
@@ -150,31 +142,17 @@ const FaqModal = ({ isOpen, onClose }) => {
                                 from each country represents.
                             </StyledText>
                         </StyledAccordionItem>
-                        <StyledAccordionItem title='Can I access the raw survey data?'>
+                        <StyledAccordionItem title='Where can I learn more about the specific limitations and features of each wave?'>
                             <StyledText>
-                                De-identified, record-level response data to
-                                most questions may be available to individuals
-                                and non-profit organizations for research
-                                purposes. Please email{' '}
+                                Download and review the public, aggregate
+                                datasets for the 2020 and 2021 surveys at the{' '}
                                 <StyledLink
-                                    href='mailto:gendersurvey@fb.com'
-                                    title='gendersurvey@fb.com'
-                                />{' '}
-                                if you are interested in learning more.
-                            </StyledText>
-                        </StyledAccordionItem>
-                        <StyledAccordionItem title='Is the data provided for regions and countries the same?'>
-                            <StyledText>
-                                The questions and response options in the two
-                                datasets are similar, with few exceptions. For
-                                example: Response options for two questions
-                                (C.1. and B.6. - see{' '}
-                                <StyledLink
-                                    href='https://data.humdata.org/dataset/504fce69-12c2-4c56-ada2-3173c663107a/resource/694d3c50-42bd-47f5-9304-c42db9d1f95f/download/sog_agg_country.xlsx'
-                                    title='codebook'
-                                ></StyledLink>
-                                ) are not available at the country level due to
-                                low response rates.
+                                    href='https://data.humdata.org/dataset/survey-on-gender-equality-at-home'
+                                    title='Humanitarian Data Exchange website'
+                                />
+                                . These files include FAQs and Codebooks with
+                                important information to guide your
+                                interpretation and use of these insights.
                             </StyledText>
                         </StyledAccordionItem>
                     </Accordion>

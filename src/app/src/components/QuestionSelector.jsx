@@ -11,20 +11,23 @@ import {
     Button,
     Checkbox,
     CheckboxGroup,
-    HStack,
     Text,
     useMediaQuery,
     Heading,
     VStack,
     Flex,
-    Link,
 } from '@chakra-ui/react';
 import { IoIosArrowRoundForward } from 'react-icons/io';
 import { IconContext } from 'react-icons';
 
 import { setQuestionKeys } from '../redux/app.actions';
 import { CONFIG, ROUTES } from '../utils/constants';
-import { formatQuery, DataIndexer } from '../utils';
+import {
+    formatQuery,
+    DataIndexer,
+    calculateAvailableGeo,
+    formatCurrentGeo,
+} from '../utils';
 import Breadcrumbs from './Breadcrumbs';
 import SearchInput from './SearchInput';
 
@@ -46,6 +49,13 @@ const QuestionSelector = () => {
     // Select the appropriate config file based on the current geoMode
     const config = CONFIG[geoMode];
 
+    // Select the appropriate config file based on the current geoMode
+    const survey = config?.survey;
+    const years = useMemo(
+        () => (geoMode && data[geoMode] ? Object.keys(data[geoMode]) : []),
+        [geoMode, data]
+    );
+
     // Determine the indexes of any categories that currently have questions
     // selected. These will be expanded by default.
     const categoryLetterCodes = Object.values(config.categories);
@@ -64,6 +74,13 @@ const QuestionSelector = () => {
         if (!currentGeo.length || !currentYears.length) return null;
         return new DataIndexer(currentYears, geoMode, currentGeo, data);
     }, [currentYears, geoMode, currentGeo, data]);
+
+    // Select the available years based on available questions for selected geographies
+    const availableYearsGeography = useMemo(
+        () =>
+            calculateAvailableGeo({ years, geoMode, currentGeo, data, survey }),
+        [years, geoMode, currentGeo, data, survey]
+    );
 
     // Known categories
     const questionsByCategory = { A: [], B: [], C: [], D: [] };
@@ -301,7 +318,7 @@ const QuestionSelector = () => {
                                             as='p'
                                             mt={1}
                                         >
-                                            {questions.length} questions
+                                            {questions.length} options
                                         </Heading>
                                     )}
                                 </Box>
@@ -325,7 +342,7 @@ const QuestionSelector = () => {
                                         as='p'
                                         fontStyle='italic'
                                     >
-                                        Contains no matching questions.
+                                        Contains no matching options.
                                     </Heading>
                                 )}
                                 <VStack alignItems='start' spacing={6}>
@@ -374,7 +391,11 @@ const QuestionSelector = () => {
                     <Box as='span' opacity='0.5' mx={1}>
                         •
                     </Box>
-                    {currentGeo.join(', ')}
+                    {formatCurrentGeo({
+                        currentGeo,
+                        currentYears,
+                        availableYearsGeography,
+                    })}
                 </Text>
             </Flex>
             <Flex
@@ -383,22 +404,11 @@ const QuestionSelector = () => {
                 my={{ lg: 8 }}
                 mx={{ base: 4, lg: 'auto' }}
             >
-                <HStack flexDirection={{ base: 'column', md: 'row' }} mb={4}>
-                    <Text size='sm' mb={{ base: 2, md: 'none' }}>
-                        The survey was structured into four sections to provide
-                        a snapshot of gender dynamics during Covid-19.{' '}
-                        <Link
-                            href='https://dataforgood.fb.com/wp-content/uploads/2020/09/Survey-on-Gender-Equality-at-Home-Report-1.pdf#page=60'
-                            textDecoration='underline'
-                            isExternal
-                        >
-                            View the full survey here.
-                        </Link>
-                    </Text>
+                <Flex mb={4} justify='flex-end'>
                     <Box width={{ base: '100%', md: '350px' }}>
                         <SearchInput query={query} setQuery={handleSetQuery} />
                     </Box>
-                </HStack>
+                </Flex>
                 <Box>
                     <CheckboxGroup
                         size='xl'

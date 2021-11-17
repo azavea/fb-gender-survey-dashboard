@@ -126,3 +126,39 @@ export class DataIndexer {
 }
 
 export const formatQuery = str => str?.trim().toLowerCase() || '';
+
+export const calculateAvailableGeo = ({
+    years,
+    geoMode,
+    currentGeo,
+    data,
+    survey,
+}) => {
+    if (!currentGeo.length) return [];
+    return years.reduce((availableYears, year) => {
+        const indexer = new DataIndexer([year], geoMode, currentGeo, data);
+        const geoAvailability = Object.entries(survey).map(([key, question]) =>
+            indexer.getGeoAvailability(key)
+        );
+
+        return {
+            ...availableYears,
+            [year]: currentGeo.filter(geo =>
+                geoAvailability.some(ga => !ga[geo])
+            ),
+        };
+    }, {});
+};
+
+export const formatCurrentGeo = ({
+    currentGeo,
+    currentYears,
+    availableYearsGeography,
+}) =>
+    currentGeo
+        .filter(geo =>
+            currentYears.some(year =>
+                availableYearsGeography[year].includes(geo)
+            )
+        )
+        .join(', ');

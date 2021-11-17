@@ -18,7 +18,7 @@ import { IconContext } from 'react-icons';
 
 import { setQuestionKeys, setYears } from '../redux/app.actions';
 import { CONFIG, ROUTES } from '../utils/constants';
-import { DataIndexer } from '../utils';
+import { calculateAvailableGeo } from '../utils';
 import Breadcrumbs from './Breadcrumbs';
 
 // TODO: Update this component to use Checkboxes when multi-year comparison is enabled
@@ -40,22 +40,11 @@ const YearSelector = () => {
     );
 
     // Select the available years based on available questions for selected geographies
-    const availableYearsGeography = useMemo(() => {
-        if (!currentGeo.length) return [];
-        return years.reduce((availableYears, year) => {
-            const indexer = new DataIndexer([year], geoMode, currentGeo, data);
-            const geoAvailability = Object.entries(
-                survey
-            ).map(([key, question]) => indexer.getGeoAvailability(key));
-
-            return {
-                ...availableYears,
-                [year]: currentGeo.filter(geo =>
-                    geoAvailability.some(ga => !ga[geo])
-                ),
-            };
-        }, {});
-    }, [years, geoMode, currentGeo, data, survey]);
+    const availableYearsGeography = useMemo(
+        () =>
+            calculateAvailableGeo({ years, geoMode, currentGeo, data, survey }),
+        [years, geoMode, currentGeo, data, survey]
+    );
 
     // If only one year is available, autoselect that year
     useEffect(() => {

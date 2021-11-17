@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
     Accordion,
@@ -18,7 +18,7 @@ import { useHistory } from 'react-router-dom';
 import { IoIosCheckmark, IoIosStar, IoMdDownload } from 'react-icons/io';
 
 import { CONFIG, ROUTES } from '../utils/constants';
-import { DataIndexer } from '../utils';
+import { DataIndexer, calculateAvailableGeo, formatCurrentGeo } from '../utils';
 import { downloadVisualizationsCSV } from '../utils/csv';
 import { saveVisualization } from '../redux/visualizations.actions';
 import { setShowSurvey } from '../redux/survey.actions';
@@ -54,6 +54,21 @@ const Visualizations = () => {
         }
     }, [showSurvey, surveyHasBeenDisplayed, dispatch]);
 
+    const config = CONFIG[geoMode];
+    // Select the appropriate config file based on the current geoMode
+    const survey = config?.survey;
+    const years = useMemo(
+        () => (geoMode && data[geoMode] ? Object.keys(data[geoMode]) : []),
+        [geoMode, data]
+    );
+
+    // Select the available years based on available questions for selected geographies
+    const availableYearsGeography = useMemo(
+        () =>
+            calculateAvailableGeo({ years, geoMode, currentGeo, data, survey }),
+        [years, geoMode, currentGeo, data, survey]
+    );
+
     // If a page reloads directly to this page, restart at home
     if (
         !currentQuestions.length ||
@@ -87,8 +102,6 @@ const Visualizations = () => {
     );
     const viz = currentQuestions.map(q => dataIndexer.getResponse(q));
     const categories = categorize(viz);
-
-    const config = CONFIG[geoMode];
 
     const onDownloadCSV = () => {
         downloadVisualizationsCSV(categories);
@@ -177,7 +190,11 @@ const Visualizations = () => {
                     <Box as='span' opacity='0.5' mx={1}>
                         •
                     </Box>
-                    {currentGeo.join(', ')}
+                    {formatCurrentGeo({
+                        currentGeo,
+                        currentYears,
+                        availableYearsGeography,
+                    })}
                     <Box as='span' opacity='0.5' mx={1}>
                         •
                     </Box>
