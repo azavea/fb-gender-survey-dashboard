@@ -81,14 +81,14 @@ const AboutModal = ({ isOpen, onClose }) => {
                                     href='https://about.fb.com/news/2020/03/closing-the-gender-data-gap/'
                                     title='Project 17'
                                 />
-                                , two Facebook programs that use data to drive
+                                , two Meta programs that use data to drive
                                 progress on critical humanitarian issues. Data
                                 for Good provides tools built from
                                 privacy-protected data on Facebook’s platform,
                                 as well as tools developed using satellite
                                 imagery and other publicly available sources.
                                 Similarly, Project 17 emerged from a commitment
-                                Facebook made at the 2019 UN General Assembly to
+                                Meta made at the 2019 UN General Assembly to
                                 help partners use data to accelerate progress on
                                 the SDGs.
                             </StyledText>
@@ -121,7 +121,7 @@ const AboutModal = ({ isOpen, onClose }) => {
                                     href='https://facebookatunga.com/'
                                     title='here'
                                 />{' '}
-                                about how Facebook contributes to the SDGs.
+                                about how Meta contributes to the SDGs.
                             </StyledText>
                         </StyledAccordionItem>
                         <StyledAccordionItem title='Designing the survey'>

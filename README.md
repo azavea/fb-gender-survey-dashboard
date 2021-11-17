@@ -1,6 +1,6 @@
-# Facebook Gender Survey Dashboard
+# Gender Survey Dashboard from Meta
 
-Interactive exploration of global results from the Facebook "Survey on Gender Equality At Home".
+Interactive exploration of global results from the Meta "Survey on Gender Equality At Home".
 
 Important links:
 
@@ -35,8 +35,7 @@ vagrant ssh
 
 ## Data
 
-The data used by this application is generated from a source set provided by
-Facebook's data team:
+The data used by this application is generated from a source set provided by Data for Good at Meta:
 
 <https://data.humdata.org/dataset/survey-on-gender-equality-at-home>
 
