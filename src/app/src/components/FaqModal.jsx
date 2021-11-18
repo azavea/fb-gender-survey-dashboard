@@ -135,11 +135,7 @@ const FaqModal = ({ isOpen, onClose }) => {
                                 representative of the online population of the
                                 country/region, but not the total (online and
                                 offline) population. Please be mindful of this
-                                limitation when conducting your analysis. We
-                                have included an estimate of Internet
-                                penetration for each country/region to give
-                                users a sense of the population that responses
-                                from each country represents.
+                                limitation when conducting your analysis.
                             </StyledText>
                         </StyledAccordionItem>
                         <StyledAccordionItem title='Where can I learn more about the specific limitations and features of each wave?'>

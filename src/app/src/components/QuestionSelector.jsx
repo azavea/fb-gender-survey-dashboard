@@ -385,6 +385,10 @@ const QuestionSelector = () => {
                 my={2}
                 mx={{ base: 4, md: 4, lg: 8, xl: 'auto' }}
                 maxW='1200px'
+                align='center'
+                justify='space-between'
+                mb={4}
+                flexWrap='wrap'
             >
                 <Text size='2xl' fontWeight='bold'>
                     Showing questions for: {currentYears.join(', ')}
@@ -397,18 +401,15 @@ const QuestionSelector = () => {
                         availableYearsGeography,
                     })}
                 </Text>
+                <Box width={{ base: '100%', md: '350px' }}>
+                    <SearchInput
+                        query={query}
+                        setQuery={handleSetQuery}
+                        placeholder='Search questions and answers'
+                    />
+                </Box>
             </Flex>
-            <Flex
-                direction='column'
-                maxW='1200px'
-                my={{ lg: 8 }}
-                mx={{ base: 4, lg: 'auto' }}
-            >
-                <Flex mb={4} justify='flex-end'>
-                    <Box width={{ base: '100%', md: '350px' }}>
-                        <SearchInput query={query} setQuery={handleSetQuery} />
-                    </Box>
-                </Flex>
+            <Flex direction='column' maxW='1200px' mx={{ base: 4, lg: 'auto' }}>
                 <Box>
                     <CheckboxGroup
                         size='xl'
