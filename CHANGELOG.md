@@ -9,6 +9,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+### Changed
+
+### Fixed
+
+### Removed
+
+# 2.0.0
+
+### Added
+
 - Process 2021 config data [#120](https://github.com/azavea/fb-gender-survey-dashboard/pull/120)
 - Add 2021 data [#121](https://github.com/azavea/fb-gender-survey-dashboard/pull/121)
 - Hide unavailable questions [#122](https://github.com/azavea/fb-gender-survey-dashboard/pull/122)
