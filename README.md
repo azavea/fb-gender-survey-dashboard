@@ -40,9 +40,7 @@ The data used by this application is generated from a source set provided by Dat
 <https://data.humdata.org/dataset/survey-on-gender-equality-at-home>
 
 To convert the source dataset into a format used by the application, run the
-`dataproc` script on your VM. irst, you will need to download the two Excel
-sheets from GDrive and place in `src/dataproc`. In the future, this script will
-automatically download the required data from HDX.
+`dataproc` script on your VM. This script will automatically download the required data from HDX.
 
 ```sh
 vagrant up

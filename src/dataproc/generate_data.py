@@ -6,15 +6,10 @@ import json
 # These are direct URIs that link to a particular version of the dataset. If they are
 # updated in the future, the links will likely need to be refreshed from the HDX website
 # https://data.humdata.org/dataset/survey-on-gender-equality-at-home
-country_xls_uri = "https://data.humdata.org/dataset/504fce69-12c2-4c56-ada2-3173c663107a/resource/f9bb675a-0c83-4513-b1cc-464c75048906/download/sog_agg_country.xlsx"
-region_xls_uri = "https://data.humdata.org/dataset/504fce69-12c2-4c56-ada2-3173c663107a/resource/d9fbb283-9147-487d-8be3-746ebf4e3478/download/sog_agg_region.xlsx"
+country_xls_uri = "https://data.humdata.org/dataset/504fce69-12c2-4c56-ada2-3173c663107a/resource/05b255c4-56fe-4986-ba76-f8f35ac6a7e1/download/sogeh_aggcountrydata_allyears.xlsx"
+region_xls_uri = "https://data.humdata.org/dataset/504fce69-12c2-4c56-ada2-3173c663107a/resource/3238d833-d1ae-417b-8756-d2e665058ce3/download/sogeh_aggregiondata_allyears.xlsx"
 
 output_dir = "/opt/src/src/dataproc/output"
-
-# Currently, these path are local to the dataproc contatiner but are intended
-# to be replaced by the appropriate URI, as defined above.
-region_xls_uri = "/opt/src/src/dataproc/sog_agg_region.xlsx"
-country_xls_uri = "/opt/src/src/dataproc/sog_agg_country.xlsx"
 
 class NpEncoder(json.JSONEncoder):
     """Numpy type encoder.
