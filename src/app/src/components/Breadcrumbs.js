@@ -51,6 +51,7 @@ const Breadcrumbs = () => {
     const { pathname } = useLocation();
 
     const isQuestions = pathname === ROUTES.QUESTIONS;
+    const isYears = pathname === ROUTES.YEARS;
     const isCharts = pathname === ROUTES.VISUALIZATIONS;
 
     return (
@@ -77,6 +78,13 @@ const Breadcrumbs = () => {
                     title='Regions & Countries'
                     icon={<IoIosHome size={18} />}
                 />
+                {(isYears || isQuestions || isCharts) && (
+                    <CustomBreadcrumb
+                        to={ROUTES.YEARS}
+                        title='Years'
+                        isCurrentPage={isYears}
+                    />
+                )}
                 {(isQuestions || isCharts) && (
                     <CustomBreadcrumb
                         to={ROUTES.QUESTIONS}

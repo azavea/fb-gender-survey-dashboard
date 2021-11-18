@@ -12,6 +12,7 @@ export const CONFIG = {
 
 export const ROUTES = {
     HOME: '/',
+    YEARS: '/years',
     QUESTIONS: '/questions',
     VISUALIZATIONS: '/charts',
     SAVED: '/saved',

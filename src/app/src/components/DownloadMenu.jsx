@@ -1,5 +1,5 @@
 import React from 'react';
-
+import { useSelector } from 'react-redux';
 import {
     Flex,
     IconButton,
@@ -7,6 +7,7 @@ import {
     MenuButton,
     MenuList,
     MenuItem,
+    Portal,
 } from '@chakra-ui/react';
 import { FaDownload } from 'react-icons/fa';
 import { combineCanvases, setBackgroundColor, addTitle } from '../utils/canvas';
@@ -21,12 +22,12 @@ const download = (dataUrl, filename, filetype = 'png') => {
     dl.remove();
 };
 
-const createFilename = questionAttrs => {
+const createFilename = (questionAttrs, years) => {
     // Assemble a file name from question components
     const { cat, geo, qcode, question } = questionAttrs;
     const catDisplay = cat ? `${cat}_` : '';
     const geoDisplay = geo ? `${geo}_` : '';
-    return `${qcode}_${geoDisplay}${catDisplay}${question}`;
+    return `${years.join('_')}_${qcode}_${geoDisplay}${catDisplay}${question}`;
 };
 
 const DownloadMenu = ({
@@ -35,6 +36,7 @@ const DownloadMenu = ({
     combineDir = 'horizontal',
     csvData,
 }) => {
+    const { currentYears } = useSelector(state => state.app);
     const saveImage = () => {
         // Use the ref for the chart container to find the canvas DOM element,
         // which is the chart itself
@@ -42,7 +44,7 @@ const DownloadMenu = ({
             'canvas'
         );
 
-        const filename = createFilename(question);
+        const filename = createFilename(question, currentYears);
 
         // Depending on the chart type, there may be many canvas elements.
         // Coerce them into a single canvas, or if just one, use it directly.
@@ -52,7 +54,9 @@ const DownloadMenu = ({
                 : chartCanvases[0];
 
         const title = `Question ${question.qcode}${
-            question.type === 'ten' ? ` in ${question.geo}` : ''
+            question.type === 'ten'
+                ? ` in ${question.geo} in ${question.year}`
+                : ''
         }: ${question.question}`;
 
         const canvasWithTitle = addTitle(chartCanvas, title);
@@ -78,10 +82,12 @@ const DownloadMenu = ({
                     isRound={true}
                     icon={<FaDownload />}
                 />
-                <MenuList>
-                    <MenuItem onClick={saveImage}>PNG</MenuItem>
-                    <MenuItem onClick={saveCSV}>CSV</MenuItem>
-                </MenuList>
+                <Portal>
+                    <MenuList>
+                        <MenuItem onClick={saveImage}>PNG</MenuItem>
+                        <MenuItem onClick={saveCSV}>CSV</MenuItem>
+                    </MenuList>
+                </Portal>
             </Menu>
         </Flex>
     );

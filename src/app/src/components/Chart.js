@@ -8,6 +8,16 @@ import GroupedBarChart from './GroupedBarChart';
 const Chart = ({ items }) => {
     const { question } = items[0];
 
+    const data = items.filter(
+        item =>
+            !(
+                item.response?.dataUnavailable ||
+                item.responses?.every(i => i.dataUnavailable)
+            )
+    );
+
+    if (!data.length) return null;
+
     const title = question.cat ? (
         <>
             <Text
@@ -32,11 +42,11 @@ const Chart = ({ items }) => {
 
     let chart;
     if (question.type === 'stack') {
-        chart = <StackedBarChart items={items} />;
+        chart = <StackedBarChart items={data} />;
     } else if (question.type === 'ten') {
-        chart = <WaffleChart items={items} />;
+        chart = <WaffleChart items={data} />;
     } else {
-        chart = <GroupedBarChart items={items} />;
+        chart = <GroupedBarChart items={data} />;
     }
 
     return (

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import {
@@ -8,11 +8,9 @@ import {
     Checkbox,
     CheckboxGroup,
     Text,
-    Image,
     Heading,
-    useMediaQuery,
-    VStack,
     Spacer,
+    SimpleGrid,
 } from '@chakra-ui/react';
 import { IoIosArrowRoundForward } from 'react-icons/io';
 import { IconContext } from 'react-icons';
@@ -20,20 +18,48 @@ import { IconContext } from 'react-icons';
 import {
     setGeoSelection,
     setGeoSelectionMode,
-    setQuestionKeys,
+    setYears,
 } from '../redux/app.actions';
-import { CONFIG, GEO_COUNTRY, GEO_REGION } from '../utils/constants';
+import { CONFIG, GEO_COUNTRY, GEO_REGION, ROUTES } from '../utils/constants';
 import { formatQuery } from '../utils';
 import SearchInput from './SearchInput';
-import surveyMapImage from '../images/gender-survey-countries.png';
-import fallbackImage from '../images/fallback.jpg';
 
 const GeographySelector = () => {
     const history = useHistory();
     const dispatch = useDispatch();
-    const { geoMode, currentGeo } = useSelector(state => state.app);
+    const { geoMode, currentGeo, data } = useSelector(state => state.app);
     const [prevGeoSelection, setPrevGeoSelection] = useState([]);
     const [query, setQuery] = useState('');
+
+    const years = useMemo(
+        () => (geoMode && data[geoMode] ? Object.keys(data[geoMode]) : []),
+        [geoMode, data]
+    );
+
+    // The list of either regions or countries to show
+    let geoList = CONFIG[geoMode].geographies;
+
+    const geoData = data[geoMode];
+    const yearAvailability = useMemo(
+        () =>
+            geoList.reduce(
+                (ya, geo) => ({
+                    ...ya,
+                    [geo]: years.filter(y => {
+                        const { Combined, Female, Male } = geoData[
+                            y
+                        ].geographies[geo];
+                        const isUnavailable =
+                            Combined.every(el => !el) &&
+                            Female.every(el => !el) &&
+                            Male.every(el => !el);
+                        return !isUnavailable;
+                    }),
+                }),
+                {}
+            ),
+        [years, geoList, geoData]
+    );
 
     const handleGeoSet = newGeoMode => {
         // Prevent making changes if the user clicked the current geo mode button
@@ -56,15 +82,12 @@ const GeographySelector = () => {
     };
 
     const handleNext = () => {
-        // Remove any previously selected question keys from state, otherwise
+        // Remove any previously selected years from state, otherwise
         // they will be re-rendered when the app navigates to the next section,
         // and the user will have to uncheck any/all that they don't want.
-        dispatch(setQuestionKeys([]));
-        history.push('/questions');
+        dispatch(setYears([]));
+        history.push(ROUTES.YEARS);
     };
-
-    // The list of either regions or countries to show
-    let geoList = CONFIG[geoMode].geographies;
 
     if (query.trim().length && geoMode === GEO_COUNTRY) {
         geoList = geoList.filter(
@@ -74,10 +97,12 @@ const GeographySelector = () => {
         );
     }
 
-    // Show or hide the image based on a media query
-    const [isSmallScreen] = useMediaQuery('(max-width: 700px)');
+    const regionInputStyle = {
+        pointerEvents: 'none',
+        opacity: 0,
+    };
 
-    const section = (
+    return (
         <Box>
             <Flex layerStyle='selector'>
                 <Flex>
@@ -102,126 +127,102 @@ const GeographySelector = () => {
                 </Flex>
             </Flex>
             <Flex
-                m={{ base: 4, md: 8 }}
-                flexDirection={{
-                    base: 'column-reverse',
-                    md: 'column-reverse',
-                    lg: 'row',
-                }}
+                my={4}
+                mx={{ base: 4, md: 8, xl: 'auto' }}
+                mb='40px'
                 maxW='1200px'
-                mx={{ base: 4, lg: 'auto' }}
+                align='center'
+                justify='space-between'
+                flexWrap='wrap'
+            >
+                <Flex alignItems='baseline'>
+                    <Button
+                        className={geoMode === GEO_COUNTRY && 'current'}
+                        variant='link'
+                        size='lg'
+                        onClick={() => handleGeoSet(GEO_COUNTRY)}
+                    >
+                        Countries
+                    </Button>
+                    <Text
+                        fontSize='sm'
+                        textTransform='uppercase'
+                        mx='2'
+                        color='gray.600'
+                        fontWeight='medium'
+                    >
+                        or
+                    </Text>
+                    <Button
+                        className={geoMode === GEO_REGION && 'current'}
+                        variant='link'
+                        size='lg'
+                        onClick={() => handleGeoSet(GEO_REGION)}
+                    >
+                        Regions
+                    </Button>
+                </Flex>
+                <Box
+                    width={{ base: '100%', md: '350px' }}
+                    style={geoMode === GEO_REGION ? regionInputStyle : {}}
+                >
+                    <SearchInput
+                        query={query}
+                        setQuery={setQuery}
+                        placeholder='Search countries'
+                    />
+                </Box>
+            </Flex>
+            <Flex
+                m={{ base: 4, md: 8, xl: 'auto' }}
+                flexDirection='row'
+                maxW='1200px'
                 alignItems='flex-start'
                 justifyContent='space-between'
             >
-                <Flex
-                    flex='auto'
-                    direction='column'
-                    ml={{ base: 4, md: 8, xl: 0 }}
-                >
-                    <Box mb={4}>
-                        <Flex alignItems='baseline' mb={4}>
-                            <Button
-                                className={geoMode === GEO_COUNTRY && 'current'}
-                                variant='link'
-                                size='lg'
-                                onClick={() => handleGeoSet(GEO_COUNTRY)}
-                            >
-                                Countries
-                            </Button>
-                            <Text
-                                fontSize='sm'
-                                textTransform='uppercase'
-                                mx='2'
-                                color='gray.600'
-                                fontWeight='medium'
-                            >
-                                or
-                            </Text>
-                            <Button
-                                className={geoMode === GEO_REGION && 'current'}
-                                variant='link'
-                                size='lg'
-                                onClick={() => handleGeoSet(GEO_REGION)}
-                            >
-                                Regions
-                            </Button>
-                        </Flex>
-                        {geoMode === GEO_COUNTRY && (
-                            <Box maxW={{ md: '325px' }}>
-                                <SearchInput
-                                    query={query}
-                                    setQuery={setQuery}
-                                />
-                            </Box>
-                        )}
-                    </Box>
+                <Flex flex='auto' direction='column' justify='center'>
                     <Box id={`${geoMode}-selector-container`}>
                         <CheckboxGroup
                             key={`geogroup-${geoMode}`}
                             onChange={handleSelection}
                             defaultValue={currentGeo}
                         >
-                            <VStack
+                            <SimpleGrid
                                 spacing={5}
-                                direction='column'
-                                align='start'
+                                mb='50px'
+                                minChildWidth='250px'
                             >
                                 {geoList.length ? (
-                                    geoList.map(geo => (
-                                        <Checkbox
-                                            key={`geo-${geo}`}
-                                            value={geo}
-                                            size='lg'
-                                            colorScheme='red'
-                                        >
-                                            {geo}
-                                        </Checkbox>
-                                    ))
+                                    geoList.map(geo => {
+                                        const availableYears =
+                                            yearAvailability[geo];
+                                        return (
+                                            <Checkbox
+                                                key={`geo-${geo}`}
+                                                value={geo}
+                                                size='lg'
+                                                colorScheme='red'
+                                            >
+                                                {geo}{' '}
+                                                {availableYears.length <
+                                                years.length
+                                                    ? `(${availableYears.join(
+                                                          ', '
+                                                      )} only)`
+                                                    : ''}
+                                            </Checkbox>
+                                        );
+                                    })
                                 ) : (
                                     <Text>No areas found.</Text>
                                 )}
-                            </VStack>
+                            </SimpleGrid>
                         </CheckboxGroup>
                     </Box>
                 </Flex>
-                {!isSmallScreen && (
-                    <Box
-                        maxWidth='750px'
-                        flex='auto'
-                        ml={{ base: 0, md: 8, lg: 8 }}
-                        mr={{ base: 4, md: 8, xl: 0 }}
-                        mb={{ base: 0, md: 8, lg: 0 }}
-                        boxShadow={{ base: 'none', md: 'none', lg: 'lg' }}
-                        borderRadius='lg'
-                        overflow='hidden'
-                        position='relative'
-                    >
-                        <Box
-                            bg='red.700'
-                            position='absolute'
-                            bottom='0'
-                            right='0'
-                            zIndex='docked'
-                            px={3}
-                            py={2}
-                        >
-                            <Text color='white' fontSize='xs' fontWeight={500}>
-                                Red indicates countries included in the survey.
-                            </Text>
-                        </Box>
-                        <Image
-                            src={surveyMapImage}
-                            fallbackSrc={fallbackImage}
-                            htmlHeight={1082}
-                            htmlWidth={1500}
-                            alt='Countries and regions surveyed in the Survey on Gender Equality at Home.'
-                        />
-                    </Box>
-                )}
             </Flex>
         </Box>
     );
-    return section;
 };
 
 export default GeographySelector;

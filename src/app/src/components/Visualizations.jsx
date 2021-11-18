@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
     Accordion,
@@ -17,8 +17,8 @@ import {
 import { useHistory } from 'react-router-dom';
 import { IoIosCheckmark, IoIosStar, IoMdDownload } from 'react-icons/io';
 
-import { CONFIG } from '../utils/constants';
-import { DataIndexer } from '../utils';
+import { CONFIG, ROUTES } from '../utils/constants';
+import { DataIndexer, calculateAvailableGeo, formatCurrentGeo } from '../utils';
 import { downloadVisualizationsCSV } from '../utils/csv';
 import { saveVisualization } from '../redux/visualizations.actions';
 import { setShowSurvey } from '../redux/survey.actions';
@@ -32,7 +32,7 @@ const Visualizations = () => {
     const {
         currentQuestions,
         currentGeo,
-        currentYear,
+        currentYears,
         geoMode,
         data,
     } = useSelector(state => state.app);
@@ -54,9 +54,28 @@ const Visualizations = () => {
         }
     }, [showSurvey, surveyHasBeenDisplayed, dispatch]);
 
+    const config = CONFIG[geoMode];
+    // Select the appropriate config file based on the current geoMode
+    const survey = config?.survey;
+    const years = useMemo(
+        () => (geoMode && data[geoMode] ? Object.keys(data[geoMode]) : []),
+        [geoMode, data]
+    );
+
+    // Select the available years based on available questions for selected geographies
+    const availableYearsGeography = useMemo(
+        () =>
+            calculateAvailableGeo({ years, geoMode, currentGeo, data, survey }),
+        [years, geoMode, currentGeo, data, survey]
+    );
+
     // If a page reloads directly to this page, restart at home
-    if (!currentQuestions.length || !currentGeo.length) {
-        history.push('/');
+    if (
+        !currentQuestions.length ||
+        !currentGeo.length ||
+        !currentYears.length
+    ) {
+        history.push(ROUTES.HOME);
         return null;
     }
 
@@ -75,11 +94,14 @@ const Visualizations = () => {
         return questionsByCategory;
     };
 
-    const dataIndexer = new DataIndexer(currentYear, geoMode, currentGeo, data);
+    const dataIndexer = new DataIndexer(
+        currentYears,
+        geoMode,
+        currentGeo,
+        data
+    );
     const viz = currentQuestions.map(q => dataIndexer.getResponse(q));
     const categories = categorize(viz);
-
-    const config = CONFIG[geoMode];
 
     const onDownloadCSV = () => {
         downloadVisualizationsCSV(categories);
@@ -92,7 +114,7 @@ const Visualizations = () => {
                 title,
                 currentQuestions,
                 currentGeo,
-                currentYear,
+                currentYears,
                 geoMode,
             })
         );
@@ -164,7 +186,15 @@ const Visualizations = () => {
                 maxW='1200px'
             >
                 <Text size='2xl' fontWeight='bold'>
-                    Showing charts for: {currentGeo.join(', ')}
+                    Showing charts for: {currentYears.join(', ')}
+                    <Box as='span' opacity='0.5' mx={1}>
+                        •
+                    </Box>
+                    {formatCurrentGeo({
+                        currentGeo,
+                        currentYears,
+                        availableYearsGeography,
+                    })}
                     <Box as='span' opacity='0.5' mx={1}>
                         •
                     </Box>

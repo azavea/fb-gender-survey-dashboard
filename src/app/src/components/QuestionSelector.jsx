@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import {
@@ -11,20 +11,23 @@ import {
     Button,
     Checkbox,
     CheckboxGroup,
-    HStack,
     Text,
     useMediaQuery,
     Heading,
     VStack,
     Flex,
-    Link,
 } from '@chakra-ui/react';
 import { IoIosArrowRoundForward } from 'react-icons/io';
 import { IconContext } from 'react-icons';
 
 import { setQuestionKeys } from '../redux/app.actions';
 import { CONFIG, ROUTES } from '../utils/constants';
-import { formatQuery } from '../utils';
+import {
+    formatQuery,
+    DataIndexer,
+    calculateAvailableGeo,
+    formatCurrentGeo,
+} from '../utils';
 import Breadcrumbs from './Breadcrumbs';
 import SearchInput from './SearchInput';
 
@@ -32,15 +35,26 @@ const QuestionSelector = () => {
     const history = useHistory();
     const dispatch = useDispatch();
     const [query, setQuery] = useState('');
-    const { currentGeo, currentQuestions, geoMode } = useSelector(
-        state => state.app
-    );
+    const {
+        currentGeo,
+        currentQuestions,
+        geoMode,
+        currentYears,
+        data,
+    } = useSelector(state => state.app);
 
     // Show or hide the breadcrumbs if small screen
     const [isSmallScreen] = useMediaQuery('(max-width: 30em)');
 
     // Select the appropriate config file based on the current geoMode
     const config = CONFIG[geoMode];
+
+    // Select the appropriate config file based on the current geoMode
+    const survey = config?.survey;
+    const years = useMemo(
+        () => (geoMode && data[geoMode] ? Object.keys(data[geoMode]) : []),
+        [geoMode, data]
+    );
 
     // Determine the indexes of any categories that currently have questions
     // selected. These will be expanded by default.
@@ -54,6 +68,18 @@ const QuestionSelector = () => {
 
     const [expandedCategoryIndexes, setExpandedCategoryIndexes] = useState(
         currentlySelectedCategoryIndexes
+    );
+
+    const dataIndexer = useMemo(() => {
+        if (!currentGeo.length || !currentYears.length) return null;
+        return new DataIndexer(currentYears, geoMode, currentGeo, data);
+    }, [currentYears, geoMode, currentGeo, data]);
+
+    // Select the available years based on available questions for selected geographies
+    const availableYearsGeography = useMemo(
+        () =>
+            calculateAvailableGeo({ years, geoMode, currentGeo, data, survey }),
+        [years, geoMode, currentGeo, data, survey]
     );
 
     // Known categories
@@ -112,7 +138,7 @@ const QuestionSelector = () => {
     };
 
     // If a page reloads directly to this page, restart at home
-    if (!currentGeo.length) {
+    if (!currentGeo.length || !currentYears.length) {
         history.push('/');
         return null;
     }
@@ -173,24 +199,26 @@ const QuestionSelector = () => {
         history.push(ROUTES.VISUALIZATIONS);
     };
 
-    Object.entries(config.survey).forEach(([key, question]) => {
-        const categoryCode = question.qcode[0].toUpperCase();
+    Object.entries(config.survey)
+        .filter(([key, question]) => !dataIndexer.isDataUnavailable(key))
+        .forEach(([key, question]) => {
+            const categoryCode = question.qcode[0].toUpperCase();
 
-        // Stack questions need to be grouped (agree/neutral/disagree) and
-        // only have the *question code* added once.
-        if (
-            question.type === 'stack' &&
-            !questionsByCategory[categoryCode].includes(question.qcode)
-        ) {
-            questionsByCategory[categoryCode].push(question.qcode);
+            // Stack questions need to be grouped (agree/neutral/disagree) and
+            // only have the *question code* added once.
+            if (
+                question.type === 'stack' &&
+                !questionsByCategory[categoryCode].includes(question.qcode)
+            ) {
+                questionsByCategory[categoryCode].push(question.qcode);
 
-            // Other types are directly about the respose, so we use the question/resoponse key
-            // and not the question code. We'll need to be aware of this mixed content when
-            // parsing questionsByCategory later.
-        } else if (question.type !== 'stack') {
-            questionsByCategory[categoryCode].push(key);
-        }
-    });
+                // Other types are directly about the respose, so we use the question/resoponse key
+                // and not the question code. We'll need to be aware of this mixed content when
+                // parsing questionsByCategory later.
+            } else if (question.type !== 'stack') {
+                questionsByCategory[categoryCode].push(key);
+            }
+        });
 
     const getQuestionCheckboxLabel = key => {
         // Generate a checkbox for a question. The checkbox text will differ
@@ -290,7 +318,7 @@ const QuestionSelector = () => {
                                             as='p'
                                             mt={1}
                                         >
-                                            {questions.length} questions
+                                            {questions.length} options
                                         </Heading>
                                     )}
                                 </Box>
@@ -314,7 +342,7 @@ const QuestionSelector = () => {
                                         as='p'
                                         fontStyle='italic'
                                     >
-                                        Contains no matching questions.
+                                        Contains no matching options.
                                     </Heading>
                                 )}
                                 <VStack alignItems='start' spacing={6}>
@@ -357,33 +385,31 @@ const QuestionSelector = () => {
                 my={2}
                 mx={{ base: 4, md: 4, lg: 8, xl: 'auto' }}
                 maxW='1200px'
+                align='center'
+                justify='space-between'
+                mb={4}
+                flexWrap='wrap'
             >
                 <Text size='2xl' fontWeight='bold'>
-                    {currentGeo.join(', ')}
-                </Text>
-            </Flex>
-            <Flex
-                direction='column'
-                maxW='1200px'
-                my={{ lg: 8 }}
-                mx={{ base: 4, lg: 'auto' }}
-            >
-                <HStack flexDirection={{ base: 'column', md: 'row' }} mb={4}>
-                    <Text size='sm' mb={{ base: 2, md: 'none' }}>
-                        The survey was structured into four sections to provide
-                        a snapshot of gender dynamics during Covid-19.{' '}
-                        <Link
-                            href='https://dataforgood.fb.com/wp-content/uploads/2020/09/Survey-on-Gender-Equality-at-Home-Report-1.pdf#page=60'
-                            textDecoration='underline'
-                            isExternal
-                        >
-                            View the full survey here.
-                        </Link>
-                    </Text>
-                    <Box width={{ base: '100%', md: '350px' }}>
-                        <SearchInput query={query} setQuery={handleSetQuery} />
+                    Showing questions for: {currentYears.join(', ')}
+                    <Box as='span' opacity='0.5' mx={1}>
+                        •
                     </Box>
-                </HStack>
+                    {formatCurrentGeo({
+                        currentGeo,
+                        currentYears,
+                        availableYearsGeography,
+                    })}
+                </Text>
+                <Box width={{ base: '100%', md: '350px' }}>
+                    <SearchInput
+                        query={query}
+                        setQuery={handleSetQuery}
+                        placeholder='Search questions and answers'
+                    />
+                </Box>
+            </Flex>
+            <Flex direction='column' maxW='1200px' mx={{ base: 4, lg: 'auto' }}>
                 <Box>
                     <CheckboxGroup
                         size='xl'

@@ -15,6 +15,31 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Removed
 
+# 2.0.0
+
+### Added
+
+- Process 2021 config data [#120](https://github.com/azavea/fb-gender-survey-dashboard/pull/120)
+- Add 2021 data [#121](https://github.com/azavea/fb-gender-survey-dashboard/pull/121)
+- Hide unavailable questions [#122](https://github.com/azavea/fb-gender-survey-dashboard/pull/122)
+- Handle unavailable years [#125](https://github.com/azavea/fb-gender-survey-dashboard/pull/125)
+
+### Changed
+
+- Enable cross-origin requests [#111](https://github.com/azavea/fb-gender-survey-dashboard/pull/111)
+- Use local data for development [#110](https://github.com/azavea/fb-gender-survey-dashboard/pull/110)
+- Add year selector [#116](https://github.com/azavea/fb-gender-survey-dashboard/pull/116)
+- Add year in charts and downloads [#124](https://github.com/azavea/fb-gender-survey-dashboard/pull/124)
+- Update text [#129](https://github.com/azavea/fb-gender-survey-dashboard/pull/129)
+- Update layout [#130](https://github.com/azavea/fb-gender-survey-dashboard/pull/130)
+
+### Fixed
+
+- Update get-pip url [#109](https://github.com/azavea/fb-gender-survey-dashboard/pull/109)
+- Fix horizontal chart scrolling [#128](https://github.com/azavea/fb-gender-survey-dashboard/pull/128)
+
+### Removed
+
 # 1.4.0
 
 ### Added

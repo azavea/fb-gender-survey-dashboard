@@ -1,4 +1,5 @@
-# Data processing output
+# Data processing
+src/dataproc/*.xlsx
 src/dataproc/output/*
 
 # Ansible
@@ -17,6 +18,7 @@ vendor.bundle.js
 bundle.js.map
 dist/
 yarn-error.log
+src/app/.eslintcache
 
 # macOS
 .DS_Store

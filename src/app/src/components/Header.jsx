@@ -136,15 +136,14 @@ const Header = () => {
                             }}
                         >
                             Explore the country and region-level data from the
-                            July 2020 survey, which reached over 460,000
-                            Facebook users in 208 countries, territories, and
-                            islands in 80 languages.{' '}
+                            2020 and 2021 waves of the Survey on Gender Equality
+                            at Home.{' '}
                             <ChakraLink
                                 href='https://data.humdata.org/dataset/survey-on-gender-equality-at-home'
                                 isExternal
                                 variant='inverted'
                             >
-                                View the full aggregate dataset here.
+                                View the full aggregate datasets here.
                             </ChakraLink>
                         </Text>
                     </VStack>

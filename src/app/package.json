@@ -11,9 +11,12 @@
     "url": "https://github.com/azavea/fb-gender-survey/issues"
   },
   "dependencies": {
-    "@chakra-ui/react": "^1.0.3",
+    "@chakra-ui/react": "1.1.6",
     "@emotion/react": "^11.1.2",
     "@emotion/styled": "^11.0.0",
+    "@nivo/bar": "^0.67.0",
+    "@nivo/core": "^0.67.0",
+    "@nivo/waffle": "^0.67.0",
     "@testing-library/jest-dom": "^5.11.6",
     "@testing-library/react": "^11.2.2",
     "@testing-library/user-event": "^12.6.0",
@@ -23,19 +26,16 @@
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-icons": "^4.1.0",
+    "react-redux": "^7.2.2",
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.1",
     "react-use": "^15.3.4",
-    "react-redux": "^7.2.2",
     "redux": "^4.0.5",
     "redux-act": "^1.8.0",
     "redux-logger": "^3.0.6",
-    "redux-thunk": "^2.3.0",
     "redux-persist": "^6.0.0",
-    "@nivo/core": "^0.67.0",
-    "@nivo/bar": "^0.67.0",
-    "@nivo/waffle": "^0.67.0"
+    "redux-thunk": "^2.3.0"
   },
   "scripts": {
     "start": "craco start",
