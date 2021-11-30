@@ -23,9 +23,8 @@ const isCellEmpty = value => value == null || value.length === 0;
 export class DataIndexer {
     constructor(years, geoMode, geographies, data) {
         // Index the data by the current year and geography mode
-        // TODO: Enable multi-year question handling
-        this.year = years[0];
-        this.data = data[geoMode][years[0]];
+        this.years = years;
+        this.data = data[geoMode];
         this.geographies = geographies;
         this.survey = CONFIG[geoMode].survey;
     }
@@ -36,7 +35,13 @@ export class DataIndexer {
             // These are question/response values for a single stacked question
             const items = this.getAllResponsesForQ(questionKey);
             return this.geographies.map(geo => {
-                const responses = items.map(key => this.formatForViz(key, geo));
+                const responses = this.years.reduce(
+                    (responses, year) => [
+                        ...responses,
+                        ...items.map(key => this.formatForViz(key, geo, year)),
+                    ],
+                    []
+                );
                 const questionKey = responses[0].key;
 
                 return {
@@ -48,24 +53,34 @@ export class DataIndexer {
             });
         } else {
             // This is a single question/response entry
-            return this.geographies.map(geo => {
-                const response = this.formatForViz(questionKey, geo);
-                return {
-                    question: this.survey[questionKey],
-                    response: response,
-                };
-            });
+            return this.years.reduce(
+                (responses, year) => [
+                    ...responses,
+                    ...this.geographies.map(geo => {
+                        const response = this.formatForViz(
+                            questionKey,
+                            geo,
+                            year
+                        );
+                        return {
+                            question: this.survey[questionKey],
+                            response: response,
+                        };
+                    }),
+                ],
+                []
+            );
         }
     }
 
-    formatForViz(key, geo) {
+    formatForViz(key, geo, year) {
         const resp = this.survey[key];
         if (!resp) {
             return { key, geo, dataUnavailable: true };
         }
 
         const idx = resp.idx;
-        const d = this.data.geographies[geo];
+        const d = this.data[year].geographies[geo];
         const c = this.formatCell(d, 'Combined', idx);
         const m = this.formatCell(d, 'Male', idx);
         const f = this.formatCell(d, 'Female', idx);
@@ -79,7 +94,7 @@ export class DataIndexer {
             combined: c,
             female: f,
             male: m,
-            year: this.year,
+            year: year,
             dataUnavailable,
         };
     }
@@ -104,21 +119,21 @@ export class DataIndexer {
         return rest;
     }
 
-    isDataUnavailable(key) {
+    isDataUnavailable(key, year) {
         // There is no data available for the question
         // for any selected geography in the current year
         return this.geographies.every(
-            geo => this.formatForViz(key, geo).dataUnavailable
+            geo => this.formatForViz(key, geo, year).dataUnavailable
         );
     }
 
-    getGeoAvailability(key) {
+    getGeoAvailability(key, year) {
         // Returns an object showing the question's
         // availability for each geography
         return this.geographies.reduce(
             (acc, geo) => ({
                 ...acc,
-                [geo]: this.formatForViz(key, geo).dataUnavailable,
+                [geo]: this.formatForViz(key, geo, year).dataUnavailable,
             }),
             {}
         );
@@ -135,10 +150,10 @@ export const calculateAvailableGeo = ({
     survey,
 }) => {
     if (!currentGeo.length) return [];
+    const indexer = new DataIndexer(years, geoMode, currentGeo, data);
     return years.reduce((availableYears, year) => {
-        const indexer = new DataIndexer([year], geoMode, currentGeo, data);
         const geoAvailability = Object.entries(survey).map(([key, question]) =>
-            indexer.getGeoAvailability(key)
+            indexer.getGeoAvailability(key, year)
         );
 
         return {
