@@ -10,32 +10,43 @@ import { formatStackedCSV } from '../utils/csv';
 const StackedBarChart = ({ items }) => {
     const { currentYears } = useSelector(state => state.app);
     const containerRefs = useRefs(items.length);
+
     return items.map(({ question, responses }, i) => {
         const data = currentYears
-            .map(year =>
-                responses
+            .map(year => {
+                const validResponses = responses
                     .filter(r => r.year === year)
-                    .reduce(
-                        (acc, curr) => {
-                            acc[0][curr.cat] = Math.round(curr.combined, 2);
-                            acc[1][curr.cat] = Math.round(curr.male, 2);
-                            acc[2][curr.cat] = Math.round(curr.female, 2);
-                            return acc;
-                        },
-                        [
-                            { index: `Total ${year}` },
-                            { index: `Men ${year}` },
-                            { index: `Women ${year}` },
-                        ]
-                    )
-            )
+                    .filter(r => !r.dataUnavailable);
+                return validResponses.length
+                    ? validResponses.reduce(
+                          (acc, curr) => {
+                              acc[0][curr.cat] = Math.round(curr.combined, 2);
+                              acc[1][curr.cat] = Math.round(curr.male, 2);
+                              acc[2][curr.cat] = Math.round(curr.female, 2);
+                              return acc;
+                          },
+                          [
+                              { index: `Total ${year}` },
+                              { index: `Men ${year}` },
+                              { index: `Women ${year}` },
+                          ]
+                      )
+                    : validResponses;
+            })
             .flat();
-        const keys = responses.map(r => r.cat);
+
+        const keys = [
+            'Strongly Agree/Agree',
+            'Strongly Disagree/Disagree',
+            'Neutral',
+        ];
         const formatValue = v => `${v}%`;
+
+        const height = 100 + data.length * 35;
 
         return (
             <Box
-                h={200}
+                h={height}
                 className='chart-container'
                 key={`stacked-${question.question.qcode}-${responses[0].geo}`}
                 ref={containerRefs.current[i]}
