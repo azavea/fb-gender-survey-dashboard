@@ -121,10 +121,12 @@ const Visualizations = () => {
         setSaved(true);
     };
 
-    const createKey = items =>
-        items[0].response
-            ? `${items[0].response.key}-${items[0].response.geo}`
-            : `${items[0].responses[0].key}-${items[0].responses[0].geo}`;
+    const createKey = items => {
+        const response = items[0].response
+            ? items[0].response
+            : items[0].responses[0];
+        return `${response.key}-${response.geo}-${response.year}`;
+    };
 
     return (
         <Box>
