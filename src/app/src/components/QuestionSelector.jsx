@@ -200,7 +200,9 @@ const QuestionSelector = () => {
     };
 
     Object.entries(config.survey)
-        .filter(([key, question]) => !dataIndexer.isDataUnavailable(key))
+        .filter(([key, question]) =>
+            currentYears.some(year => !dataIndexer.isDataUnavailable(key, year))
+        )
         .forEach(([key, question]) => {
             const categoryCode = question.qcode[0].toUpperCase();
 
