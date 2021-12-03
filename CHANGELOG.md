@@ -13,6 +13,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Update meta tags and handle null geoMode [#140](https://github.com/azavea/fb-gender-survey-dashboard/pull/140)
+
 ### Fixed
 
 ### Removed

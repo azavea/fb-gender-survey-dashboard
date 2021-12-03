@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { ChakraProvider } from '@chakra-ui/react';
 import { Switch, Route, BrowserRouter as Router } from 'react-router-dom';
 import 'focus-visible/dist/focus-visible';
@@ -15,11 +15,13 @@ import SurveyNotification from './components/SurveyNotification';
 import NotFound from './components/NotFound';
 import theme from './theme';
 
-import { setData } from './redux/app.actions';
+import { setData, setGeoSelectionMode } from './redux/app.actions';
 import { GEO_COUNTRY, GEO_REGION, ROUTES } from './utils/constants';
+import { isValidGeoMode } from './utils';
 
 function App() {
     const dispatch = useDispatch();
+    const geoMode = useSelector(state => state.app.geoMode);
 
     useEffect(() => {
         // Fetch data at application start
@@ -35,6 +37,16 @@ function App() {
                 dispatch(setData({ [GEO_REGION]: data }));
             });
     }, [dispatch]);
+
+    useEffect(() => {
+        if (!isValidGeoMode(geoMode)) {
+            dispatch(setGeoSelectionMode(GEO_COUNTRY));
+        }
+    }, [geoMode, dispatch]);
+
+    if (!isValidGeoMode(geoMode)) {
+        return null;
+    }
 
     return (
         <Router>

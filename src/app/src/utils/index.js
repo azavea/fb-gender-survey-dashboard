@@ -1,5 +1,5 @@
 import produce from 'immer';
-import { CONFIG } from './constants';
+import { CONFIG, GEO_REGION, GEO_COUNTRY } from './constants';
 
 export const set = field =>
     produce((state, payload) => {
@@ -177,3 +177,6 @@ export const formatCurrentGeo = ({
             )
         )
         .join(', ');
+
+export const isValidGeoMode = geoMode =>
+    geoMode === GEO_REGION || geoMode === GEO_COUNTRY;
