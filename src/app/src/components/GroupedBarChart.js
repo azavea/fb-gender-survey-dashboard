@@ -32,6 +32,14 @@ const formatResponsesForChart = ({ items, sortedYears }) => {
     ).flat();
 };
 
+const getMaxValue = type => {
+    if (type === 'pct') return 100;
+
+    if (type === 'ten') return 10;
+
+    return 'auto';
+};
+
 const GroupedBarChart = ({ items }) => {
     const { currentYears } = useSelector(state => state.app);
     const sortedYears = sortBy(currentYears, year => parseInt(year)).reverse();
@@ -77,6 +85,7 @@ const GroupedBarChart = ({ items }) => {
     const containerRef = useRef();
 
     const height = 150 + data.length * 50;
+    const maxValue = getMaxValue(type);
 
     return (
         <Box
@@ -112,7 +121,7 @@ const GroupedBarChart = ({ items }) => {
                 enableGridX={true}
                 enableGridY={false}
                 minValue='auto'
-                maxValue={isPercent ? 100 : 'auto'}
+                maxValue={maxValue}
                 groupMode='grouped'
                 layout='horizontal'
                 colors={item => {
