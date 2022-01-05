@@ -2,45 +2,55 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { Box } from '@chakra-ui/react';
 import { ResponsiveBarCanvas } from '@nivo/bar';
+import sortBy from 'lodash/sortBy';
+import flatMap from 'lodash/flatMap';
 
 import DownloadMenu from './DownloadMenu';
 import useRefs from '../hooks/useRefs';
 import { formatStackedCSV } from '../utils/csv';
 
+const formatResponsesForChart = ({ question, responses, sortedYears }) => {
+    let data = sortedYears
+        .map(year => {
+            const validResponses = responses.filter(
+                r => r.year === year && !r.dataUnavailable
+            );
+            return validResponses.length
+                ? validResponses.reduce(
+                      (acc, curr) => {
+                          acc[0][curr.cat] = Math.round(curr.combined, 2);
+                          acc[1][curr.cat] = Math.round(curr.male, 2);
+                          acc[2][curr.cat] = Math.round(curr.female, 2);
+                          return acc;
+                      },
+                      [
+                          { index: `Total ${year}` },
+                          { index: `Men ${year}` },
+                          { index: `Women ${year}` },
+                      ]
+                  )
+                : [];
+        })
+        .filter(yearData => yearData.length);
+
+    return flatMap(data, (yearData, index, array) =>
+        array.length - 1 !== index ? [yearData, { index: '' }] : yearData
+    ).flat();
+};
+
+const keys = ['Neutral', 'Strongly Agree/Agree', 'Strongly Disagree/Disagree'];
+const formatValue = v => `${v}%`;
+
 const StackedBarChart = ({ items }) => {
     const { currentYears } = useSelector(state => state.app);
     const containerRefs = useRefs(items.length);
-
+    const sortedYears = sortBy(currentYears, parseInt).reverse();
     return items.map(({ question, responses }, i) => {
-        const data = currentYears
-            .map(year => {
-                const validResponses = responses
-                    .filter(r => r.year === year)
-                    .filter(r => !r.dataUnavailable);
-                return validResponses.length
-                    ? validResponses.reduce(
-                          (acc, curr) => {
-                              acc[0][curr.cat] = Math.round(curr.combined, 2);
-                              acc[1][curr.cat] = Math.round(curr.male, 2);
-                              acc[2][curr.cat] = Math.round(curr.female, 2);
-                              return acc;
-                          },
-                          [
-                              { index: `Total ${year}` },
-                              { index: `Men ${year}` },
-                              { index: `Women ${year}` },
-                          ]
-                      )
-                    : validResponses;
-            })
-            .flat();
-
-        const keys = [
-            'Strongly Agree/Agree',
-            'Strongly Disagree/Disagree',
-            'Neutral',
-        ];
-        const formatValue = v => `${v}%`;
+        const data = formatResponsesForChart({
+            question,
+            responses,
+            sortedYears,
+        });
 
         const height = 100 + data.length * 35;
 
@@ -108,6 +118,11 @@ const StackedBarChart = ({ items }) => {
                         legend: 'Percent providing given response',
                         legendPosition: 'middle',
                         legendOffset: 45,
+                    }}
+                    axisLeft={{
+                        tickSize: 0,
+                        tickPadding: 10,
+                        tickRotation: 0,
                     }}
                     tooltipFormat={formatValue}
                     theme={{

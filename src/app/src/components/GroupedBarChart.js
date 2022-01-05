@@ -1,20 +1,42 @@
 import React, { useRef } from 'react';
+import { useSelector } from 'react-redux';
 import { Box } from '@chakra-ui/react';
 import { ResponsiveBarCanvas } from '@nivo/bar';
+import sortBy from 'lodash/sortBy';
+import flatMap from 'lodash/flatMap';
 
 import DownloadMenu from './DownloadMenu';
 import { formatGroupedCSV } from '../utils/csv';
 
+const formatResponsesForChart = ({ items, sortedYears }) => {
+    let data = sortedYears
+        .map(year => {
+            return items
+                .filter(
+                    ({ response }) =>
+                        response.year === year && !response.dataUnavailable
+                )
+                .map(({ response }) => ({
+                    ...response,
+                    geoyear: `${response.geo} ${response.year}`,
+                    Men: response.male,
+                    Women: response.female,
+                    Total: response.combined,
+                }))
+                .reverse();
+        })
+        .filter(yearData => yearData.length);
+
+    return flatMap(data, (yearData, index, array) =>
+        array.length - 1 !== index ? [yearData, { geoyear: '' }] : yearData
+    ).flat();
+};
+
 const GroupedBarChart = ({ items }) => {
-    const data = items
-        .map(({ response }) => ({
-            ...response,
-            geoyear: `${response.geo} ${response.year}`,
-            Men: response.male,
-            Women: response.female,
-            Total: response.combined,
-        }))
-        .reverse();
+    const { currentYears } = useSelector(state => state.app);
+    const sortedYears = sortBy(currentYears, year => parseInt(year)).reverse();
+
+    const data = formatResponsesForChart({ items, sortedYears });
 
     const keys = ['Total', 'Men', 'Women'];
 
@@ -115,6 +137,11 @@ const GroupedBarChart = ({ items }) => {
                     legend,
                     legendPosition: 'middle',
                     legendOffset: -15,
+                }}
+                axisLeft={{
+                    tickSize: 0,
+                    tickPadding: 5,
+                    tickRotation: 0,
                 }}
                 axisBottom={axisBottom}
                 tooltipFormat={formatValue}
