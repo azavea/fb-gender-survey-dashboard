@@ -19,10 +19,11 @@ const addCSVResponse = ({ question, response, data }) => {
         response.cat,
         response.key,
     ];
-
-    data.push([...row, 'male', response.male]);
-    data.push([...row, 'female', response.female]);
-    data.push([...row, 'combined', response.combined]);
+    if (response.male || response.female || response.combined) {
+        data.push([...row, 'male', response.male]);
+        data.push([...row, 'female', response.female]);
+        data.push([...row, 'combined', response.combined]);
+    }
 };
 
 export const formatWaffleCSV = (item, data = []) => {
