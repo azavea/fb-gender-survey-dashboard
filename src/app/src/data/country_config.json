@@ -138,21 +138,21 @@
       "cat": "Strongly Agree/Agree",
       "idx": 31,
       "qcode": "A.6",
-      "question": "How much do you agree or disagree with the following statement? “Men and women should have equal opportunities (e.g. in education, jobs, household decision-making).\"",
+      "question": "How much do you agree or disagree with the following statement? \"Men and women should have equal opportunities (e.g. in education, jobs, household decision-making).\"",
       "type": "stack"
     },
     "a1_disagree": {
       "cat": "Strongly Disagree/Disagree",
       "idx": 33,
       "qcode": "A.6",
-      "question": "How much do you agree or disagree with the following statement? “Men and women should have equal opportunities (e.g. in education, jobs, household decision-making).\"",
+      "question": "How much do you agree or disagree with the following statement? \"Men and women should have equal opportunities (e.g. in education, jobs, household decision-making).\"",
       "type": "stack"
     },
     "a1_neutral": {
       "cat": "Neutral",
       "idx": 32,
       "qcode": "A.6",
-      "question": "How much do you agree or disagree with the following statement? “Men and women should have equal opportunities (e.g. in education, jobs, household decision-making).\"",
+      "question": "How much do you agree or disagree with the following statement? \"Men and women should have equal opportunities (e.g. in education, jobs, household decision-making).\"",
       "type": "stack"
     },
     "a4": {
@@ -194,21 +194,21 @@
       "cat": "Strongly Agree/Agree",
       "idx": 39,
       "qcode": "A.8",
-      "question": "How much do you agree or disagree with the following statement, “Household expenses are the responsibility of the man, even if his wife can help him?\"",
+      "question": "How much do you agree or disagree with the following statement, \"Household expenses are the responsibility of the man, even if his wife can help him?\"",
       "type": "stack"
     },
     "b4_disagree": {
       "cat": "Strongly Disagree/Disagree",
       "idx": 41,
       "qcode": "A.8",
-      "question": "How much do you agree or disagree with the following statement? “Household expenses are the responsibility of the man, even if his wife can help him.\"",
+      "question": "How much do you agree or disagree with the following statement? \"Household expenses are the responsibility of the man, even if his wife can help him.\"",
       "type": "stack"
     },
     "b4_neutral": {
       "cat": "Neutral",
       "idx": 40,
       "qcode": "A.8",
-      "question": "How much do you agree or disagree with the following statement? “Household expenses are the responsibility of the man, even if his wife can help him.\"",
+      "question": "How much do you agree or disagree with the following statement? \"Household expenses are the responsibility of the man, even if his wife can help him.\"",
       "type": "stack"
     },
     "b5_man_other": {
@@ -1174,21 +1174,21 @@
       "cat": "Neutral",
       "idx": 175,
       "qcode": "A.14",
-      "question": "How much do you agree or disagree with the following statement: “Boys and girls should share household tasks equally”? Select one",
+      "question": "How much do you agree or disagree with the following statement: \"Boys and girls should share household tasks equally”? Select one",
       "type": "stack"
     },
     "sog_w2_hh_tsk_eq_ag_strag_ag": {
       "cat": "Strongly Agree/Agree",
       "idx": 174,
       "qcode": "A.14",
-      "question": "How much do you agree or disagree with the following statement: “Boys and girls should share household tasks equally”? Select one",
+      "question": "How much do you agree or disagree with the following statement: \"Boys and girls should share household tasks equally”? Select one",
       "type": "stack"
     },
     "sog_w2_hh_tsk_eq_ag_strdis_dis": {
       "cat": "Strongly Disagree/Disagree",
       "idx": 176,
       "qcode": "A.14",
-      "question": "How much do you agree or disagree with the following statement: “Boys and girls should share household tasks equally”? Select one",
+      "question": "How much do you agree or disagree with the following statement: \"Boys and girls should share household tasks equally”? Select one",
       "type": "stack"
     },
     "sog_w2_hh_tsk_eq_nghbr": {

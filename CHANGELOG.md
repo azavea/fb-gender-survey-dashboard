@@ -20,6 +20,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- Format quotes [#146](https://github.com/azavea/fb-gender-survey-dashboard/pull/146)
+
 ### Removed
 
 # 2.0.0
