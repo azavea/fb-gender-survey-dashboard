@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Format comparative bar charts [#142](https://github.com/azavea/fb-gender-survey-dashboard/pull/142)
 - View 'out of ten' charts in comparative view [#143](https://github.com/azavea/fb-gender-survey-dashboard/pull/143)
 - Allow comparative chart download [#144](https://github.com/azavea/fb-gender-survey-dashboard/pull/144)
+- Show available years for options [#150](https://github.com/azavea/fb-gender-survey-dashboard/pull/150)
 
 ### Changed
 
