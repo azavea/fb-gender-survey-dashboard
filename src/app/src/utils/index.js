@@ -74,7 +74,13 @@ export class DataIndexer {
     }
 
     formatForViz(key, geo, year) {
-        const resp = this.survey[key];
+        let resp = this.survey[key];
+        if (key.includes('.')) {
+            // This is a Likert scale question, which use a qcode as an
+            // identifier instead of a key. We can grab the question from one of
+            // the response/question pairs that share the qcode.
+            resp = Object.values(this.survey).find(q => q.qcode === key);
+        }
         if (!resp) {
             return { key, geo, dataUnavailable: true };
         }

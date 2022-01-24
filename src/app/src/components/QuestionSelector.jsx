@@ -7,6 +7,7 @@ import {
     AccordionIcon,
     AccordionPanel,
     AccordionButton,
+    Badge,
     Box,
     Button,
     Checkbox,
@@ -223,6 +224,19 @@ const QuestionSelector = () => {
         });
 
     const getQuestionCheckboxLabel = key => {
+        const availableYears = currentYears.filter(
+            year => !dataIndexer.isDataUnavailable(key, year)
+        );
+        const isMultiYear = currentYears.length > 1;
+        const availableYearsNote =
+            isMultiYear && availableYears.length
+                ? availableYears.map(year => (
+                      <Badge colorScheme='red' ml={1}>
+                          {year}
+                      </Badge>
+                  ))
+                : '';
+
         // Generate a checkbox for a question. The checkbox text will differ
         // depending on the type of question this is. Questions that are of type
         // "stack" will not include response text in the text, nor will the
@@ -235,7 +249,9 @@ const QuestionSelector = () => {
             if (item.cat) {
                 return (
                     <Box fontWeight='400'>
-                        <Text fontSize='inherit'>{item.question}</Text>
+                        <Text fontSize='inherit'>
+                            {item.question} {availableYearsNote}
+                        </Text>
                         <Text
                             fontSize='inherit'
                             fontWeight='bold'
@@ -246,7 +262,9 @@ const QuestionSelector = () => {
 
             return (
                 <Box fontWeight='regular'>
-                    <Text fontSize='inherit'>{item.question}</Text>
+                    <Text fontSize='inherit'>
+                        {item.question} {availableYearsNote}
+                    </Text>
                 </Box>
             );
         }
@@ -255,7 +273,11 @@ const QuestionSelector = () => {
         // the question from any of the respones/question paris that share the
         // qcode.
         const item = Object.values(config.survey).find(q => q.qcode === key);
-        return item.question;
+        return (
+            <span>
+                {item.question} {availableYearsNote}
+            </span>
+        );
     };
 
     const categories = getCategoryData(query).map(
