@@ -417,8 +417,8 @@
     "d6_migrate": {
       "cat": "Migrated to different geographical area",
       "idx": 71,
-      "qcode": "C.2.As a result of the coronavirus (COVID-19) pandemic, did you personally experience any of the following?",
-      "question": "",
+      "qcode": "C.2",
+      "question": "As a result of the coronavirus (COVID-19) pandemic, did you personally experience any of the following?",
       "type": "pct"
     },
     "d6_none": {
@@ -1243,71 +1243,71 @@
     "sog_w2_hrs_dmstc_12": {
       "cat": "Between 1 and 2 hours",
       "idx": 118,
-      "qcode": "B",
-      "question": "24. On a typical day, how many hours per day do you spend on domestic tasks or family care activities? (for example, taking care of children, cooking and cleaning)",
+      "qcode": "B.24",
+      "question": "On a typical day, how many hours per day do you spend on domestic tasks or family care activities? (for example, taking care of children, cooking and cleaning)",
       "type": "pct"
     },
     "sog_w2_hrs_dmstc_23": {
       "cat": "Between 2 and 3 hours",
       "idx": 119,
-      "qcode": "B",
-      "question": "24. On a typical day, how many hours per day do you spend on domestic tasks or family care activities? (for example, taking care of children, cooking and cleaning)",
+      "qcode": "B.24",
+      "question": "On a typical day, how many hours per day do you spend on domestic tasks or family care activities? (for example, taking care of children, cooking and cleaning)",
       "type": "pct"
     },
     "sog_w2_hrs_dmstc_34": {
       "cat": "Between 3 and 4 hours",
       "idx": 120,
-      "qcode": "B",
-      "question": "24. On a typical day, how many hours per day do you spend on domestic tasks or family care activities? (for example, taking care of children, cooking and cleaning)",
+      "qcode": "B.24",
+      "question": "On a typical day, how many hours per day do you spend on domestic tasks or family care activities? (for example, taking care of children, cooking and cleaning)",
       "type": "pct"
     },
     "sog_w2_hrs_dmstc_45": {
       "cat": "Between 4 and 5 hours",
       "idx": 121,
-      "qcode": "B",
-      "question": "24. On a typical day, how many hours per day do you spend on domestic tasks or family care activities? (for example, taking care of children, cooking and cleaning)",
+      "qcode": "B.24",
+      "question": "On a typical day, how many hours per day do you spend on domestic tasks or family care activities? (for example, taking care of children, cooking and cleaning)",
       "type": "pct"
     },
     "sog_w2_hrs_dmstc_57": {
       "cat": "Between 5 and 7 hours",
       "idx": 122,
-      "qcode": "B",
-      "question": "24. On a typical day, how many hours per day do you spend on domestic tasks or family care activities? (for example, taking care of children, cooking and cleaning)",
+      "qcode": "B.24",
+      "question": "On a typical day, how many hours per day do you spend on domestic tasks or family care activities? (for example, taking care of children, cooking and cleaning)",
       "type": "pct"
     },
     "sog_w2_hrs_dmstc_79": {
       "cat": "Between 7 and 9 hours",
       "idx": 123,
-      "qcode": "B",
-      "question": "24. On a typical day, how many hours per day do you spend on domestic tasks or family care activities? (for example, taking care of children, cooking and cleaning)",
+      "qcode": "B.24",
+      "question": "On a typical day, how many hours per day do you spend on domestic tasks or family care activities? (for example, taking care of children, cooking and cleaning)",
       "type": "pct"
     },
     "sog_w2_hrs_dmstc_911": {
       "cat": "Between 9 and 11 hours",
       "idx": 124,
-      "qcode": "B",
-      "question": "24. On a typical day, how many hours per day do you spend on domestic tasks or family care activities? (for example, taking care of children, cooking and cleaning)",
+      "qcode": "B.24",
+      "question": "On a typical day, how many hours per day do you spend on domestic tasks or family care activities? (for example, taking care of children, cooking and cleaning)",
       "type": "pct"
     },
     "sog_w2_hrs_dmstc_none": {
       "cat": "No time spent on these activities",
       "idx": 116,
-      "qcode": "B",
-      "question": "24. On a typical day, how many hours per day do you spend on domestic tasks or family care activities? (for example, taking care of children, cooking and cleaning)",
+      "qcode": "B.24",
+      "question": "On a typical day, how many hours per day do you spend on domestic tasks or family care activities? (for example, taking care of children, cooking and cleaning)",
       "type": "pct"
     },
     "sog_w2_hrs_dmstc_over11": {
       "cat": "More than 11hrs",
       "idx": 125,
-      "qcode": "B",
-      "question": "24. On a typical day, how many hours per day do you spend on domestic tasks or family care activities? (for example, taking care of children, cooking and cleaning)",
+      "qcode": "B.24",
+      "question": "On a typical day, how many hours per day do you spend on domestic tasks or family care activities? (for example, taking care of children, cooking and cleaning)",
       "type": "pct"
     },
     "sog_w2_hrs_dmstc_under1": {
       "cat": "Less than 1 hour",
       "idx": 117,
-      "qcode": "B",
-      "question": "24. On a typical day, how many hours per day do you spend on domestic tasks or family care activities? (for example, taking care of children, cooking and cleaning)",
+      "qcode": "B.24",
+      "question": "On a typical day, how many hours per day do you spend on domestic tasks or family care activities? (for example, taking care of children, cooking and cleaning)",
       "type": "pct"
     },
     "sog_w2_hrs_leisure_12": {
@@ -1537,71 +1537,71 @@
     "sog_w2_hrs_wrk_pay_12": {
       "cat": "Between 1 and 2 hours",
       "idx": 108,
-      "qcode": "B",
-      "question": "23. On a typical day, how many hours per day do you spend working for pay? (Work for pay can be any kind of business, farming or other activity to generate income)",
+      "qcode": "B.23",
+      "question": "On a typical day, how many hours per day do you spend working for pay? (Work for pay can be any kind of business, farming or other activity to generate income)",
       "type": "pct"
     },
     "sog_w2_hrs_wrk_pay_23": {
       "cat": "Between 2 and 3 hours",
       "idx": 109,
-      "qcode": "B",
-      "question": "23. On a typical day, how many hours per day do you spend working for pay? (Work for pay can be any kind of business, farming or other activity to generate income)",
+      "qcode": "B.23",
+      "question": "On a typical day, how many hours per day do you spend working for pay? (Work for pay can be any kind of business, farming or other activity to generate income)",
       "type": "pct"
     },
     "sog_w2_hrs_wrk_pay_34": {
       "cat": "Between 3 and 4 hours",
       "idx": 110,
-      "qcode": "B",
-      "question": "23. On a typical day, how many hours per day do you spend working for pay? (Work for pay can be any kind of business, farming or other activity to generate income)",
+      "qcode": "B.23",
+      "question": "On a typical day, how many hours per day do you spend working for pay? (Work for pay can be any kind of business, farming or other activity to generate income)",
       "type": "pct"
     },
     "sog_w2_hrs_wrk_pay_45": {
       "cat": "Between 4 and 5 hours",
       "idx": 111,
-      "qcode": "B",
-      "question": "23. On a typical day, how many hours per day do you spend working for pay? (Work for pay can be any kind of business, farming or other activity to generate income)",
+      "qcode": "B.23",
+      "question": "On a typical day, how many hours per day do you spend working for pay? (Work for pay can be any kind of business, farming or other activity to generate income)",
       "type": "pct"
     },
     "sog_w2_hrs_wrk_pay_57": {
       "cat": "Between 5 and 7 hours",
       "idx": 112,
-      "qcode": "B",
-      "question": "23. On a typical day, how many hours per day do you spend working for pay? (Work for pay can be any kind of business, farming or other activity to generate income)",
+      "qcode": "B.23",
+      "question": "On a typical day, how many hours per day do you spend working for pay? (Work for pay can be any kind of business, farming or other activity to generate income)",
       "type": "pct"
     },
     "sog_w2_hrs_wrk_pay_79": {
       "cat": "Between 7 and 9 hours",
       "idx": 113,
-      "qcode": "B",
-      "question": "23. On a typical day, how many hours per day do you spend working for pay? (Work for pay can be any kind of business, farming or other activity to generate income)",
+      "qcode": "B.23",
+      "question": "On a typical day, how many hours per day do you spend working for pay? (Work for pay can be any kind of business, farming or other activity to generate income)",
       "type": "pct"
     },
     "sog_w2_hrs_wrk_pay_911": {
       "cat": "Between 9 and 11 hours",
       "idx": 114,
-      "qcode": "B",
-      "question": "23. On a typical day, how many hours per day do you spend working for pay? (Work for pay can be any kind of business, farming or other activity to generate income)",
+      "qcode": "B.23",
+      "question": "On a typical day, how many hours per day do you spend working for pay? (Work for pay can be any kind of business, farming or other activity to generate income)",
       "type": "pct"
     },
     "sog_w2_hrs_wrk_pay_none": {
       "cat": "No time spent on these activities",
       "idx": 106,
-      "qcode": "B",
-      "question": "23. On a typical day, how many hours per day do you spend working for pay? (Work for pay can be any kind of business, farming or other activity to generate income)",
+      "qcode": "B.23",
+      "question": "On a typical day, how many hours per day do you spend working for pay? (Work for pay can be any kind of business, farming or other activity to generate income)",
       "type": "pct"
     },
     "sog_w2_hrs_wrk_pay_over11": {
       "cat": "More than 11hrs",
       "idx": 115,
-      "qcode": "B",
-      "question": "23. On a typical day, how many hours per day do you spend working for pay? (Work for pay can be any kind of business, farming or other activity to generate income)",
+      "qcode": "B.23",
+      "question": "On a typical day, how many hours per day do you spend working for pay? (Work for pay can be any kind of business, farming or other activity to generate income)",
       "type": "pct"
     },
     "sog_w2_hrs_wrk_pay_under1": {
       "cat": "Less than 1 hour",
       "idx": 107,
-      "qcode": "B",
-      "question": "23. On a typical day, how many hours per day do you spend working for pay? (Work for pay can be any kind of business, farming or other activity to generate income)",
+      "qcode": "B.23",
+      "question": "On a typical day, how many hours per day do you spend working for pay? (Work for pay can be any kind of business, farming or other activity to generate income)",
       "type": "pct"
     },
     "sog_w2_income_earner_bro": {
