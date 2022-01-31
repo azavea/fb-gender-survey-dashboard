@@ -5,8 +5,8 @@ import {
     Box,
     Flex,
     Button,
-    Radio,
-    RadioGroup,
+    Checkbox,
+    CheckboxGroup,
     useMediaQuery,
     Text,
     Heading,
@@ -63,7 +63,7 @@ const YearSelector = () => {
     }
 
     const handleSelection = selections => {
-        dispatch(setYears([selections]));
+        dispatch(setYears(selections));
     };
 
     const handleNext = () => {
@@ -120,10 +120,10 @@ const YearSelector = () => {
                     ml={{ base: 4, md: 8, xl: 0 }}
                 >
                     <Box id={`year-selector-container`}>
-                        <RadioGroup
+                        <CheckboxGroup
                             key={`year-selector`}
                             onChange={handleSelection}
-                            value={currentYears[0]}
+                            value={currentYears}
                         >
                             <VStack
                                 spacing={5}
@@ -138,7 +138,7 @@ const YearSelector = () => {
                                             g => !geos.includes(g)
                                         );
                                         return (
-                                            <Radio
+                                            <Checkbox
                                                 key={`year-${year}`}
                                                 value={year}
                                                 size='lg'
@@ -151,14 +151,14 @@ const YearSelector = () => {
                                                           ', '
                                                       )})`
                                                     : ''}
-                                            </Radio>
+                                            </Checkbox>
                                         );
                                     })
                                 ) : (
                                     <Text>No years available.</Text>
                                 )}
                             </VStack>
-                        </RadioGroup>
+                        </CheckboxGroup>
                     </Box>
                 </Flex>
             </Flex>

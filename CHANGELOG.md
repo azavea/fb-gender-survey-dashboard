@@ -15,6 +15,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Removed
 
+# 2.0.1
+
+### Added
+
+- Allow users to select multiple years [#138](https://github.com/azavea/fb-gender-survey-dashboard/pull/138)
+- Format comparative bar charts [#142](https://github.com/azavea/fb-gender-survey-dashboard/pull/142)
+- View 'out of ten' charts in comparative view [#143](https://github.com/azavea/fb-gender-survey-dashboard/pull/143)
+- Allow comparative chart download [#144](https://github.com/azavea/fb-gender-survey-dashboard/pull/144)
+- Show available years for options [#150](https://github.com/azavea/fb-gender-survey-dashboard/pull/150)
+
+### Changed
+
+- Update meta tags and handle null geoMode [#140](https://github.com/azavea/fb-gender-survey-dashboard/pull/140)
+
+### Fixed
+
+- Format quotes [#146](https://github.com/azavea/fb-gender-survey-dashboard/pull/146)
+
+### Removed
+
 # 2.0.0
 
 ### Added

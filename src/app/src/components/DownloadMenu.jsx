@@ -54,7 +54,7 @@ const DownloadMenu = ({
                 : chartCanvases[0];
 
         const title = `Question ${question.qcode}${
-            question.type === 'ten'
+            question.type === 'ten' && currentYears.length < 2
                 ? ` in ${question.geo} in ${question.year}`
                 : ''
         }: ${question.question}`;

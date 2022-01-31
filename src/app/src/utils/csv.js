@@ -19,10 +19,11 @@ const addCSVResponse = ({ question, response, data }) => {
         response.cat,
         response.key,
     ];
-
-    data.push([...row, 'male', response.male]);
-    data.push([...row, 'female', response.female]);
-    data.push([...row, 'combined', response.combined]);
+    if (response.male || response.female || response.combined) {
+        data.push([...row, 'male', response.male]);
+        data.push([...row, 'female', response.female]);
+        data.push([...row, 'combined', response.combined]);
+    }
 };
 
 export const formatWaffleCSV = (item, data = []) => {
@@ -82,9 +83,15 @@ const createFilename = csvData => {
 };
 
 // For null/false cells, numeric cells, etc. do nothing.
-// For string cells, wrap cell in quotes.
+// For string cells, replace all quotes with single quotes,
+// then wrap cell in double quotes.
 const wrapStringCellInQuotes = cell =>
-    !cell || !isNaN(cell) ? cell : `"${cell}"`;
+    !cell || !isNaN(cell)
+        ? cell
+        : `"${cell
+              .replace(/"/g, "'")
+              .replace(/[\u2018\u2019]/g, "'")
+              .replace(/[\u201C\u201D]/g, "'")}"`;
 
 export const downloadCSV = csvData => {
     const filename = createFilename(csvData);

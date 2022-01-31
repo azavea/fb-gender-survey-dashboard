@@ -33,8 +33,11 @@ const WaffleChart = ({ items }) => {
                 },
             ],
         ];
+
+        const key = `waffle-${question.qcode}-${response.geo}-${response.year}`;
+
         return (
-            <Box py={4} key={`waffle-${question.qcode}${response.geo}`}>
+            <Box py={4} key={key}>
                 <Flex justify='center' mb={2}>
                     <Text as='strong' size='sm'>
                         {response.geo} {response.year}
@@ -48,7 +51,7 @@ const WaffleChart = ({ items }) => {
                     borderColor='gray.100'
                     borderRadius='md'
                     className='chart-container'
-                    key={`waffle-${question.qcode}${response.geo}`}
+                    key={key}
                     ref={containerRefs.current[i]}
                 >
                     <DownloadMenu
@@ -67,7 +70,7 @@ const WaffleChart = ({ items }) => {
                         {responses.map(data => (
                             <ResponsiveWaffleCanvas
                                 data={data}
-                                key={`waffle-${question.qcode}${response.geo}${data[0].label}`}
+                                key={`${key}-${data[0].label}`}
                                 pixelRatio={2}
                                 colors={item => {
                                     if (item.label === 'Women') {

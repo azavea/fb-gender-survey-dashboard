@@ -159,6 +159,7 @@ def generate_config(config_df, data_df, mode: str):
     config_df["cat"] = config_df["cat"].str.strip()
     config_df["cat"] = config_df["cat"].replace({np.nan: None})
     config_df["question"] = config_df["question"].str.strip()
+    config_df["question"] = config_df["question"].str.replace('“','"').replace('”','"')
 
     # Define columns that we don't want persisted per data source
     region_attrs_drop = ["Year", "Region", "Gender"]

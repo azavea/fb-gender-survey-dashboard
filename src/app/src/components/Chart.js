@@ -1,4 +1,5 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { Box, Text } from '@chakra-ui/react';
 
 import StackedBarChart from './StackedBarChart';
@@ -6,6 +7,7 @@ import WaffleChart from './WaffleChart';
 import GroupedBarChart from './GroupedBarChart';
 
 const Chart = ({ items }) => {
+    const { currentYears } = useSelector(state => state.app);
     const { question } = items[0];
 
     const data = items.filter(
@@ -43,7 +45,7 @@ const Chart = ({ items }) => {
     let chart;
     if (question.type === 'stack') {
         chart = <StackedBarChart items={data} />;
-    } else if (question.type === 'ten') {
+    } else if (question.type === 'ten' && currentYears.length < 2) {
         chart = <WaffleChart items={data} />;
     } else {
         chart = <GroupedBarChart items={data} />;

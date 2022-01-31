@@ -19,21 +19,21 @@
       "cat": "Strongly Agree/Agree",
       "idx": 37,
       "qcode": "A.6",
-      "question": "How much do you agree or disagree with the following statement? “Men and women should have equal opportunities (e.g. in education, jobs, household decision-making).\"",
+      "question": "How much do you agree or disagree with the following statement? \"Men and women should have equal opportunities (e.g. in education, jobs, household decision-making).\"",
       "type": "stack"
     },
     "a1_disagree": {
       "cat": "Strongly Disagree/Disagree",
       "idx": 39,
       "qcode": "A.6",
-      "question": "How much do you agree or disagree with the following statement? “Men and women should have equal opportunities (e.g. in education, jobs, household decision-making).\"",
+      "question": "How much do you agree or disagree with the following statement? \"Men and women should have equal opportunities (e.g. in education, jobs, household decision-making).\"",
       "type": "stack"
     },
     "a1_neutral": {
       "cat": "Neutral",
       "idx": 38,
       "qcode": "A.6",
-      "question": "How much do you agree or disagree with the following statement? “Men and women should have equal opportunities (e.g. in education, jobs, household decision-making).\"",
+      "question": "How much do you agree or disagree with the following statement? \"Men and women should have equal opportunities (e.g. in education, jobs, household decision-making).\"",
       "type": "stack"
     },
     "a4": {
@@ -75,21 +75,21 @@
       "cat": "Strongly Agree/Agree",
       "idx": 44,
       "qcode": "A.8",
-      "question": "How much do you agree or disagree with the following statement, “Household expenses are the responsibility of the man, even if his wife can help him?\"",
+      "question": "How much do you agree or disagree with the following statement, \"Household expenses are the responsibility of the man, even if his wife can help him?\"",
       "type": "stack"
     },
     "b4_disagree": {
       "cat": "Strongly Disagree/Disagree",
       "idx": 46,
       "qcode": "A.8",
-      "question": "How much do you agree or disagree with the following statement? “Household expenses are the responsibility of the man, even if his wife can help him.\"",
+      "question": "How much do you agree or disagree with the following statement? \"Household expenses are the responsibility of the man, even if his wife can help him.\"",
       "type": "stack"
     },
     "b4_neutral": {
       "cat": "Neutral",
       "idx": 45,
       "qcode": "A.8",
-      "question": "How much do you agree or disagree with the following statement? “Household expenses are the responsibility of the man, even if his wife can help him.\"",
+      "question": "How much do you agree or disagree with the following statement? \"Household expenses are the responsibility of the man, even if his wife can help him.\"",
       "type": "stack"
     },
     "b5_man_other": {
@@ -354,8 +354,8 @@
     "d6_migrate": {
       "cat": "Migrated to different geographical area",
       "idx": 85,
-      "qcode": "C.2.As a result of the coronavirus (COVID-19) pandemic, did you personally experience any of the following?",
-      "question": "",
+      "qcode": "C.2",
+      "question": "As a result of the coronavirus (COVID-19) pandemic, did you personally experience any of the following?",
       "type": "pct"
     },
     "d6_none": {
@@ -1111,21 +1111,21 @@
       "cat": "Strongly Disagree/Disagree",
       "idx": 154,
       "qcode": "A.14",
-      "question": "How much do you agree or disagree with the following statement: “Boys and girls should share household tasks equally”? Select one",
+      "question": "How much do you agree or disagree with the following statement: \"Boys and girls should share household tasks equally”? Select one",
       "type": "stack"
     },
     "sog_w2_hh_tsk_eq_ag_neutral": {
       "cat": "Neutral",
       "idx": 153,
       "qcode": "A.14",
-      "question": "How much do you agree or disagree with the following statement: “Boys and girls should share household tasks equally”? Select one",
+      "question": "How much do you agree or disagree with the following statement: \"Boys and girls should share household tasks equally”? Select one",
       "type": "stack"
     },
     "sog_w2_hh_tsk_eq_ag_stragree_agree": {
       "cat": "Strongly Agree/Agree",
       "idx": 152,
       "qcode": "A.14",
-      "question": "How much do you agree or disagree with the following statement: “Boys and girls should share household tasks equally”? Select one",
+      "question": "How much do you agree or disagree with the following statement: \"Boys and girls should share household tasks equally”? Select one",
       "type": "stack"
     },
     "sog_w2_hh_tsk_eq_nghbr": {
@@ -1180,71 +1180,71 @@
     "sog_w2_hrs_dmstc_12": {
       "cat": "Between 1 and 2 hours",
       "idx": 247,
-      "qcode": "B",
-      "question": "24. On a typical day, how many hours per day do you spend on domestic tasks or family care activities? (for example, taking care of children, cooking and cleaning)",
+      "qcode": "B.24",
+      "question": "On a typical day, how many hours per day do you spend on domestic tasks or family care activities? (for example, taking care of children, cooking and cleaning)",
       "type": "pct"
     },
     "sog_w2_hrs_dmstc_23": {
       "cat": "Between 2 and 3 hours",
       "idx": 248,
-      "qcode": "B",
-      "question": "24. On a typical day, how many hours per day do you spend on domestic tasks or family care activities? (for example, taking care of children, cooking and cleaning)",
+      "qcode": "B.24",
+      "question": "On a typical day, how many hours per day do you spend on domestic tasks or family care activities? (for example, taking care of children, cooking and cleaning)",
       "type": "pct"
     },
     "sog_w2_hrs_dmstc_34": {
       "cat": "Between 3 and 4 hours",
       "idx": 249,
-      "qcode": "B",
-      "question": "24. On a typical day, how many hours per day do you spend on domestic tasks or family care activities? (for example, taking care of children, cooking and cleaning)",
+      "qcode": "B.24",
+      "question": "On a typical day, how many hours per day do you spend on domestic tasks or family care activities? (for example, taking care of children, cooking and cleaning)",
       "type": "pct"
     },
     "sog_w2_hrs_dmstc_45": {
       "cat": "Between 4 and 5 hours",
       "idx": 250,
-      "qcode": "B",
-      "question": "24. On a typical day, how many hours per day do you spend on domestic tasks or family care activities? (for example, taking care of children, cooking and cleaning)",
+      "qcode": "B.24",
+      "question": "On a typical day, how many hours per day do you spend on domestic tasks or family care activities? (for example, taking care of children, cooking and cleaning)",
       "type": "pct"
     },
     "sog_w2_hrs_dmstc_57": {
       "cat": "Between 5 and 7 hours",
       "idx": 251,
-      "qcode": "B",
-      "question": "24. On a typical day, how many hours per day do you spend on domestic tasks or family care activities? (for example, taking care of children, cooking and cleaning)",
+      "qcode": "B.24",
+      "question": "On a typical day, how many hours per day do you spend on domestic tasks or family care activities? (for example, taking care of children, cooking and cleaning)",
       "type": "pct"
     },
     "sog_w2_hrs_dmstc_79": {
       "cat": "Between 7 and 9 hours",
       "idx": 252,
-      "qcode": "B",
-      "question": "24. On a typical day, how many hours per day do you spend on domestic tasks or family care activities? (for example, taking care of children, cooking and cleaning)",
+      "qcode": "B.24",
+      "question": "On a typical day, how many hours per day do you spend on domestic tasks or family care activities? (for example, taking care of children, cooking and cleaning)",
       "type": "pct"
     },
     "sog_w2_hrs_dmstc_911": {
       "cat": "Between 9 and 11 hours",
       "idx": 253,
-      "qcode": "B",
-      "question": "24. On a typical day, how many hours per day do you spend on domestic tasks or family care activities? (for example, taking care of children, cooking and cleaning)",
+      "qcode": "B.24",
+      "question": "On a typical day, how many hours per day do you spend on domestic tasks or family care activities? (for example, taking care of children, cooking and cleaning)",
       "type": "pct"
     },
     "sog_w2_hrs_dmstc_none": {
       "cat": "No time spent on these activities",
       "idx": 245,
-      "qcode": "B",
-      "question": "24. On a typical day, how many hours per day do you spend on domestic tasks or family care activities? (for example, taking care of children, cooking and cleaning)",
+      "qcode": "B.24",
+      "question": "On a typical day, how many hours per day do you spend on domestic tasks or family care activities? (for example, taking care of children, cooking and cleaning)",
       "type": "pct"
     },
     "sog_w2_hrs_dmstc_over11": {
       "cat": "More than 11hrs",
       "idx": 254,
-      "qcode": "B",
-      "question": "24. On a typical day, how many hours per day do you spend on domestic tasks or family care activities? (for example, taking care of children, cooking and cleaning)",
+      "qcode": "B.24",
+      "question": "On a typical day, how many hours per day do you spend on domestic tasks or family care activities? (for example, taking care of children, cooking and cleaning)",
       "type": "pct"
     },
     "sog_w2_hrs_dmstc_under1": {
       "cat": "Less than 1 hour",
       "idx": 246,
-      "qcode": "B",
-      "question": "24. On a typical day, how many hours per day do you spend on domestic tasks or family care activities? (for example, taking care of children, cooking and cleaning)",
+      "qcode": "B.24",
+      "question": "On a typical day, how many hours per day do you spend on domestic tasks or family care activities? (for example, taking care of children, cooking and cleaning)",
       "type": "pct"
     },
     "sog_w2_hrs_leisure_12": {
@@ -1474,71 +1474,71 @@
     "sog_w2_hrs_wrk_pay_12": {
       "cat": "Between 1 and 2 hours",
       "idx": 237,
-      "qcode": "B",
-      "question": "23. On a typical day, how many hours per day do you spend working for pay? (Work for pay can be any kind of business, farming or other activity to generate income)",
+      "qcode": "B.23",
+      "question": "On a typical day, how many hours per day do you spend working for pay? (Work for pay can be any kind of business, farming or other activity to generate income)",
       "type": "pct"
     },
     "sog_w2_hrs_wrk_pay_23": {
       "cat": "Between 2 and 3 hours",
       "idx": 238,
-      "qcode": "B",
-      "question": "23. On a typical day, how many hours per day do you spend working for pay? (Work for pay can be any kind of business, farming or other activity to generate income)",
+      "qcode": "B.23",
+      "question": "On a typical day, how many hours per day do you spend working for pay? (Work for pay can be any kind of business, farming or other activity to generate income)",
       "type": "pct"
     },
     "sog_w2_hrs_wrk_pay_34": {
       "cat": "Between 3 and 4 hours",
       "idx": 239,
-      "qcode": "B",
-      "question": "23. On a typical day, how many hours per day do you spend working for pay? (Work for pay can be any kind of business, farming or other activity to generate income)",
+      "qcode": "B.23",
+      "question": "On a typical day, how many hours per day do you spend working for pay? (Work for pay can be any kind of business, farming or other activity to generate income)",
       "type": "pct"
     },
     "sog_w2_hrs_wrk_pay_45": {
       "cat": "Between 4 and 5 hours",
       "idx": 240,
-      "qcode": "B",
-      "question": "23. On a typical day, how many hours per day do you spend working for pay? (Work for pay can be any kind of business, farming or other activity to generate income)",
+      "qcode": "B.23",
+      "question": "On a typical day, how many hours per day do you spend working for pay? (Work for pay can be any kind of business, farming or other activity to generate income)",
       "type": "pct"
     },
     "sog_w2_hrs_wrk_pay_57": {
       "cat": "Between 5 and 7 hours",
       "idx": 241,
-      "qcode": "B",
-      "question": "23. On a typical day, how many hours per day do you spend working for pay? (Work for pay can be any kind of business, farming or other activity to generate income)",
+      "qcode": "B.23",
+      "question": "On a typical day, how many hours per day do you spend working for pay? (Work for pay can be any kind of business, farming or other activity to generate income)",
       "type": "pct"
     },
     "sog_w2_hrs_wrk_pay_79": {
       "cat": "Between 7 and 9 hours",
       "idx": 242,
-      "qcode": "B",
-      "question": "23. On a typical day, how many hours per day do you spend working for pay? (Work for pay can be any kind of business, farming or other activity to generate income)",
+      "qcode": "B.23",
+      "question": "On a typical day, how many hours per day do you spend working for pay? (Work for pay can be any kind of business, farming or other activity to generate income)",
       "type": "pct"
     },
     "sog_w2_hrs_wrk_pay_911": {
       "cat": "Between 9 and 11 hours",
       "idx": 243,
-      "qcode": "B",
-      "question": "23. On a typical day, how many hours per day do you spend working for pay? (Work for pay can be any kind of business, farming or other activity to generate income)",
+      "qcode": "B.23",
+      "question": "On a typical day, how many hours per day do you spend working for pay? (Work for pay can be any kind of business, farming or other activity to generate income)",
       "type": "pct"
     },
     "sog_w2_hrs_wrk_pay_none": {
       "cat": "No time spent on these activities",
       "idx": 235,
-      "qcode": "B",
-      "question": "23. On a typical day, how many hours per day do you spend working for pay? (Work for pay can be any kind of business, farming or other activity to generate income)",
+      "qcode": "B.23",
+      "question": "On a typical day, how many hours per day do you spend working for pay? (Work for pay can be any kind of business, farming or other activity to generate income)",
       "type": "pct"
     },
     "sog_w2_hrs_wrk_pay_over11": {
       "cat": "More than 11hrs",
       "idx": 244,
-      "qcode": "B",
-      "question": "23. On a typical day, how many hours per day do you spend working for pay? (Work for pay can be any kind of business, farming or other activity to generate income)",
+      "qcode": "B.23",
+      "question": "On a typical day, how many hours per day do you spend working for pay? (Work for pay can be any kind of business, farming or other activity to generate income)",
       "type": "pct"
     },
     "sog_w2_hrs_wrk_pay_under1": {
       "cat": "Less than 1 hour",
       "idx": 236,
-      "qcode": "B",
-      "question": "23. On a typical day, how many hours per day do you spend working for pay? (Work for pay can be any kind of business, farming or other activity to generate income)",
+      "qcode": "B.23",
+      "question": "On a typical day, how many hours per day do you spend working for pay? (Work for pay can be any kind of business, farming or other activity to generate income)",
       "type": "pct"
     },
     "sog_w2_income_earner_bro": {
